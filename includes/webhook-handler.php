@@ -42,10 +42,35 @@ function wllz_create_user(){
 	// Get the params
 	$username = isset( $_GET['username'] ) ? sanitize_text_field( $_GET['username'] ) : '';
 	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
+	$first_name = isset( $_GET['first_name'] ) ? sanitize_text_field( $_GET['first_name'] ) : '';
+	$last_name = isset( $_GET['last_name'] ) ? sanitize_text_field( $_GET['last_name'] ) : '';
+	$role = isset( $_GET['role'] ) ? sanitize_text_field( $_GET['role'] ) : 'subscriber';
+	$user_pass = wp_generate_password( 20, true, false );
 
-	echo $username . ' and ' . $email;
+	if ( empty( $email ) || empty( $username ) ) {
+		echo json_encode( __( ' A username and email is required.', 'when-last-login-zapier-integration' ) );
+		exit;
+	}
 
-	// create the user with generated password
+	$userdata = array(
+		'user_login' => $username,
+		'user_email' => $email,
+		'first_name' => $first_name,
+		'last_name' => $last_name,
+		'role' => $role,
+		'user_pass' => $user_pass
+	);
 
-	// if user exists return / maybe email the admin?
+	$user_id = wp_insert_user( $userdata );
+
+	if( ! is_wp_error( $user_id ) ) {
+		echo "User created :" . $user_id;
+		wp_new_user_notification( $user_id, null, 'both' );
+	}else{
+		echo json_encode( __( 'Error creating user, user already exists.', 'when-last-login-zapier-integration' ) );
+
+	}
+
+	exit;
+
 }
