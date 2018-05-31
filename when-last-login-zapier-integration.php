@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: When Last Login - Zapier Add-on
- * Description: Integrate into Zapier on user registration and user login.
+ * Description: Send and Receive data to and from your WordPress site.
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
@@ -223,7 +223,7 @@ class WhenLastLoginZapier{
 		}
 	}
 
-	public function wll_zapier_profile_update( $user_id, $old_user_data ){
+	public function wllz_zapier_profile_update( $user_id, $old_user_data ){
 
 		$user = get_user_by( 'id', $user_id );
 
