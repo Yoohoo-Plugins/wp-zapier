@@ -18,6 +18,8 @@ if ( $api_key != $zapier_settings['api_key'] ) {
 	exit;
 }
 
+
+
 switch ( $action ) {
 	case 'create_user':
 		wllz_create_user();
@@ -31,7 +33,6 @@ switch ( $action ) {
 		wllz_delete_user();
 		break;
 }
-
 
 /**
  * Function to create the user within WordPress.
@@ -65,9 +66,12 @@ function wllz_create_user(){
 
 	if ( ! is_wp_error( $user_id ) ) {
 		echo "User created :" . $user_id;
+		wllz_update_user_meta( $user_id );
 		wp_new_user_notification( $user_id, null, 'both' );
+		exit;
 	} else {
 		echo json_encode( __( 'Error creating user, user already exists.', 'when-last-login-zapier-integration' ) );
+		exit;
 	}
 
 	exit;
@@ -131,7 +135,9 @@ function wllz_update_user() {
 			$headers = 'From: ' . get_bloginfo( "name" ) . ' <' . get_bloginfo( "admin_email" ) . '>' . "\r\n";
 
  			wp_mail( $email, 'Your account has been updated.', 'Hi ' . $user->user_nicename . ',' . "\r\n" . 'Your account at ' . get_bloginfo("name") . '(' . home_url() . ') has been updated.' . "\r\n" . 'Login to your account: ' . wp_login_url(), $headers );
+ 			wllz_update_user_meta( $user_id );
 			echo json_encode( __( 'User updated sucessfully', 'when-last-login-zapier-integration' ) );
+			exit;
 		}else{
 			echo json_encode( __( 'Error updating user.', 'when-last-login-zapier-integration' ) );
 			exit;
@@ -173,4 +179,39 @@ function wllz_delete_user() {
 	 	}
 	}
 	exit;
+}
+
+/**
+ * Function to update usermeta.
+ */
+function wllz_update_user_meta( $user_id ) {
+
+	if ( empty( $user_id ) ) {
+		echo json_encode( __( 'Unable to update user meta, user ID is missing.', 'yoohoo-zapier-integration') );
+		return;
+	}
+
+	$fields_array = isset( $_GET['usermeta'] ) ? explode( ';', $_GET['usermeta'] ) : '';
+
+	if ( ! empty( $fields_array ) && is_array( $fields_array ) ) {
+		
+		foreach( $fields_array as $key => $value ) {
+			$data[] = explode( ',', $value );
+		}
+
+		foreach( $data as $key => $value ) {
+			//let's update the user_meta.
+			$metakey = sanitize_text_field( $value[0] );
+			$meta_value = sanitize_text_field( $value[1] );
+
+			// update user meta here.
+			update_user_meta( $user_id, $metakey, $meta_value );
+		}
+
+		return;
+
+	} else {
+		echo json_encode( __( 'Unable to update user meta.', 'yoohoo-zapier-integration' ) );
+		return;
+	}
 }
