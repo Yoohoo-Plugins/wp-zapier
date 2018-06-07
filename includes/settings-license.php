@@ -3,16 +3,16 @@
 
 	require_once( 'settings-header.php' );
 
-	$license = get_option( 'edd_sample_license_key' );
+	$license = get_option( 'yoohoo_zapier_license_key' );
 	$status  = get_option( 'yoohoo_zapier_license_status' );
 	$expires = get_option( 'yoohoo_zapier_license_expires' );
 
 	// Check on Submit and update license server.
 	if ( isset( $_REQUEST['submit'] ) ) {
 
-		if ( isset( $_REQUEST['edd_sample_license_key' ] ) ) {
-			update_option( 'edd_sample_license_key', $_REQUEST['edd_sample_license_key'] );
-			$license = $_REQUEST['edd_sample_license_key'];
+		if ( isset( $_REQUEST['yoohoo_zapier_license_key' ] ) ) {
+			update_option( 'yoohoo_zapier_license_key', $_REQUEST['yoohoo_zapier_license_key'] );
+			$license = $_REQUEST['yoohoo_zapier_license_key'];
 			yoohoo_admin_notice( 'Saved successfully.', 'success' );
 		}
 	}
@@ -25,7 +25,7 @@
 	 	}
 
 		// retrieve the license from the database
-		$license = trim( get_option( 'edd_sample_license_key' ) );
+		$license = trim( get_option( 'yoohoo_zapier_license_key' ) );
 
 
 		// data to send in our API request
@@ -37,7 +37,7 @@
 		);
 
 		// Call the custom API.
-		$response = wp_remote_post( YOOHOO_STORE, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+		$response = wp_remote_post( YOOHOO_STORE, array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
 
 
 
@@ -76,11 +76,12 @@
 	);
 
 	// Send the remote request
-	$response = wp_remote_post( YOOHOO_STORE, array( 'body' => $api_params, 'timeout' => 15, 'sslverify' => false ) );
+	$response = wp_remote_post( YOOHOO_STORE, array( 'body' => $api_params, 'timeout' => 15, 'sslverify' => true ) );
 
 	// if there's no erros in the post, just delete the option.
 	if ( ! is_wp_error( $response ) ) {
 		delete_option( 'yoohoo_zapier_license_status' );
+		delete_option( 'yoohoo_zapier_license_expires' );
 		$status = false;
 		yoohoo_admin_notice( 'Deactivated license successfully.', 'success' );
 	}
@@ -99,8 +100,8 @@
 							<?php _e('License Key'); ?>
 						</th>
 						<td>
-							<input id="edd_sample_license_key" name="edd_sample_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
-							<label class="description" for="edd_sample_license_key"><?php _e('Enter your license key.'); ?></label><br/>
+							<input id="yoohoo_zapier_license_key" name="yoohoo_zapier_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
+							<label class="description" for="yoohoo_zapier_license_key"><?php _e('Enter your license key.'); ?></label><br/>
 						</td>
 					</tr>
 

@@ -17,15 +17,15 @@ defined( 'ABSPATH' ) or exit;
 /**
  * Include update class for automatic updates.
  */
-define( 'YOOHOO_STORE', 'https://yoohooplugins.com' );
+define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 define( 'YH_PLUGIN_ID', 453 );
-define( 'WLLZ_VERSION', 1.0 );
+define( 'WLLZ_VERSION', 1.1 );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
 }
 
-$license_key = trim( get_option( 'wllz_license_key' ) );
+$license_key = trim( get_option( 'yoohoo_zapier_license_key' ) );
 
 // setup the updater
 $edd_updater = new Yoohoo_Zapier_Update_Checker( YOOHOO_STORE, __FILE__, array( 
@@ -36,8 +36,6 @@ $edd_updater = new Yoohoo_Zapier_Update_Checker( YOOHOO_STORE, __FILE__, array(
 		'url' => home_url()
 	)
 );
-
-
 
 class WhenLastLoginZapier{
 
