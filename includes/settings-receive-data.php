@@ -42,7 +42,7 @@
 					<p><?php _e( 'create_user', 'when-last-login-zapier-integration'); ?></p>
 				</th>
 				<td>
-					<p><strong>Required data: username, useremail</strong></p>
+					<p><strong>Required data: username, email</strong></p>
 					<p><?php _e( 'Create a new user and send an email notification about this.', 'when-last-login-zapier-integration' ); ?></p>
 					<p><?php _e( "This will not create the user if the user's email exists inside WordPress and be skipped.", "when-last-login-zapier-integration" ); ?></p>
 				</td>

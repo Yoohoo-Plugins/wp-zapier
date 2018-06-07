@@ -13,6 +13,32 @@
 
 defined( 'ABSPATH' ) or exit;
 
+
+/**
+ * Include update class for automatic updates.
+ */
+define( 'YOOHOO_STORE', 'https://yoohooplugins.com' );
+define( 'YH_PLUGIN_ID', 453 );
+define( 'WLLZ_VERSION', 1.0 );
+
+if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
+	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
+}
+
+$license_key = trim( get_option( 'wllz_license_key' ) );
+
+// setup the updater
+$edd_updater = new Yoohoo_Zapier_Update_Checker( YOOHOO_STORE, __FILE__, array( 
+		'version' => WLLZ_VERSION,
+		'license' => $license_key,
+		'item_id' => YH_PLUGIN_ID,
+		'author' => 'Yoohoo Plugins',
+		'url' => home_url()
+	)
+);
+
+
+
 class WhenLastLoginZapier{
 
 	public function __construct(){
@@ -49,6 +75,8 @@ class WhenLastLoginZapier{
 
 		if ( isset( $_REQUEST['receive_data'] )  && 'wllz-zapier-settings' == isset( $_REQUEST['page'] ) ) {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-receive-data.php' );
+		} elseif ( 'wllz-zapier-settings' == isset( $_REQUEST['page'] ) && isset( $_REQUEST['license_settings'] ) ) {
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-license.php' );
 		} else {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-send-data.php' );
 		}
