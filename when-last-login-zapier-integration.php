@@ -1,54 +1,92 @@
 <?php
 /**
  * Plugin Name: When Last Login - Zapier Add-on
- * Description: Integrate into Zapier on user registration and user login.
+ * Description: Send and Receive data to and from your WordPress site.
  * Plugin URI: https://yoohooplugins.com
- * Author: YooHoo Plugins
+ * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 1.0
+ * Version: 1.1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: when-last-login-zapier
+ * Text Domain: when-last-login-zapier-integration
  */
 
 defined( 'ABSPATH' ) or exit;
+
+
+/**
+ * Include update class for automatic updates.
+ */
+define( 'YOOHOO_STORE', 'https://yoohooplugins.com' );
+define( 'YH_PLUGIN_ID', 453 );
+define( 'WLLZ_VERSION', 1.0 );
+
+if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
+	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
+}
+
+$license_key = trim( get_option( 'wllz_license_key' ) );
+
+// setup the updater
+$edd_updater = new Yoohoo_Zapier_Update_Checker( YOOHOO_STORE, __FILE__, array( 
+		'version' => WLLZ_VERSION,
+		'license' => $license_key,
+		'item_id' => YH_PLUGIN_ID,
+		'author' => 'Yoohoo Plugins',
+		'url' => home_url()
+	)
+);
+
+
 
 class WhenLastLoginZapier{
 
 	public function __construct(){
 
-		add_filter( 'wll_settings_page_tabs', array( $this, 'wll_zapier_tabs' ) );
-		add_filter( 'wll_settings_page_content', array( $this, 'wll_zapier_content' ) );
-		add_action( 'admin_head', array( $this, 'wll_zapier_save_settings' ) );
+		add_action( 'admin_head', array( $this, 'wllz_zapier_save_settings' ) );
+		add_action( 'admin_menu', array( $this, 'wllz_submenu_page' ) );
 		
-		add_action( 'wp_login', array( $this, 'wll_zapier_login' ), 10, 2 );
-		add_action( 'user_register', array( $this, 'wll_zapier_register' ), 10, 1 );
-		add_action( 'profile_update', array( $this, 'wll_zapier_profile_update' ), 10, 2 );
+		add_action( 'wp_login', array( $this, 'wllz_zapier_login' ), 10, 2 );
+		add_action( 'user_register', array( $this, 'wllz_zapier_register' ), 10, 1 );
+		add_action( 'profile_update', array( $this, 'wllz_zapier_profile_update' ), 10, 2 );
 
+		add_filter( 'plugin_row_meta', array( $this, 'wllz_plugin_row_meta' ), 10, 2 );
+      	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wllz_plugin_action_links' ), 10, 2 );
+
+      	add_action( 'admin_init', array( $this, 'wllz_generate_api_key' ) );
+
+      	// Webhook handler check.
+      	add_action( 'init', array( $this, 'wllz_webhook_handler' ) );
+
+	}
+
+	public function wllz_webhook_handler() {
+		if ( isset( $_REQUEST['wpz_webhook'] ) ) {
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/webhook-handler.php' );
+			exit;
+		}
 	}	
 
-	public function wll_zapier_tabs( $tabs ){
+	public function wllz_submenu_page(){
+		add_submenu_page( 'options-general.php', __( 'Zapier Settings', 'when-last-login-zapier-integration-zapier-integration' ), __( 'Zapier Settings', 'when-last-login-zapier-integration' ), 'manage_options', 'wllz-zapier-settings', array( $this, 'wllz_zapier_content' ) );
+	}
 
-		$tabs['zapier-integration'] = array(
-			'title' => __('Zapier Integration', 'when-last-login-stats'),
-			'icon' => ''
-		);
+	public function wllz_zapier_content(){
 
-		return $tabs;
+		if ( isset( $_REQUEST['receive_data'] )  && 'wllz-zapier-settings' == isset( $_REQUEST['page'] ) ) {
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-receive-data.php' );
+		} elseif ( 'wllz-zapier-settings' == isset( $_REQUEST['page'] ) && isset( $_REQUEST['license_settings'] ) ) {
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-license.php' );
+		} else {
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/settings-send-data.php' );
+		}
+		
 
 	}
 
-	public function wll_zapier_content( $content ){
+	public function wllz_zapier_save_settings(){
 
-		$content['zapier-integration'] = plugin_dir_path( __FILE__ ).'when-last-login-zapier-integration-settings.php';
-
-		return $content;
-
-	}
-
-	public function wll_zapier_save_settings(){
-
-		if( isset( $_POST['wll_save_zapier_settings'] ) ){
+		if ( isset( $_POST['wll_save_zapier_settings'] ) ){
 
 			$zapier_webhook_login = isset( $_POST['wll_zapier_webhook_login'] ) ? sanitize_text_field( $_POST['wll_zapier_webhook_login'] ) : "";
 			$zapier_webhook_register = isset( $_POST['wll_zapier_webhook_register'] ) ? sanitize_text_field( $_POST['wll_zapier_webhook_register'] ) : "";
@@ -67,13 +105,36 @@ class WhenLastLoginZapier{
 				'notify_update' => $zapier_notify_update
 			);
 
-			update_option( 'wll_zapier_settings', $settings );
+			if ( update_option( 'wll_zapier_settings', $settings ) ) {
+				add_action( 'admin_notices', array( $this, 'wllz_zapier_admin_notices' ) );
+        	}
+        }
+    }
 
-		}
+    public function wllz_generate_api_key() {
 
-	}
+    	if ( isset( $_REQUEST['page'] ) != 'wllz-zapier-settings' ) {
+    		return;
+    	}
 
-	public function wll_zapier_login( $user_login, $user ){
+    	$settings = get_option( 'wll_zapier_settings' );
+
+    	if ( ! isset( $settings['api_key'] ) || empty( $settings['api_key'] ) ) {
+    		$settings['api_key'] = strtolower( wp_generate_password( 32, false ) );
+    		update_option( 'wll_zapier_settings', $settings );
+    	}  	
+    }
+
+    public function wllz_zapier_admin_notices() {
+    ?>
+      <div class="notice notice-success is-dismissible">
+        <p><?php _e( 'Settings saved successfully.', 'when-last-login-zapier-integration-zapier-integration' ); ?></p>
+      </div>
+    <?php
+    }
+		
+
+	public function wllz_zapier_login( $user_login, $user ){
 
 	    $zapier_array = get_transient( 'when_last_login_zapier_data_'.$user->ID );
 
@@ -131,7 +192,7 @@ class WhenLastLoginZapier{
 
 	}
 
-	public function wll_zapier_register( $user_id ){
+	public function wllz_zapier_register( $user_id ){
 
 		$user = get_user_by( 'id', $user_id );
 
@@ -188,10 +249,9 @@ class WhenLastLoginZapier{
 		    }
 
 		}
-		
 	}
 
-	public function wll_zapier_profile_update( $user_id, $old_user_data ){
+	public function wllz_zapier_profile_update( $user_id, $old_user_data ){
 
 		$user = get_user_by( 'id', $user_id );
 
@@ -237,17 +297,39 @@ class WhenLastLoginZapier{
 	            	
 	            	$zapier_transient_timeout = apply_filters( 'wll_zapier_transient_timeout_login', 3600 );
 
-		            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
-		        
+		            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );  
 		        }
-
 		    }
-
 		}
-
 	}
 
-}
+
+
+	public function wllz_plugin_action_links( $links ) {
+      $new_links = array(
+        '<a href="' . admin_url( 'options-general.php?page=wllz-zapier-settings' ) . '" title="' . esc_attr( __( 'View Settings', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Settings', 'when-last-login-zapier-integration' ) . '</a>'
+      );
+
+      $new_links = apply_filters( 'wllz_plugin_action_links', $new_links );
+
+      return array_merge( $new_links, $links );
+    }
+
+    public function wllz_plugin_row_meta( $links, $file ) {
+      if ( strpos( $file, 'when-last-login-zapier-integration-zapier-integration.php' ) !== false ) {
+        $new_links = array(
+          '<a href="' . admin_url( 'options-general.php?page=wllz-zapier-settings' ) . '" title="' . esc_attr( __( 'View Settings', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Settings', 'when-last-login-zapier-integration' ) . '</a>',
+          '<a href="' . esc_url( 'https://yoohooplugins.com/?s=zapier' ) . '" title="' . esc_attr( __( 'View Documentation', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Docs', 'when-last-login-zapier-integration' ) . '</a>',
+          '<a href="' . esc_url( 'https://yoohooplugins.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Premium Support', 'when-last-login-zapier-integration' ) . '</a>',
+        );
+
+        $new_links = apply_filters( 'wllz_plugin_row_meta', $new_links );
+        $links = array_merge( $links, $new_links );
+      }
+      return $links;
+    }
+
+} // end of class
 
 new WhenLastLoginZapier();
 
