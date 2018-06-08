@@ -7,13 +7,27 @@
 	$status  = get_option( 'yoohoo_zapier_license_status' );
 	$expires = get_option( 'yoohoo_zapier_license_expires' );
 
+	if ( empty( 'license' ) ) {
+		yoohoo_admin_notice( 'If you are running Zapier Integration on a live site, we recommend an annual support license. <a href="https://yoohooplugins.com/plugins/zapier-integration/" target="_blank" rel="noopener">More Info</a>', 'warning' );
+	}
+
+	// get the date and show a notice.
+	if ( ! empty( $expires ) ) {
+		$expired = yoohoo_is_license_expired( $expires );
+		if ( $expired ) {
+			yoohoo_admin_notice( 'Your license key has expired. We recommend in renewing your annual support license to continue to get automatic updates and premium support. <a href="https://yoohooplugins.com/plugins/zapier-integration/" target="_blank" rel="noopener">More Info</a>', 'warning' );
+			$expires = "Your license key has expired.";
+		}
+	}
+	
+
 	// Check on Submit and update license server.
 	if ( isset( $_REQUEST['submit'] ) ) {
 
 		if ( isset( $_REQUEST['yoohoo_zapier_license_key' ] ) ) {
 			update_option( 'yoohoo_zapier_license_key', $_REQUEST['yoohoo_zapier_license_key'] );
 			$license = $_REQUEST['yoohoo_zapier_license_key'];
-			yoohoo_admin_notice( 'Saved successfully.', 'success' );
+			yoohoo_admin_notice( 'Saved successfully.', 'success is-dismissible' );
 		}
 	}
 
@@ -46,7 +60,7 @@
 
 			$message =  ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
 
-			yoohoo_admin_notice( $message, 'error' );
+			yoohoo_admin_notice( $message, 'error is-dismissible' );
 
 		} else {
 
@@ -57,7 +71,7 @@
 		update_option( 'yoohoo_zapier_license_expires', $license_data->expires );
 		$status = $license_data->license;
 		$expires = $license_data->expires;
-		yoohoo_admin_notice( 'License successfully activated.', 'success' );
+		yoohoo_admin_notice( 'License successfully activated.', 'success is-dismissible' );
 
 	}
 
@@ -83,7 +97,7 @@
 		delete_option( 'yoohoo_zapier_license_status' );
 		delete_option( 'yoohoo_zapier_license_expires' );
 		$status = false;
-		yoohoo_admin_notice( 'Deactivated license successfully.', 'success' );
+		yoohoo_admin_notice( 'Deactivated license successfully.', 'success is-dismissible' );
 	}
 	
 }
@@ -110,9 +124,15 @@
 							<?php _e( 'License Status' ); ?>
 						</th>
 						<td>
-							<?php if( $status !== false && $status == 'valid' ) { ?>
-								<span style="color:green"><strong><?php _e( 'Active.' ); ?></strong></span> <?php _e( sprintf( 'Expires on %s', $expires ) ); ?>
-							<?php } ?>
+							<?php 
+							if ( false !== $status && $status == 'valid' ) {
+								if ( ! $expired ) { ?>
+									<span style="color:green"><strong><?php _e( 'Active.' ); ?></strong></span>
+								<?php } else { ?>
+									<span style="color:red"><strong><?php _e( 'Expired.' ); ?></strong></span>
+								<?php } ?>
+
+								 <?php if ( ! $expired ) { _e( sprintf( 'Expires on %s', $expires ) ); } } ?>
 						</td>
 					</tr>
 					<?php if( ! empty( $license ) || false != $license ) { ?>
@@ -121,12 +141,12 @@
 								<?php _e('Activate License'); ?>
 							</th>
 							<td>
-								<?php if( $status !== false && $status == 'valid' ) { ?>
+								<?php if ( $status !== false && $status == 'valid' ) { ?>
 									<?php wp_nonce_field( 'yoohoo_license_nonce', 'yoohoo_license_nonce' ); ?>
 									<input type="submit" class="button-secondary" style="color:red;" name="deactivate_license" value="<?php _e('Deactivate License'); ?>"/><br/><br/>
-								<?php } else {
+									<?php } else {
 									wp_nonce_field( 'yoohoo_license_nonce', 'yoohoo_license_nonce' ); ?>
-									<input type="submit" class="button-secondary" name="activate_license" value="<?php _e('Activate License'); ?>"/>
+									<input type="submit" class="button-secondary" name="activate_license" value="<?php _e('Activate License'); ?>" <?php if ( $expired ) { echo 'disabled'; } ?>>
 								<?php } ?>
 							</td>
 						</tr>
@@ -138,11 +158,24 @@
 		</form>
 
 <?php
-
 function yoohoo_admin_notice( $message, $status ) {
 	   ?>
-    <div class="notice notice-<?php echo $status; ?> is-dismissible">
+    <div class="notice notice-<?php echo $status; ?>">
         <p><?php _e( $message ); ?></p>
     </div>
     <?php
+}
+
+function yoohoo_is_license_expired( $expiry_date ) {
+
+	$today = date( 'Y-m-d H:i:s' );
+ 
+	if ( $expiry_date < $today ) {
+		$r = true;
+	} else {
+		$r = false;
+	}
+
+	return $r;
+
 }
