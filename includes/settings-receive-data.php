@@ -7,8 +7,9 @@
 ?>
 <?php require_once( 'settings-header.php' ); ?>
 
-<h2><?php _e( 'Receive Data From Zapier', 'when-last-login-zapier-integration' ); ?></h2>
 
+<div class="wrap">
+	<h2><?php _e( 'Receive Data From Zapier', 'when-last-login-zapier-integration' ); ?></h2>
 	<table class="form-table">
 		<tbody>
 
@@ -70,4 +71,5 @@
 			</tr>
 
 		</tbody>
-	</table>	     
+	</table>
+</div>     

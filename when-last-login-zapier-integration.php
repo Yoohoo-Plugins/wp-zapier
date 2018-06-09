@@ -134,57 +134,64 @@ class WhenLastLoginZapier{
 
 	public function wllz_zapier_login( $user_login, $user ){
 
-	    $zapier_array = get_transient( 'when_last_login_zapier_data_'.$user->ID );
+	   	$zapier_array = get_transient( 'when_last_login_zapier_data_'.$user->ID );
 
 		$settings = get_option( 'wll_zapier_settings' ); 
 		
 		$zapier_notify_login = isset( $settings['notify_login'] ) ? 1 : 0;
 
-		$zapier_webhook = isset( $settings['webhook_login'] ) ? $settings['webhook_login'] : "";
+		$zapier_webhook = isset( $settings['webhook_login'] ) ? esc_url( $settings['webhook_login'] ) : "";
 
 		if( $zapier_webhook != "" && $zapier_notify_login === 1 ){
 
+
 			if ( false === $zapier_array || $zapier_array == '' ) {
 
+				// Get the user's ID.
 				$user_id = $user->ID;
 
-				$meta = get_user_meta( $user_id );
-
-				$user_data = (array)$user;
-
-				$user_data = apply_filters( 'wll_zapier_user_data_login_filter', $user_data );
-
-				$user_meta = $meta;
-
-				$user_meta = apply_filters( 'wll_zapier_user_meta_login_filter', $user_meta );
-
+				// The array to store the data when pushing data.
 				$zapier_array = array();
 
-				$zapier_array['action'] = 'login';
+				// Add necessary user information to the array.
+				$zapier_array['user_id'] = $user_id;
+				$zapier_array['user_email'] = $user->user_email;
+				$zapier_array['user_nicename'] = $user->user_nicename;
+				$zapier_array['user_registered'] = $user->user_registered;
+				$zapier_array['user_url'] = $user->user_url;
+				$zapier_array['display_name'] = $user->display_name;
+				
 
-				unset( $user_data['data']->user_pass );
+				// Let's get some default user meta
+				$meta = get_user_meta( $user_id );
 
-				$zapier_array['user_data'] = $user_data;
+				$zapier_array['first_name'] = $meta['first_name'][0];
+				$zapier_array['last_name'] = $meta['last_name'][0];
+				$zapier_array['nickname'] = $meta['nickname'][0];
+				$zapier_array['user_description'] = $meta['description'][0];
 
-				$zapier_array['user_meta'] = $user_meta;		    
+				// Add the roles to the end.
+				$zapier_array['roles'] = $user->roles;
 
+				$zapier_array = apply_filters( 'wllz_send_data_login_array', $zapier_array, $user );    
+
+				$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
+
+			    if ( ! is_wp_error( $zapier_request ) ) {
+
+			        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {
+
+					    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
+		            	
+		            	// Set the transient to 1 hour.
+		            	$zapier_transient_timeout = apply_filters( 'wll_zapier_transient_timeout_login', 3600 );
+
+			            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
+			        
+			        }
+
+			    }
 			}
-
-			$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
-
-		    if ( ! is_wp_error( $zapier_request ) ) {
-
-		        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {		        	
-
-				    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
-	            	
-	            	$zapier_transient_timeout = apply_filters( 'wll_zapier_transient_timeout_login', 3600 );
-
-		            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
-		        
-		        }
-
-		    }
 
 		}	
 
@@ -206,46 +213,45 @@ class WhenLastLoginZapier{
 
 			if ( false === $zapier_array || $zapier_array == '' ) {
 
-				$user_id = $user->ID;
-
-				$meta = get_user_meta( $user_id );
-
-				$user_data = (array)$user;
-
-				$user_data = apply_filters( 'wll_zapier_user_data_login_filter', $user_data );
-
-				$user_meta = $meta;
-
-				$user_meta = apply_filters( 'wll_zapier_user_meta_login_filter', $user_meta );
-
+				// The array to store the data when pushing data.
 				$zapier_array = array();
 
-				$zapier_array['action'] = 'register';
+				// Add necessary user information to the array.
+				$zapier_array['user_id'] = $user_id;
+				$zapier_array['user_email'] = $user->user_email;
+				$zapier_array['user_nicename'] = $user->user_nicename;
+				$zapier_array['user_registered'] = $user->user_registered;
+				$zapier_array['user_url'] = $user->user_url;
+				$zapier_array['display_name'] = $user->display_name;
+				
 
-				unset( $user_data['data']->user_pass );
+				// Let's get some default user meta
+				$meta = get_user_meta( $user_id );
 
-				$zapier_array['user_data'] = $user_data;
+				$zapier_array['first_name'] = $meta['first_name'][0];
+				$zapier_array['last_name'] = $meta['last_name'][0];
+				$zapier_array['nickname'] = $meta['nickname'][0];
+				$zapier_array['user_description'] = $meta['description'][0];
 
-				$zapier_array['user_meta'] = $user_meta;		    
+				// Add the roles to the end.
+				$zapier_array['roles'] = $user->roles;
 
+				$zapier_array = apply_filters( 'wllz_send_data_register_array', $zapier_array, $user );  
+
+				$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
+
+			    if ( ! is_wp_error( $zapier_request ) ) {
+
+			        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {		        	
+					    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
+		            	
+		            	// Set the transient to 1 hour.
+		            	$zapier_transient_timeout = apply_filters( 'wll_zapier_transient_timeout_login', 3600 );
+
+			            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
+			        }
+				}
 			}
-
-			$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
-
-		    if ( ! is_wp_error( $zapier_request ) ) {
-
-		        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {		        	
-
-				    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
-	            	
-	            	$zapier_transient_timeout = apply_filters( 'wll_zapier_transient_timeout_login', 3600 );
-
-		            set_transient( 'when_last_login_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
-		        
-		        }
-
-		    }
-
 		}
 	}
 
@@ -263,33 +269,36 @@ class WhenLastLoginZapier{
 
 		if( $zapier_webhook != "" && $zapier_notify_update === 1 ){
 
-			$user_id = $user->ID;
-
-			$meta = get_user_meta( $user_id );
-
-			$user_data = (array)$user;
-
-			$user_data = apply_filters( 'wll_zapier_user_data_login_filter', $user_data );
-
-			$user_meta = $meta;
-
-			$user_meta = apply_filters( 'wll_zapier_user_meta_login_filter', $user_meta );
-
+			// The array to store the data when pushing data.
 			$zapier_array = array();
 
-			$zapier_array['action'] = 'profile_updated';
+			// Add necessary user information to the array.
+			$zapier_array['user_id'] = $user_id;
+			$zapier_array['user_email'] = $user->user_email;
+			$zapier_array['user_nicename'] = $user->user_nicename;
+			$zapier_array['user_registered'] = $user->user_registered;
+			$zapier_array['user_url'] = $user->user_url;
+			$zapier_array['display_name'] = $user->display_name;
+			
 
-			unset( $user_data['data']->user_pass );
+			// Let's get some default user meta
+			$meta = get_user_meta( $user_id );
 
-			$zapier_array['user_data'] = $user_data;
+			$zapier_array['first_name'] = $meta['first_name'][0];
+			$zapier_array['last_name'] = $meta['last_name'][0];
+			$zapier_array['nickname'] = $meta['nickname'][0];
+			$zapier_array['user_description'] = $meta['description'][0];
 
-			$zapier_array['user_meta'] = $user_meta;		    
+			// Add the roles to the end.
+			$zapier_array['roles'] = $user->roles;
+
+			$zapier_array = apply_filters( 'wllz_send_data_update_array', $zapier_array, $user );		    
 
 			$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
 
 		    if ( ! is_wp_error( $zapier_request ) ) {
 
-		        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {		        	
+		        if ( isset( $zapier_request['body'] ) && strlen( $zapier_request['body'] ) > 0 ) {	
 
 				    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
 	            	
@@ -300,8 +309,6 @@ class WhenLastLoginZapier{
 		    }
 		}
 	}
-
-
 
 	public function wllz_plugin_action_links( $links ) {
       $new_links = array(
@@ -326,9 +333,6 @@ class WhenLastLoginZapier{
       }
       return $links;
     }
-
 } // end of class
 
 new WhenLastLoginZapier();
-
-
