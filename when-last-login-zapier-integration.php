@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: When Last Login - Zapier Add-on
- * Description: Send and Receive data to and from your WordPress site.
+ * Description: Automate your WordPress users with over 1000+ apps on Zapier.com
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
@@ -292,7 +292,7 @@ class WhenLastLoginZapier{
 			// Add the roles to the end.
 			$zapier_array['roles'] = $user->roles;
 
-			$zapier_array = apply_filters( 'wllz_send_data_update_array', $zapier_array, $user );		    
+			$zapier_array = apply_filters( 'wllz_send_data_login_array', $zapier_array, $user );		    
 
 			$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
 
@@ -321,7 +321,7 @@ class WhenLastLoginZapier{
     }
 
     public function wllz_plugin_row_meta( $links, $file ) {
-      if ( strpos( $file, 'when-last-login-zapier-integration-zapier-integration.php' ) !== false ) {
+      if ( strpos( $file, 'when-last-login-zapier-integration.php' ) !== false ) {
         $new_links = array(
           '<a href="' . admin_url( 'options-general.php?page=wllz-zapier-settings' ) . '" title="' . esc_attr( __( 'View Settings', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Settings', 'when-last-login-zapier-integration' ) . '</a>',
           '<a href="' . esc_url( 'https://yoohooplugins.com/?s=zapier' ) . '" title="' . esc_attr( __( 'View Documentation', 'when-last-login-zapier-integration' ) ) . '">' . __( 'Docs', 'when-last-login-zapier-integration' ) . '</a>',
