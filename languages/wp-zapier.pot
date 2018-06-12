@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WP Zapier\n"
-"POT-Creation-Date: 2018-06-12 22:13+0200\n"
+"POT-Creation-Date: 2018-06-12 22:35+0200\n"
 "PO-Revision-Date: 2018-06-12 22:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,7 +21,33 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/settings-header.php:6 wp-zapier.php:73
+#: includes/privacy.php:16
+msgid "What data do you store"
+msgstr ""
+
+#: includes/privacy.php:18
+msgid ""
+"No personal data is stored. (You may skip this section in your privacy "
+"policy)."
+msgstr ""
+
+#: includes/privacy.php:20
+msgid "Where do we send your data."
+msgstr ""
+
+#: includes/privacy.php:22
+msgid ""
+"Please adjust this text below accordingly, this is a rough guideline. Change "
+"the text to suit your needs. This is up to site owners to comply with GDPR / "
+"their countries privacy laws."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: includes/privacy.php:38
+msgid "WP Zapier"
+msgstr ""
+
+#: includes/settings-header.php:6 wp-zapier.php:76
 msgid "Zapier Settings"
 msgstr ""
 
@@ -230,54 +256,50 @@ msgstr ""
 msgid "Unable to update user meta."
 msgstr ""
 
-#: wp-zapier.php:135
+#: wp-zapier.php:138
 msgid "Settings saved successfully."
 msgstr ""
 
-#: wp-zapier.php:166
+#: wp-zapier.php:169
 msgid ""
 "Warning! License key for WP Zapier is missing or not active. Please activate "
 "your license key. We recommend an annual support license."
 msgstr ""
 
-#: wp-zapier.php:166
+#: wp-zapier.php:169
 msgid "More Info"
 msgstr ""
 
-#: wp-zapier.php:173
+#: wp-zapier.php:176
 msgid "Your license for WP Zapier has expired."
 msgstr ""
 
-#: wp-zapier.php:173
+#: wp-zapier.php:176
 msgid "Renew Now"
 msgstr ""
 
-#: wp-zapier.php:360 wp-zapier.php:371
+#: wp-zapier.php:363 wp-zapier.php:374
 msgid "View Settings"
 msgstr ""
 
-#: wp-zapier.php:360 wp-zapier.php:371
+#: wp-zapier.php:363 wp-zapier.php:374
 msgid "Settings"
 msgstr ""
 
-#: wp-zapier.php:372
+#: wp-zapier.php:375
 msgid "View Documentation"
 msgstr ""
 
-#: wp-zapier.php:372
+#: wp-zapier.php:375
 msgid "Docs"
 msgstr ""
 
-#: wp-zapier.php:373
+#: wp-zapier.php:376
 msgid "Visit Customer Support Forum"
 msgstr ""
 
-#: wp-zapier.php:373
+#: wp-zapier.php:376
 msgid "Premium Support"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "WP Zapier"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
