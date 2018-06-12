@@ -57,6 +57,9 @@ class Yoohoo_WP_Zapier{
 
       	// Webhook handler check.
       	add_action( 'init', array( $this, 'wpzp_webhook_handler' ) );
+
+      	include( dirname( __FILE__ ) . '/includes/privacy.php' );
+
 	}
 
 	public function wpzp_webhook_handler() {
