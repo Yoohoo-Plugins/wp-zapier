@@ -1,0 +1,294 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: WP Zapier\n"
+"POT-Creation-Date: 2018-06-12 22:13+0200\n"
+"PO-Revision-Date: 2018-06-12 22:07+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: wp-zapier.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/settings-header.php:6 wp-zapier.php:73
+msgid "Zapier Settings"
+msgstr ""
+
+#: includes/settings-header.php:14 includes/settings-send-data.php:18
+msgid "Send Data To Zapier"
+msgstr ""
+
+#: includes/settings-header.php:14 includes/settings-receive-data.php:12
+msgid "Receive Data From Zapier"
+msgstr ""
+
+#: includes/settings-header.php:14
+msgid "License Settings"
+msgstr ""
+
+#: includes/settings-license.php:64
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: includes/settings-license.php:110
+msgid "Plugin License Options"
+msgstr ""
+
+#: includes/settings-license.php:117
+msgid "License Key"
+msgstr ""
+
+#: includes/settings-license.php:121
+msgid "Enter your license key."
+msgstr ""
+
+#: includes/settings-license.php:127
+msgid "License Status"
+msgstr ""
+
+#: includes/settings-license.php:133
+msgid "Active."
+msgstr ""
+
+#: includes/settings-license.php:135
+msgid "Expired."
+msgstr ""
+
+#: includes/settings-license.php:144 includes/settings-license.php:152
+msgid "Activate License"
+msgstr ""
+
+#: includes/settings-license.php:149
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/settings-receive-data.php:18
+msgid "Webhook URL"
+msgstr ""
+
+#: includes/settings-receive-data.php:27
+msgid "API Key"
+msgstr ""
+
+#: includes/settings-receive-data.php:36
+msgid "Available Actions"
+msgstr ""
+
+#: includes/settings-receive-data.php:37
+msgid ""
+"Below is a list of available actions when sending data from Zapier to "
+"WordPress."
+msgstr ""
+
+#: includes/settings-receive-data.php:43
+msgid "create_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:46 includes/settings-receive-data.php:57
+#: includes/settings-receive-data.php:68
+msgid "Accepts"
+msgstr ""
+
+#: includes/settings-receive-data.php:47
+msgid ""
+"Create a new user and send an email notification to both the user and site "
+"administrator."
+msgstr ""
+
+#: includes/settings-receive-data.php:48
+msgid ""
+"This will not create the user if the user's email exists inside WordPress "
+"and will be skipped."
+msgstr ""
+
+#: includes/settings-receive-data.php:54
+msgid "update_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:58
+msgid "Update existing user data via email."
+msgstr ""
+
+#: includes/settings-receive-data.php:59
+msgid "This will create a new user if the user's email does not exist."
+msgstr ""
+
+#: includes/settings-receive-data.php:65
+msgid "delete_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:69
+msgid ""
+"Delete an existing user from WordPress which will delete all their usermeta."
+msgstr ""
+
+#: includes/settings-receive-data.php:77
+msgid "Required fields."
+msgstr ""
+
+#: includes/settings-send-data.php:25
+msgid "Notify on Register"
+msgstr ""
+
+#: includes/settings-send-data.php:34
+msgid "Register Webhook URL"
+msgstr ""
+
+#: includes/settings-send-data.php:43
+msgid "Notify on Login"
+msgstr ""
+
+#: includes/settings-send-data.php:52
+msgid "Login Webhook URL"
+msgstr ""
+
+#: includes/settings-send-data.php:61
+msgid "Notify on Profile Update"
+msgstr ""
+
+#: includes/settings-send-data.php:70
+msgid "Profile Update Webhook URL"
+msgstr ""
+
+#: includes/settings-send-data.php:80
+msgid "Save Settings"
+msgstr ""
+
+#: includes/updates/zapier-update-checker.php:201
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: includes/updates/zapier-update-checker.php:209
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: includes/updates/zapier-update-checker.php:399
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/updates/zapier-update-checker.php:399
+msgid "Error"
+msgstr ""
+
+#: includes/webhook-handler.php:17
+msgid "API Key not valid or missing."
+msgstr ""
+
+#: includes/webhook-handler.php:52
+msgid " An email is required to create a user."
+msgstr ""
+
+#: includes/webhook-handler.php:77
+msgid "Error creating user, user already exists."
+msgstr ""
+
+#: includes/webhook-handler.php:101
+msgid "User does not exist."
+msgstr ""
+
+#: includes/webhook-handler.php:107
+msgid "Update denied: You are not allowed to update administrators accounts."
+msgstr ""
+
+#: includes/webhook-handler.php:148
+msgid "User updated sucessfully"
+msgstr ""
+
+#: includes/webhook-handler.php:151
+msgid "Error updating user."
+msgstr ""
+
+#: includes/webhook-handler.php:183
+msgid "User successfully deleted."
+msgstr ""
+
+#: includes/webhook-handler.php:186
+msgid "Error deleting user."
+msgstr ""
+
+#: includes/webhook-handler.php:199
+msgid "Unable to update user meta, user ID is missing."
+msgstr ""
+
+#: includes/webhook-handler.php:223
+msgid "Unable to update user meta."
+msgstr ""
+
+#: wp-zapier.php:135
+msgid "Settings saved successfully."
+msgstr ""
+
+#: wp-zapier.php:166
+msgid ""
+"Warning! License key for WP Zapier is missing or not active. Please activate "
+"your license key. We recommend an annual support license."
+msgstr ""
+
+#: wp-zapier.php:166
+msgid "More Info"
+msgstr ""
+
+#: wp-zapier.php:173
+msgid "Your license for WP Zapier has expired."
+msgstr ""
+
+#: wp-zapier.php:173
+msgid "Renew Now"
+msgstr ""
+
+#: wp-zapier.php:360 wp-zapier.php:371
+msgid "View Settings"
+msgstr ""
+
+#: wp-zapier.php:360 wp-zapier.php:371
+msgid "Settings"
+msgstr ""
+
+#: wp-zapier.php:372
+msgid "View Documentation"
+msgstr ""
+
+#: wp-zapier.php:372
+msgid "Docs"
+msgstr ""
+
+#: wp-zapier.php:373
+msgid "Visit Customer Support Forum"
+msgstr ""
+
+#: wp-zapier.php:373
+msgid "Premium Support"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Zapier"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://yoohooplugins.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Automate your WordPress users with over 1000+ apps on Zapier.com"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Yoohoo Plugins"
+msgstr ""

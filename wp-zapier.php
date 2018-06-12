@@ -9,6 +9,7 @@
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier
+ * Domain Path: /languages
  */
 
 defined( 'ABSPATH' ) or exit;
@@ -56,10 +57,12 @@ class Yoohoo_WP_Zapier{
 
       	// Webhook handler check.
       	add_action( 'init', array( $this, 'wpzp_webhook_handler' ) );
-
 	}
 
 	public function wpzp_webhook_handler() {
+		
+		load_plugin_textdomain( 'wp-zapier', false, basename( dirname( __FILE__ ) ) . '/languages' );
+
 		if ( isset( $_REQUEST['wpz_webhook'] ) ) {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/webhook-handler.php' );
 			exit;
@@ -160,7 +163,7 @@ class Yoohoo_WP_Zapier{
     	if ( ! $license_key || $status != 'valid' ) {
 	    ?>
 	      <div class="notice notice-warning">
-	        <p><?php _e( 'Warning! License key for WP Zapier not valid. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'More Info', 'wp-zapier' ); ?></a></p>
+	        <p><?php _e( 'Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'More Info', 'wp-zapier' ); ?></a></p>
 	      </div>
 	    <?php	
 	    }elseif( $expired ) {
