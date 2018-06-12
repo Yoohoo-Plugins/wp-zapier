@@ -21,7 +21,7 @@ function wp_zapier_get_default_privacy_content() {
 
 	$content .= '<p>' . __( 'Please adjust this text below accordingly, this is a rough guideline. Change the text to suit your needs. This is up to site owners to comply with GDPR / their countries privacy laws.', 'wp-zapier' ) . '</p>';
 
-	$content .= '<p>' . __( sprintf( 'Personal information such as first name, last name, email address and [[list custom user meta fields here]] are sent through to Zapier %s to integrate and be processed with the following third-party services: [[list third party services and links to their privacy policy here]]. Please note that we do not ever send your password through to any of these services listed above.', '[<a href="https://zapier.com/help/data-privacy/" target="_blank" rel="noopener nofollow">Zapier Privacy Policy</a>]'), 'wp-zapier') . '</p>';
+	$content .= '<p>' . __( sprintf( 'Personal information such as first name, last name, email address and [[list custom user meta fields here]] are sent through to Zapier %s to integrate and be processed with the following third-party services: [[list third party services and links to their privacy policy here]]. Please note that we do not ever send your password through to any of these services listed above.', '[<a href="https://zapier.com/privacy/" target="_blank" rel="noopener nofollow">Zapier Privacy Policy</a>]'), 'wp-zapier') . '</p>';
 
 	$content = apply_filters( 'wp_zapier_get_default_privacy_content', $content );
 
