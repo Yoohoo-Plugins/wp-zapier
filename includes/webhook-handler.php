@@ -91,10 +91,10 @@ function wpzp_update_user() {
 	if ( ! empty( $email ) ) {
 		$user = get_user_by( 'email', $email );
 
-		// If the user doesn't exist create the user.
-		$create_user = apply_filters( 'wp_zapier_create_user_on_update', true );
+		$create_user = apply_filters( 'wp_zapier_create_user_on_update_webhook', true );
 
-		if ( empty( $user )  && $create_user ) {
+		// If the user doesn't exist create the user.
+		if ( empty( $user ) && $create_user ) {
 			wpzp_create_user();
 			exit;
 		}else{
