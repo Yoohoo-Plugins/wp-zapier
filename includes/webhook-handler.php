@@ -3,7 +3,7 @@
 // Don't access this file directly to do stuff.
 defined( 'ABSPATH' ) or exit;
 
-$zapier_settings = get_option( 'wpzp_zapier_settings', true );
+$zapier_settings = get_option( 'wp_zapier_settings', true );
 
 $api_key = ! empty( $_REQUEST['api_key'] ) ? sanitize_key( $_REQUEST['api_key'] ) : '';
 $action = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
@@ -41,11 +41,11 @@ switch ( $action ) {
 function wpzp_create_user(){
 
 	// Get the params
-	$username = isset( $_GET['username'] ) ? sanitize_text_field( $_GET['username'] ) : '';
-	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
-	$first_name = isset( $_GET['first_name'] ) ? sanitize_text_field( $_GET['first_name'] ) : '';
-	$last_name = isset( $_GET['last_name'] ) ? sanitize_text_field( $_GET['last_name'] ) : '';
-	$role = isset( $_GET['role'] ) ? sanitize_text_field( $_GET['role'] ) : 'subscriber';
+	$username = isset( $_REQUEST['username'] ) ? sanitize_text_field( $_REQUEST['username'] ) : '';
+	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
+	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
+	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
+	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : 'subscriber';
 	$user_pass = wp_generate_password( 20, true, false );
 
 	if ( empty( $email ) ) {
@@ -53,8 +53,9 @@ function wpzp_create_user(){
 		exit;
 	}
 
+	// Generate username if none given.
 	if ( empty( $username ) ) {
-		$username = wpzp_generate_username( $firstname, $lastname, $email );
+		$username = wpzp_generate_username( $email );
 	}
 
 	$userdata = array(
@@ -86,7 +87,7 @@ function wpzp_create_user(){
  */
 function wpzp_update_user() {
 
-	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
+	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 
 	if ( ! empty( $email ) ) {
 		$user = get_user_by( 'email', $email );
@@ -96,9 +97,6 @@ function wpzp_update_user() {
 		// If the user doesn't exist create the user.
 		if ( empty( $user ) && $create_user ) {
 			wpzp_create_user();
-			exit;
-		}else{
-			echo json_encode( __( 'User does not exist.', 'wp-zapier' ) );
 			exit;
 		}
 
@@ -110,11 +108,11 @@ function wpzp_update_user() {
 
 		// Get all updated information
 		$user_id = $user->ID;
-		$new_email = isset( $_GET['new_email'] ) ? sanitize_email( $_GET['new_email'] ) : $user->user_email;
-		$role = isset( $_GET['role'] ) ? sanitize_text_field( $_GET['role'] ) : '';
-		$first_name = isset( $_GET['first_name'] ) ? sanitize_textarea_field( $_GET['first_name'] ) : $user->first_name;
-		$last_name = isset( $_GET['last_name'] ) ? sanitize_textarea_field( $_GET['last_name'] ) : $user->last_name;
-		$description = isset( $_GET['description'] ) ? sanitize_textarea_field( $_GET['description'] ) : $user->description;
+		$new_email = isset( $_REQUEST['new_email'] ) ? sanitize_email( $_REQUEST['new_email'] ) : $user->user_email;
+		$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : '';
+		$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_textarea_field( $_REQUEST['first_name'] ) : $user->first_name;
+		$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_textarea_field( $_REQUEST['last_name'] ) : $user->last_name;
+		$description = isset( $_REQUEST['description'] ) ? sanitize_textarea_field( $_REQUEST['description'] ) : $user->description;
 
 
 		$userdata = array(
@@ -161,7 +159,7 @@ function wpzp_update_user() {
  */
 function wpzp_delete_user() {
 
-	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
+	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 
 	if ( ! empty( $email ) ) {
 		$user = get_user_by( 'email', $email );
@@ -200,7 +198,7 @@ function wpzp_update_user_meta( $user_id ) {
 		return;
 	}
 
-	$fields_array = isset( $_GET['usermeta'] ) ? explode( ';', $_GET['usermeta'] ) : '';
+	$fields_array = isset( $_REQUEST['usermeta'] ) ? explode( ';', $_REQUEST['usermeta'] ) : '';
 
 	if ( ! empty( $fields_array ) && is_array( $fields_array ) ) {
 		
@@ -230,27 +228,9 @@ function wpzp_update_user_meta( $user_id ) {
  * Function to generate username, thanks to @PMPROPLUGIN
  * www.paidmembershipspro.com - the best WordPress Membership plugin out there.
  */
-function wpzp_generate_username( $firstname = '', $lastname = '', $email = '' ) {
+function wpzp_generate_username( $email = '' ) {
 	global $wpdb;
-
-	// try first initial + last name, firstname, lastname
-	$firstname = preg_replace( '/[^A-Za-z]/', '', $firstname );
-	$lastname = preg_replace( '/[^A-Za-z]/', '', $lastname );
-	if ( $firstname && $lastname ) {
-		$username = substr( $firstname, 0, 1 ) . $lastname;
-	} elseif ( $firstname ) {
-		$username = $firstname;
-	} elseif ( $lastname ) {
-		$username = $lastname;
-	}
-
-	// is it taken?
-	$taken = $wpdb->get_var( "SELECT user_login FROM $wpdb->users WHERE user_login = '" . esc_sql( $username ) . "' LIMIT 1" );
-
-	if ( ! $taken ) {
-		return $username;
-	}
-
+	$username = '';
 	// try the beginning of the email address
 	$emailparts = explode( '@', $email );
 	if ( is_array( $emailparts ) ) {
