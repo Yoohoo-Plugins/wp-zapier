@@ -43,9 +43,9 @@
 					<p><?php _e( 'create_user', 'wp-zapier'); ?></p>
 				</th>
 				<td>
-					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: username*, email*, first_name, last_name, role, usermeta**</strong></p>
+					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: email*, username, first_name, last_name, role, usermeta**</strong></p>
 					<p><?php _e( 'Create a new user and send an email notification to both the user and site administrator.', 'wp-zapier' ); ?></p>
-					<p><?php _e( "This will not create the user if the user's email or username exists inside WordPress and will be skipped.", "wp-zapier" ); ?></p>
+					<p><?php _e( "This will not create the user if the user's email exists inside WordPress and will be skipped.", "wp-zapier" ); ?></p>
 				</td>
 			</tr>
 
