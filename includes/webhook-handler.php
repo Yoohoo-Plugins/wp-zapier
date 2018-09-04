@@ -3,7 +3,7 @@
 // Don't access this file directly to do stuff.
 defined( 'ABSPATH' ) or exit;
 
-$zapier_settings = get_option( 'wpzp_zapier_settings', true );
+$zapier_settings = get_option( 'wp_zapier_settings', true );
 
 $api_key = ! empty( $_REQUEST['api_key'] ) ? sanitize_key( $_REQUEST['api_key'] ) : '';
 $action = ! empty( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
@@ -87,73 +87,76 @@ function wpzp_create_user(){
 function wpzp_update_user() {
 
 	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
+	$username = isset( $_GET['username'] ) ? sanitize_user( $_GET['username'] ) : '';
 
+	// Check if user set email.
 	if ( ! empty( $email ) ) {
 		$user = get_user_by( 'email', $email );
-
-		$create_user = apply_filters( 'wp_zapier_create_user_on_update_webhook', true );
-
-		// If the user doesn't exist create the user.
-		if ( empty( $user ) && $create_user ) {
-			wpzp_create_user();
-			exit;
-		}else{
-			echo json_encode( __( 'User does not exist.', 'wp-zapier' ) );
-			exit;
-		}
-
-		// Let's not allow calls to update administrators.
-		if ( in_array( 'administrator', $user->roles ) ) {
-			echo json_encode( __( 'Update denied: You are not allowed to update administrators accounts.', 'wp-zapier' ) );
-			exit;
-		}
-
-		// Get all updated information
-		$user_id = $user->ID;
-		$new_email = isset( $_GET['new_email'] ) ? sanitize_email( $_GET['new_email'] ) : $user->user_email;
-		$role = isset( $_GET['role'] ) ? sanitize_text_field( $_GET['role'] ) : '';
-		$first_name = isset( $_GET['first_name'] ) ? sanitize_textarea_field( $_GET['first_name'] ) : $user->first_name;
-		$last_name = isset( $_GET['last_name'] ) ? sanitize_textarea_field( $_GET['last_name'] ) : $user->last_name;
-		$description = isset( $_GET['description'] ) ? sanitize_textarea_field( $_GET['description'] ) : $user->description;
-
-
-		$userdata = array(
-			'ID' => $user_id,
-			'user_email' => $new_email,
-			'first_name' => $first_name,
-			'last_name' => $last_name,
-			'description' => $description
-		);
-
-		if ( ! empty( $role ) ) {
-			$u = new WP_User( $user_id );;
-			$u->set_role( $role );
-		}
-
-
-		// remove the hook before updating.
-
-		remove_action( 'profile_update', array( 'Yoohoo_WP_Zapier', 'wpzp_zapier_profile_update' ), 10, 2 );
-
-		$user_id = wp_update_user( $userdata  );
-
-		add_action( 'profile_update', array( 'Yoohoo_WP_Zapier', 'wpzp_zapier_profile_update' ), 10, 2 );
-
-
-		if( ! is_wp_error( $user_id ) ) {
-			$headers = 'From: ' . get_bloginfo( "name" ) . ' <' . get_bloginfo( "admin_email" ) . '>' . "\r\n";
-
- 			wp_mail( $email, 'Your account has been updated.', 'Hi ' . $user->user_nicename . ',' . "\r\n" . 'Your account at ' . get_bloginfo("name") . '(' . home_url() . ') has been updated.' . "\r\n" . 'Login to your account: ' . wp_login_url(), $headers );
- 			wpzp_update_user_meta( $user_id );
-			echo json_encode( __( 'User updated sucessfully', 'wp-zapier' ) );
-			exit;
-		}else{
-			echo json_encode( __( 'Error updating user.', 'wp-zapier' ) );
-			exit;
-		}
+	}elseif( ! empty( $username ) && empty( $email ) ) {
+		$user = get_user_by( 'login', $username );
+	} else {
+		exit;
 	}
 
-	exit;
+	$create_user = apply_filters( 'wp_zapier_create_user_on_update_webhook', true );
+
+	// If the user doesn't exist create the user.
+	if ( empty( $user ) && $create_user ) {
+		wpzp_create_user();
+		exit;
+	}
+
+	// Let's not allow calls to update administrators.
+	if ( in_array( 'administrator', $user->roles ) ) {
+		echo json_encode( __( 'Update denied: You are not allowed to update administrators accounts.', 'wp-zapier' ) );
+		exit;
+	}
+
+	// Get all updated information
+	$user_id = $user->ID;
+	$new_email = isset( $_GET['new_email'] ) ? sanitize_email( $_GET['new_email'] ) : $user->user_email;
+	$role = isset( $_GET['role'] ) ? sanitize_text_field( $_GET['role'] ) : '';
+	$first_name = isset( $_GET['first_name'] ) ? sanitize_textarea_field( $_GET['first_name'] ) : $user->first_name;
+	$last_name = isset( $_GET['last_name'] ) ? sanitize_textarea_field( $_GET['last_name'] ) : $user->last_name;
+	$description = isset( $_GET['description'] ) ? sanitize_textarea_field( $_GET['description'] ) : $user->description;
+
+
+	$userdata = array(
+		'ID' => $user_id,
+		'user_email' => $new_email,
+		'first_name' => $first_name,
+		'last_name' => $last_name,
+		'description' => $description
+	);
+
+	if ( ! empty( $role ) ) {
+		$u = new WP_User( $user_id );;
+		$u->set_role( $role );
+	}
+
+
+	// remove the hook before updating.
+
+	remove_action( 'profile_update', array( 'Yoohoo_WP_Zapier', 'wpzp_zapier_profile_update' ), 10, 2 );
+
+	$user_id = wp_update_user( $userdata  );
+
+	add_action( 'profile_update', array( 'Yoohoo_WP_Zapier', 'wpzp_zapier_profile_update' ), 10, 2 );
+
+
+	if( ! is_wp_error( $user_id ) ) {
+		$headers = 'From: ' . get_bloginfo( "name" ) . ' <' . get_bloginfo( "admin_email" ) . '>' . "\r\n";
+
+			wp_mail( $email, 'Your account has been updated.', 'Hi ' . $user->user_nicename . ',' . "\r\n" . 'Your account at ' . get_bloginfo("name") . '(' . home_url() . ') has been updated.' . "\r\n" . 'Login to your account: ' . wp_login_url(), $headers );
+			wpzp_update_user_meta( $user_id );
+		echo json_encode( __( 'User updated sucessfully', 'wp-zapier' ) );
+		exit;
+	}else{
+		echo json_encode( __( 'Error updating user.', 'wp-zapier' ) );
+		exit;
+	}
+
+exit;
 }
 
 /**
@@ -163,15 +166,23 @@ function wpzp_delete_user() {
 
 	$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : '';
 
+	$username = isset( $_GET['username'] ) ? sanitize_user( $_GET['username'] ) : '';
+
+	// Check if user set email.
 	if ( ! empty( $email ) ) {
 		$user = get_user_by( 'email', $email );
+	}elseif( ! empty( $username ) && empty( $email ) ) {
+		$user = get_user_by( 'login', $username );
+	} else {
+		exit;
+	}
 
-		// Let's not allow calls to delete administrators.
-		if ( in_array( 'administrator', $user->roles ) ) {
-			exit;
-		}
+	// Let's not allow calls to delete administrators.
+	if ( in_array( 'administrator', $user->roles ) ) {
+		exit;
+	}
 
-		$user_id = $user->ID;
+	$user_id = $user->ID;
 
 	require_once( ABSPATH . 'wp-admin/includes/user.php' );
 
@@ -186,7 +197,7 @@ function wpzp_delete_user() {
 	 		echo json_encode( __( 'Error deleting user.', 'wp-zapier' ) );
 	 		exit;
 	 	}
-	}
+
 	exit;
 }
 
