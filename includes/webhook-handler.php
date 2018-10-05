@@ -84,7 +84,7 @@ function wpzp_create_user(){
 
 		do_action( 'wp_zapier_after_create_user', $user );
 
-		echo json_encode( array( 'status' => 'success', 'response' => 'user created successfully', 'user_id' => $user_id ) );
+		echo json_encode( array( 'status' => 'success', 'response' => __( 'user created successfully', 'wp-zapier' ), 'user_id' => $user_id ) );
 		exit;
 	} else {
 		echo json_encode( __( 'Error creating user, user already exists.', 'wp-zapier' ) );
@@ -173,7 +173,7 @@ function wpzp_update_user() {
 
 			wp_mail( $email, 'Your account has been updated.', 'Hi ' . $user->user_nicename . ',' . "\r\n" . 'Your account at ' . get_bloginfo("name") . '(' . home_url() . ') has been updated.' . "\r\n" . 'Login to your account: ' . wp_login_url(), $headers );
 			wpzp_update_user_meta( $user_id );
-		echo json_encode( __( 'User updated sucessfully', 'wp-zapier' ) );
+		echo json_encode( array( 'status' => 'success', 'response' => __( 'user updated successfully', 'wp-zapier' ), 'user_id' => $user_id ) );
 		exit;
 	}else{
 		echo json_encode( __( 'Error updating user.', 'wp-zapier' ) );
