@@ -18,8 +18,6 @@ if ( $api_key != $zapier_settings['api_key'] ) {
 	exit;
 }
 
-
-
 switch ( $action ) {
 	case 'create_user':
 		wpzp_create_user();
@@ -31,6 +29,9 @@ switch ( $action ) {
 
 	case 'delete_user':
 		wpzp_delete_user();
+		break;
+	default:
+		echo json_encode( __( 'Please choose an action.', 'wp-zapier' ) );
 		break;
 }
 
@@ -58,7 +59,7 @@ function wpzp_create_user(){
 
 	// Generate the username if username is missing and the filter is set to true.
 	if ( empty( $username ) && $dynamic_username ) {
-		$username = wpzp_generate_username( $firstname, $lastname, $email );
+		$username = wpzp_generate_username( $first_name, $last_name, $email );
 	}
 
 	$userdata = array(
@@ -79,15 +80,22 @@ function wpzp_create_user(){
 
 	if ( ! is_wp_error( $user_id ) ) {
 		echo "User created :" . $user_id;
+
+		// try to update usermeta.
 		wpzp_update_user_meta( $user_id );
-		wp_new_user_notification( $user_id, null, 'both' );
+
+		if ( apply_filters('wp_zapier_send_new_user_email', true ) ) {
+			wp_new_user_notification( $user_id, null, 'both' );	
+		}
+		
 
 		do_action( 'wp_zapier_after_create_user', $user );
 
 		echo json_encode( array( 'status' => 'success', 'response' => __( 'user created successfully', 'wp-zapier' ), 'user_id' => $user_id ) );
 		exit;
 	} else {
-		echo json_encode( __( 'Error creating user, user already exists.', 'wp-zapier' ) );
+		$error = $user_id->get_error_message();
+		echo json_encode( $error );
 		exit;
 	}
 
@@ -234,7 +242,6 @@ function wpzp_delete_user() {
  * Function to update usermeta.
  */
 function wpzp_update_user_meta( $user_id ) {
-
 	if ( empty( $user_id ) ) {
 		echo json_encode( __( 'Unable to update user meta, user ID is missing.', 'wp-zapier') );
 		return;
@@ -260,7 +267,7 @@ function wpzp_update_user_meta( $user_id ) {
 		return;
 
 	} else {
-		echo json_encode( __( 'Unable to update user meta.', 'wp-zapier' ) );
+		echo json_encode( __( 'Unable to update user meta. User meta fields not passed through to WordPress.', 'wp-zapier' ) );
 		return;
 	}
 }
