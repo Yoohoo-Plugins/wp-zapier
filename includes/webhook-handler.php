@@ -59,7 +59,7 @@ function wpzp_create_user(){
 
 	// Generate the username if username is missing and the filter is set to true.
 	if ( empty( $username ) && $dynamic_username ) {
-		$username = wpzp_generate_username( $firstname, $lastname, $email );
+		$username = wpzp_generate_username( $first_name, $last_name, $email );
 	}
 
 	$userdata = array(
@@ -74,9 +74,9 @@ function wpzp_create_user(){
 
 	$userdata = apply_filters( 'wp_zapier_userdata_before_create', $userdata );
 
-	do_action( 'wp_zapier_before_create_user', $user );
-
 	$user_id = wp_insert_user( $userdata );
+
+	do_action( 'wp_zapier_before_create_user' );
 
 	if ( ! is_wp_error( $user_id ) ) {
 		echo "User created :" . $user_id;
@@ -89,7 +89,7 @@ function wpzp_create_user(){
 		}
 		
 
-		do_action( 'wp_zapier_after_create_user', $user );
+		do_action( 'wp_zapier_after_create_user', $user_id );
 
 		echo json_encode( array( 'status' => 'success', 'response' => __( 'user created successfully', 'wp-zapier' ), 'user_id' => $user_id ) );
 		exit;
