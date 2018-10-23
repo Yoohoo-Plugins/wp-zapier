@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) or exit;
  */
 define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 define( 'YH_PLUGIN_ID', 453 );
-define( 'WPZP_VERSION', 1.1 );
+define( 'WPZP_VERSION', '1.2.1' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
