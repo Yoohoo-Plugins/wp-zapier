@@ -45,8 +45,8 @@ function wpzp_create_user(){
 	$username = isset( $_REQUEST['username'] ) ? sanitize_text_field( $_REQUEST['username'] ) : '';
 	$display_name = isset( $_REQUEST['display_name'] ) ? sanitize_text_field( $_REQUEST['display_name'] ) : '';
 	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
-	$firstname = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
-	$lastname = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
+	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
+	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
 	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : 'subscriber';
 	$user_pass = wp_generate_password( 20, true, false );
 
@@ -277,18 +277,19 @@ function wpzp_update_user_meta( $user_id ) {
  * Function to generate username, thanks to @PMPROPLUGIN
  * www.paidmembershipspro.com - the best WordPress Membership plugin out there.
  */
-function wpzp_generate_username( $firstname = '', $lastname = '', $email = '' ) {
+function wpzp_generate_username( $first_name = '', $last_name = '', $email = '' ) {
 	global $wpdb;
 
 	// try first initial + last name, firstname, lastname
-	$firstname = preg_replace( '/[^A-Za-z]/', '', $firstname );
-	$lastname = preg_replace( '/[^A-Za-z]/', '', $lastname );
-	if ( $firstname && $lastname ) {
-		$username = substr( $firstname, 0, 1 ) . $lastname;
-	} elseif ( $firstname ) {
-		$username = $firstname;
-	} elseif ( $lastname ) {
-		$username = $lastname;
+	$first_name = preg_replace( '/[^A-Za-z]/', '', $first_name );
+	$last_name = preg_replace( '/[^A-Za-z]/', '', $last_name );
+	$username = '';
+	if ( $first_name && $last_name ) {
+		$username = substr( $first_name, 0, 1 ) . $last_name;
+	} elseif ( $first_name ) {
+		$username = $first_name;
+	} elseif ( $last_name ) {
+		$username = $last_name;
 	}
 
 	// is it taken?
