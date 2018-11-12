@@ -54,7 +54,7 @@
 					<p><?php _e( 'update_user', 'wp-zapier'); ?></p>
 				</th>
 				<td>
-					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: email*, newemail, first_name, last_name, role, usermeta**</strong></p>
+					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: email*, new_email, first_name, last_name, role, usermeta**</strong></p>
 					<p><?php _e( 'Update existing user data via email.' ); ?></p>
 					<p><?php _e( "This will create a new user if the user's email does not exist.", "wp-zapier" ); ?></p>
 				</td>
