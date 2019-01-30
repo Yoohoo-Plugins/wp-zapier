@@ -149,8 +149,12 @@ class Yoohoo_WP_Zapier{
     		return;
     	}
 
-    	if ( ! isset( $_REQUEST['page'] ) && $_REQUEST['page'] != 'wp-zapier-settings' ) {
-    		return false;
+    	if ( ! isset( $_REQUEST['page'] ) ) {
+    		return;
+    	}
+
+    	if ( $_REQUEST['page'] != 'wp-zapier-settings' ) {
+    		return;
     	}
 
     	$license_key = get_option( 'yoohoo_zapier_license_key' );
