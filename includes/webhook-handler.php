@@ -163,7 +163,7 @@ function wpzp_update_user() {
 
 	$user_id = wp_update_user( $userdata  );
 
-	do_action( 'wp_zapier_after_update_user' );
+	do_action( 'wp_zapier_after_update_user', $user_id );
 
 	add_action( 'profile_update', array( 'Yoohoo_WP_Zapier', 'wpzp_zapier_profile_update' ), 10, 2 );
 
