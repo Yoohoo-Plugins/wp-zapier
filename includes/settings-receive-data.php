@@ -18,7 +18,9 @@
 					<label for="wp_zapier_webhook_url"><?php _e( 'Webhook URL', 'wp-zapier'); ?></label>
 				</th>
 				<td>
-					<input type='text' size='77' name='wp_zapier_webhook_url' value="<?php echo add_query_arg( array( 'wpz_webhook' => '1', 'api_key' => $api_key ), home_url( '/' ) ); ?>" readonly />
+					<input type='text' size='77' name='wp_zapier_webhook_url' value="<?php echo add_query_arg( array( 'wpz_webhook' => '1', 'api_key' => $api_key ), home_url( '/' ) ); ?>" readonly /><br/>
+					<small><?php _e( 'Please copy entire URL when adding this to Zapier.', 'wp-zapier' ); ?></small>
+
 				</td>
 			</tr>
 
@@ -27,7 +29,7 @@
 					<label for="wp_zapier_webhook_api_key"><?php _e( 'API Key', 'wp-zapier'); ?></label>
 				</th>
 				<td>
-					<input type='text' name='wp_zapier_webhook_api_key' size='40' value='<?php echo $api_key; ?>' readonly />
+					<input type='text' name='wp_zapier_webhook_api_key' size='40' value='<?php echo $api_key; ?>' readonly />	
 				</td>
 			</tr>
 
@@ -40,6 +42,7 @@
 
 			<tr>
 				<th>
+
 					<p><?php _e( 'create_user', 'wp-zapier'); ?></p>
 				</th>
 				<td>
