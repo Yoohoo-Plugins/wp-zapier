@@ -8,7 +8,6 @@
 	<div class="wp-zapier-settings-header-meta" style="font-size:14px;margin-left:5px;display:inline-block;">
 		<?php echo "v" . WPZP_VERSION; ?>
 		<span style="margin-left:5px;"><a href="#" class="button" style="margin-top:-4px;"><?php _e( 'Documentation', 'wp-zapier' ); ?></a></span>
-		<span style="margin-left:5px;"><a href="#" class="button button-primary" style="margin-top:-4px;"><?php _e( 'Support', 'wp-zapier' ); ?></a></span>
 	</div>
 </div>
 
