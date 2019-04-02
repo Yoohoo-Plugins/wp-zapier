@@ -30,6 +30,7 @@ switch ( $action ) {
 	case 'delete_user':
 		wpzp_delete_user();
 		break;
+
 	default:
 		echo json_encode( __( 'Please choose an action.', 'wp-zapier' ) );
 		break;
@@ -78,7 +79,7 @@ function wpzp_create_user(){
 
 	$user_id = wp_insert_user( $userdata );
 
-	do_action( 'wp_zapier_before_create_user' );
+	do_action( 'wp_zapier_before_create_user', $user_id );
 
 	if ( ! is_wp_error( $user_id ) ) {
 		echo "User created :" . $user_id;
@@ -262,7 +263,7 @@ function wpzp_update_user_meta( $user_id ) {
 		return;
 
 	} else {
-		echo json_encode( __( 'User meta fields not passed through to WordPress. Unable to update user meta. ', 'wp-zapier' ) );
+		echo json_encode( __( 'User meta fields not passed through to WordPress. User meta not updated. ', 'wp-zapier' ) );
 		return;
 	}
 }
