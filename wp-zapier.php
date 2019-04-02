@@ -5,7 +5,7 @@
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 1.2.2
+ * Version: 1.3
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) or exit;
  */
 define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 define( 'YH_PLUGIN_ID', 453 );
-define( 'WPZP_VERSION', '1.2.2' );
+define( 'WPZP_VERSION', '1.3' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
@@ -56,13 +56,13 @@ class Yoohoo_WP_Zapier{
       	add_action( 'admin_notices', array( $this, 'wpzp_admin_notices' ) );
 
       	// Webhook handler check.
-      	add_action( 'init', array( $this, 'wpzp_webhook_handler' ) );
+      	add_action( 'init', array( $this, 'init' ) );
 
       	include( dirname( __FILE__ ) . '/includes/privacy.php' );
 
 	}
 
-	public function wpzp_webhook_handler() {
+	public function init() {
 		
 		load_plugin_textdomain( 'wp-zapier', false, basename( dirname( __FILE__ ) ) . '/languages' );
 
@@ -149,7 +149,11 @@ class Yoohoo_WP_Zapier{
     		return;
     	}
 
-    	if ( isset( $_REQUEST['page'] ) != 'wp-zapier-settings' ) {
+    	if ( ! isset( $_REQUEST['page'] ) ) {
+    		return;
+    	}
+
+    	if ( $_REQUEST['page'] != 'wp-zapier-settings' ) {
     		return;
     	}
 
@@ -221,7 +225,7 @@ class Yoohoo_WP_Zapier{
 				// Add the roles to the end.
 				$zapier_array['roles'] = $user->roles;
 
-				$zapier_array = apply_filters( 'wpzp_send_data_login_array', $zapier_array, $user );    
+				$zapier_array = apply_filters( 'wpzp_send_data_login_array', $zapier_array, $user, $user_id );    
 
 				$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
 
@@ -284,7 +288,7 @@ class Yoohoo_WP_Zapier{
 				// Add the roles to the end.
 				$zapier_array['roles'] = $user->roles;
 
-				$zapier_array = apply_filters( 'wpzp_send_data_register_array', $zapier_array, $user );  
+				$zapier_array = apply_filters( 'wpzp_send_data_register_array', $zapier_array, $user, $user_id );  
 
 				$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
 
@@ -294,7 +298,7 @@ class Yoohoo_WP_Zapier{
 					    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
 		            	
 		            	// Set the transient to 1 hour.
-		            	$zapier_transient_timeout = apply_filters( 'wp_zapier_transient_timeout_login', 3600 );
+		            	$zapier_transient_timeout = apply_filters( 'wp_zapier_transient_timeout_register', 3600 );
 
 			            set_transient( 'wp_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );
 			        }
@@ -340,7 +344,7 @@ class Yoohoo_WP_Zapier{
 			// Add the roles to the end.
 			$zapier_array['roles'] = $user->roles;
 
-			$zapier_array = apply_filters( 'wpzp_send_data_login_array', $zapier_array, $user );		    
+			$zapier_array = apply_filters( 'wpzp_send_data_profile_update_array', $zapier_array, $user, $user_id );		    
 
 			$zapier_request = wp_remote_post( $zapier_webhook, array('body' => $zapier_array ) );
 
@@ -350,7 +354,7 @@ class Yoohoo_WP_Zapier{
 
 				    $zapier_request_body = wp_remote_retrieve_body( $zapier_request );	
 	            	
-	            	$zapier_transient_timeout = apply_filters( 'wp_zapier_transient_timeout_login', 3600 );
+	            	$zapier_transient_timeout = apply_filters( 'wp_zapier_transient_timeout_profile_update', 3600 );
 
 		            set_transient( 'wp_zapier_data_'.$user->ID, $zapier_array, $zapier_transient_timeout );  
 		        }
