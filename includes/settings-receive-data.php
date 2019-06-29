@@ -1,4 +1,5 @@
 <?php 
+	global $wp;
 
 	$settings = get_option( 'wp_zapier_settings' ); 
 
@@ -37,6 +38,8 @@
 				</th>
 				<td>
 					<input type='text' name='wp_zapier_webhook_api_key' size='40' value='<?php echo $api_key; ?>' readonly />
+					<a href="<?php echo esc_url( add_query_arg( array( 'wpz_new_api_key' => 1, '_wpz_new_api_key' => wp_create_nonce( 'wpz_new_api_key' ) ), admin_url( 'options-general.php?page=wp-zapier-settings&receive_data=true' ) ) ); ?>"><button class="button-primary"><?php _e( 'Generate new API key', 'wp-zapier' ); ?></button></a>
+					<br/><small><?php _e( 'Generating a new API key will require you to update any existing ZAPS.' , 'wp-zapier' ); ?></small>
 				</td>
 			</tr>
 

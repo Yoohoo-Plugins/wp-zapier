@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) or exit;
  */
 define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 define( 'YH_PLUGIN_ID', 453 );
-define( 'WPZP_VERSION', '1.3' );
+define( 'WPZP_VERSION', '1.4' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
@@ -120,15 +120,21 @@ class Yoohoo_WP_Zapier{
 
     	if ( isset( $_REQUEST['page'] ) != 'wp-zapier-settings' ) {
     		return;
-    	}
+		}
+		
 
-    	$settings = get_option( 'wp_zapier_settings' );
+		$settings = get_option( 'wp_zapier_settings' );
+		
+		if ( isset( $_REQUEST['wpz_new_api_key'] ) && check_admin_referer( 'wpz_new_api_key', '_wpz_new_api_key' ) ) {
+			$settings['api_key'] = '';
+		}
 
     	if ( ! isset( $settings['api_key'] ) || empty( $settings['api_key'] ) ) {
     		$settings['api_key'] = strtolower( wp_generate_password( 32, false ) );
     		update_option( 'wp_zapier_settings', $settings );
     	}  	
-    }
+	}
+	
 
 
     // This is for saving settings notice.
