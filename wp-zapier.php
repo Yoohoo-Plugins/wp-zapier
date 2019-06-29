@@ -5,7 +5,7 @@
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 1.3
+ * Version: 1.4
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier

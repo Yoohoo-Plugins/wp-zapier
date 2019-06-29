@@ -49,7 +49,7 @@ function wpzp_create_user(){
 	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
 	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
 	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : 'subscriber';
-	$user_pass = wp_generate_password( 20, true, false );
+	$user_pass = isset( $_REQUEST['user_pass'] ) ? sanitize_text_field( $_REQUEST['user_pass'] ) : wp_generate_password( 20, true, false );
 	$user_url = isset( $_REQUEST['user_url'] ) ? esc_url( $_REQUEST['user_url'] ) : '';
 
 	if ( empty( $email ) ) {
@@ -140,6 +140,7 @@ function wpzp_update_user() {
 	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_textarea_field( $_REQUEST['last_name'] ) : $user->last_name;
 	$description = isset( $_REQUEST['description'] ) ? sanitize_textarea_field( $_REQUEST['description'] ) : $user->description;
 	$user_url = isset( $_REQUEST['user_url'] ) ? esc_url( $_REQUEST['user_url'] ) : $user->user_url;
+	$user_pass = isset( $_REQUEST['user_pass'] ) ? sanitize_text_field( $_REQUEST['user_pass'] ) : '';
 
 	$userdata = array(
 		'ID' => $user_id,
@@ -147,7 +148,8 @@ function wpzp_update_user() {
 		'first_name' => $first_name,
 		'last_name' => $last_name,
 		'description' => $description,
-		'user_url' => $user_url
+		'user_url' => $user_url,
+		'user_pass' => $user_pass
 	);
 
 	$userdata = apply_filters( 'wp_zapier_userdata_before_update', $userdata );
