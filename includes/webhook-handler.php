@@ -92,7 +92,6 @@ function wpzp_create_user(){
 
 		// try to update usermeta.
 		wpzp_update_user_meta( $user_id );
-		wpzp_change_pmpro_level( $user_id );
 
 		if ( apply_filters( 'wp_zapier_send_new_user_email', true ) ) {
 			wp_new_user_notification( $user_id, null, 'both' );	
@@ -190,8 +189,6 @@ function wpzp_update_user() {
 			
 			// Update user meta.
 			wpzp_update_user_meta( $user_id );
-			wpzp_change_pmpro_level( $user_id );
-
 			echo json_encode( array( 'status' => 'success', 'response' => __( 'user updated successfully', 'wp-zapier' ), 'user_id' => $user_id ) );
 		exit;
 	}else{
@@ -363,30 +360,3 @@ function wpzp_get_user() {
 	return $user;
 
 }
-
-/**
- * Change Paid Memberships Pro level.
- * @since 1.4
- */
-function wpzp_change_pmpro_level( $user_id ) {
-
-	// Bail if PMPro not installed.
-	if ( ! defined( 'PMPRO_VERSION' ) ) {
-		return;
-	}
-
-	$pmpro_level = isset( $_REQUEST['pmpro_level'] ) ? intval( $_REQUEST['pmpro_level'] ) : '';
-
-	if ( empty( $pmpro_level ) && $pmpro_level !== 0 ) {
-		return;
-	}
-
-	$pmpro_level = apply_filters( 'wpzp_pmpro_level', $pmpro_level );
-
-	if ( function_exists( 'pmpro_changeMembershipLevel' ) ) {
-		pmpro_changeMembershipLevel( $pmpro_level, $user_id );
-		echo json_encode( __( 'PMPro level has been set for this user.', 'wp-zapier' ) );
-	}
-
-}
-

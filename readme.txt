@@ -22,6 +22,14 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 = Does this work with other services?  =
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
+== Changelog ==
+= 1.4 =
+Enhancement: Now support 'user_pass' for receiving data from Zapier.
+Enhancement: Ability to generate a new API key from the settings page.
+
+
 == Upgrade Notice ==
+= 1.4 = 
+Please upgrade for new features and bug fixes.
 = 1.3 =
 Please upgrade for new features and bug fixes.
