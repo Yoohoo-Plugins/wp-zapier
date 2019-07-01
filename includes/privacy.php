@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Code to support GDPR compliances, WordPress version 4.9.6+
  * @since 1.1
  */
