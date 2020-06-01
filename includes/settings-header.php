@@ -12,14 +12,4 @@
 </div>
 
 <div class="wrap"><h2 style="margin:0;font-size:1px;"></h2></div>
-
-<nav class='wp-zapier-action-links nav-tab-wrapper'>
-	<!--<a href="<?php echo admin_url( 'admin.php?page=wp-zapier-settings' ); ?>" class="nav-tab <?php if( ! isset( $_REQUEST['receive_data'] ) && ! isset( $_REQUEST['license_settings'] ) ) { echo "nav-tab-active"; } ?>"><?php _e( 'Send Data To Zapier', 'wp-zapier' ); ?></a>-->
-
-	<a href="<?php echo admin_url( 'admin.php?page=wp-zapier-settings' ); ?>" class="nav-tab <?php if(!isset( $_REQUEST['license_settings'] )){ echo "nav-tab-active"; } ?>"><?php _e( 'Receive Data From Zapier', 'wp-zapier' ); ?></a>
-
-	<a href="<?php echo admin_url( 'admin.php?page=wp-zapier-settings&license_settings=true' ); ?>" class="nav-tab <?php if( isset( $_REQUEST['license_settings'] ) && $_REQUEST['license_settings'] == 'true' ) { echo "nav-tab-active"; } ?>"><?php _e( 'License Settings', 'wp-zapier' ); ?></a>
-
-	<?php do_action( 'wp_zapier_settings_header_tabs' ); ?>
-</nav>
-<br/>
+<hr/>

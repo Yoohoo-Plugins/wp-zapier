@@ -11,7 +11,7 @@ class WPZapier{
 
 	public function __construct(){
 		add_action( 'admin_menu', array( $this, 'wpzp_menu_holder' ) );
-		add_action( 'admin_head', array( $this, 'wpzp_zapier_save_settings' ) );
+		// add_action( 'admin_head', array( $this, 'wpzp_zapier_save_settings' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
       	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
@@ -132,54 +132,29 @@ class WPZapier{
 	}
 
 	public function wpzp_menu_holder(){
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_zapier_content' ), 'dashicons-migrate', 99);
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), 'dashicons-migrate', 99);
 		$this->wpzp_submenu_page();
 	}
 
 	public function wpzp_submenu_page(){
-		add_submenu_page( 'wp-zapier', __( 'Settings', 'wp-zapier' ), __( 'Settings', 'wp-zapier' ), 'manage_options', 'wp-zapier-settings', array( $this, 'wpzp_zapier_content' ) );
+		add_submenu_page( 'wp-zapier', __( 'Receive Data', 'wp-zapier' ), __( 'Receive Data', 'wp-zapier' ), 'manage_options', 'wp-zapier-settings', array( $this, 'wpzp_receive_data' ) );
+
+		add_submenu_page( 'wp-zapier', __( 'License Settings', 'wp-zapier' ), __( 'License Settings', 'wp-zapier' ), 'manage_options', 'wp-zapier-license', array( $this, 'wpzp_zapier_license' ) );
 	}
 
-	public function wpzp_zapier_content(){
-		if (isset($_REQUEST['license_settings']) && 'wp-zapier-settings' == isset( $_REQUEST['page'])){
-			require_once( plugin_dir_path( __FILE__ ) . '/settings-license.php' );
-		} else {
-			require_once( plugin_dir_path( __FILE__ ) . '/settings-receive-data.php' );
-		}
+	public function wpzp_receive_data(){
+		require_once( plugin_dir_path( __FILE__ ) . '/settings-receive-data.php' );
 	}
 
-	public function wpzp_zapier_save_settings(){
-		if ( isset( $_POST['wp_zapier_save_settings'] ) ){
-
-			$zapier_webhook_login = isset( $_POST['wp_zapier_webhook_login'] ) ? sanitize_text_field( $_POST['wp_zapier_webhook_login'] ) : "";
-			$zapier_webhook_register = isset( $_POST['wp_zapier_webhook_register'] ) ? sanitize_text_field( $_POST['wp_zapier_webhook_register'] ) : "";
-			$zapier_webhook_update = isset( $_POST['wp_zapier_webhook_update'] ) ? sanitize_text_field( $_POST['wp_zapier_webhook_update'] ) : "";
-
-			$zapier_notify_login = isset( $_POST['wp_zapier_notify_login'] ) ? 1 : 0;
-			$zapier_notify_register = isset( $_POST['wp_zapier_notify_register'] ) ? 1 : 0;
-			$zapier_notify_update = isset( $_POST['wp_zapier_notify_update'] ) ? 1 : 0;
-
-			$settings = array(
-				'webhook_login' => $zapier_webhook_login,
-				'webhook_register' => $zapier_webhook_register,
-				'webhook_update' => $zapier_webhook_update,
-				'notify_login' => $zapier_notify_login,
-				'notify_register' => $zapier_notify_register,
-				'notify_update' => $zapier_notify_update
-			);
-
-			if ( update_option( 'wp_zapier_settings', $settings ) ) {
-				add_action( 'admin_notices', array( $this, 'wpzp_zapier_admin_notices' ) );
-        	}
-        }
-    }
+	public function wpzp_zapier_license() {
+		require_once( plugin_dir_path( __FILE__ ) . '/settings-license.php' );
+	}
 
     public function wpzp_generate_api_key() {
     	if ( isset( $_REQUEST['page'] ) != 'wp-zapier-settings' ) {
     		return;
 		}
 		
-
 		$settings = get_option( 'wp_zapier_settings' );
 		if ( isset( $_REQUEST['wpz_new_api_key'] ) && check_admin_referer( 'wpz_new_api_key', '_wpz_new_api_key' ) ) {
 			$settings['api_key'] = '';

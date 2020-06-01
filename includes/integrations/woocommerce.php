@@ -9,16 +9,16 @@ class WooCommerceEvents{
 	}
 
 	public function getEventHooks($hooks){
-		if(class_exists('WooCommerce')){
+		if ( class_exists('WooCommerce') ) {
 			$wooHooks = array(
 				'woocommerce_new_order' => array(
-					'name' => 'Woo - New Order'
+					'name' => 'WooCommerce - New Order'
 				),
 				'woocommerce_order_status_changed' => array(
-					'name' => 'Woo - Order Status Changed'
+					'name' => 'WooCommerce - Order Status Changed'
 				),
 				'save_post_product' => array(
-					'name' => 'Woo - Save Product'
+					'name' => 'WooCommerce - Save Product'
 				)
 			);
 			

@@ -37,9 +37,20 @@ switch ( $action ) {
 		wpzp_delete_user();
 		break;
 
+	case 'custom':
+		wpzp_custom_trigger();
+		break;
+
 	default:
 		echo json_encode( __( 'Please choose an action.', 'wp-zapier' ) );
 		break;
+}
+
+/**
+ * Function for custom webhook handlers/functions
+ */
+function wpzp_custom_trigger() {
+	do_action( 'wp_zapier_custom_webhook' );
 }
 
 /**
