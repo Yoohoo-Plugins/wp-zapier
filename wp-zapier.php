@@ -14,7 +14,6 @@
 
 defined( 'ABSPATH' ) or exit;
 
-
 /**
  * Include update class for automatic updates.
  */

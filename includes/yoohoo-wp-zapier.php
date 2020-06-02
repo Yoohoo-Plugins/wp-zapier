@@ -11,7 +11,6 @@ class WPZapier{
 
 	public function __construct(){
 		add_action( 'admin_menu', array( $this, 'wpzp_menu_holder' ) );
-		// add_action( 'admin_head', array( $this, 'wpzp_zapier_save_settings' ) );
 
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
       	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
