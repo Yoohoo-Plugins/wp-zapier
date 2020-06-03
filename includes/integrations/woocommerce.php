@@ -4,12 +4,11 @@ namespace Yoohoo\WPZapier;
 
 class WooCommerceEvents{
 	public function __construct(){
-		add_filter('wp_zapier_event_hook_filter', array($this, 'getEventHooks'), 10, 1);
-		add_filter('wp_zapier_base_object_extender', array($this, 'baseObjectFilters'), 10, 3);
+		add_filter('wp_zapier_event_hook_filter', array($this, 'add_hooks'), 10, 1);
+		add_filter('wp_zapier_base_object_extender', array($this, 'filter_object_data'), 10, 3);
 	}
 
-	public function getEventHooks($hooks){
-		if ( class_exists('WooCommerce') ) {
+	public function add_hooks($hooks){
 			$wooHooks = array(
 				'woocommerce_new_order' => array(
 					'name' => 'WooCommerce - New Order'
@@ -23,12 +22,11 @@ class WooCommerceEvents{
 			);
 			
 			$hooks = array_merge($hooks, $wooHooks);
-		}
 
 		return $hooks;
 	}
 
-	public function baseObjectFilters($formatted, $data, $hook){
+	public function filter_object_data($formatted, $data, $hook){
 		if(is_a($data, 'WC_Order')){
 			$orderData = $data->get_data();
 			$formatted['order_id'] = $orderData['id'];
@@ -55,5 +53,7 @@ class WooCommerceEvents{
 }
 
 add_action('wp_zapier_integrations_loaded', function(){
-	$woo = new WooCommerceEvents();
+	if ( class_exists('WooCommerce') ) {
+		$woo = new WooCommerceEvents();
+	}
 });
