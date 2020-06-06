@@ -64,7 +64,6 @@ class SenseiLMS {
             $tmp_data['lesson_title'] = get_the_title( $data[1] );
             $tmp_data['course_id'] = Sensei()->lesson->get_course_id( $data[1] );
             $tmp_data['course_title'] = get_the_title( $tmp_data['course_id'] );
-            /// $tmp_data['lesson_meta'] = get_post_meta( $tmp_data['lesson_id'] );
         }
 
         if ( $hook == 'sensei_user_quiz_submitted' ) {
@@ -73,8 +72,7 @@ class SenseiLMS {
             $tmp_data['grade'] = $data[2];
             $tmp_data['quiz_pass_percentage'] = $data[3];
             $tmp_data['quiz_grade_type'] = $data[4];
-        }
-    
+        }    
     
         if ( is_array( $tmp_data ) && ! empty( $tmp_data ) ) {
             $data = $tmp_data;
