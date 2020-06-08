@@ -116,6 +116,7 @@ function wpzp_create_user(){
 	} else {
 		$error = $user_id->get_error_message();
 		echo json_encode( $error );
+		do_action( 'wp_zapier_user_creation_failed', $error );
 		exit;
 	}
 
