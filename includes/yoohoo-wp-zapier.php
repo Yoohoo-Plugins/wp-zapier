@@ -12,6 +12,7 @@ class WPZapier{
 	public function __construct(){
 		add_action( 'admin_menu', array( $this, 'wpzp_menu_holder' ) );
 
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'wpzp_show_thumbnail_on_update'), 10, 1 );
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
       	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
       	
@@ -365,6 +366,23 @@ class WPZapier{
 		        }
 		    }
 		}
+	}
+
+	public function wpzp_show_thumbnail_on_update( $transient ) {
+
+		if ( is_object( $transient ) && 
+			isset( $transient->response ) && 
+			is_array( $transient->response ) ) {
+			$basename = plugin_basename( __FILE__ );
+		 
+			if ( ! isset( $transient->response[$basename] ) ) {
+			  return $transient;
+			}
+		 
+			$transient->response[$basename]->icons = [ 'default' => plugins_url( 'wp-zapier-thumbnail.png', __FILE__ ) ];
+		}
+		 
+		  return $transient;
 	}
 
 	public function wpzp_plugin_action_links( $links ) {

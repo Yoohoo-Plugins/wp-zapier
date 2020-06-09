@@ -5,7 +5,7 @@
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 1.5
+ * Version: 2.0
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) or exit;
  */
 define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 define( 'YH_PLUGIN_ID', 453 );
-define( 'WPZP_VERSION', '1.5' );
+define( 'WPZP_VERSION', '2.0' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );

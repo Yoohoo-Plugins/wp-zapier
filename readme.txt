@@ -3,7 +3,7 @@ Contributors: andrewza, yoohooplugins
 Tags: automation,zapier,wp-zapier
 Donate link: https://yoohooplugins.com
 Requires at least: 4.5
-Tested up to: 5.2.2
+Tested up to: 5.4.1
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPL 2.0
