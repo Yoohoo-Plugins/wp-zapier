@@ -37,9 +37,20 @@ switch ( $action ) {
 		wpzp_delete_user();
 		break;
 
+	case 'custom':
+		wpzp_custom_trigger();
+		break;
+
 	default:
 		echo json_encode( __( 'Please choose an action.', 'wp-zapier' ) );
 		break;
+}
+
+/**
+ * Function for custom webhook handlers/functions
+ */
+function wpzp_custom_trigger() {
+	do_action( 'wp_zapier_custom_webhook' );
 }
 
 /**
@@ -55,7 +66,7 @@ function wpzp_create_user(){
 	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
 	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
 	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : 'subscriber';
-	$user_pass = isset( $_REQUEST['user_pass'] ) ? sanitize_text_field( $_REQUEST['user_pass'] ) : wp_generate_password( 20, true, false );
+	$user_pass = isset( $_REQUEST['user_pass'] ) ? $_REQUEST['user_pass'] : wp_generate_password( 20, true, false );
 	$user_url = isset( $_REQUEST['user_url'] ) ? esc_url( $_REQUEST['user_url'] ) : '';
 
 	if ( empty( $email ) ) {
@@ -105,6 +116,7 @@ function wpzp_create_user(){
 	} else {
 		$error = $user_id->get_error_message();
 		echo json_encode( $error );
+		do_action( 'wp_zapier_user_creation_failed', $error ); 
 		exit;
 	}
 
@@ -141,7 +153,7 @@ function wpzp_update_user() {
 	// Get all updated information
 	$user_id = $user->ID;
 	$new_email = isset( $_REQUEST['new_email'] ) ? sanitize_email( $_REQUEST['new_email'] ) : $user->user_email;
-	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : '';
+	$role = isset( $_REQUEST['role'] ) ? strtolower( sanitize_text_field( $_REQUEST['role'] ) ) : '';
 	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_textarea_field( $_REQUEST['first_name'] ) : $user->first_name;
 	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_textarea_field( $_REQUEST['last_name'] ) : $user->last_name;
 	$description = isset( $_REQUEST['description'] ) ? sanitize_textarea_field( $_REQUEST['description'] ) : $user->description;

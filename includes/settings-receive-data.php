@@ -17,7 +17,7 @@
 
 
 <div class="wrap">
-	<h2><?php _e( 'Receive Data From Zapier', 'wp-zapier' ); ?></h2>
+	<h2><?php _e( 'Settings for Receiving Data', 'wp-zapier' ); ?></h2>
 	<table class="form-table">
 		<tbody>
 
@@ -68,7 +68,7 @@
 				</th>
 				<td>
 					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: email*, new_email, username, first_name, last_name, role, usermeta**</strong></p>
-					<p><?php _e( 'Update existing user data via email.' ); ?></p>
+					<p><?php _e( 'Update existing user data via email.', 'wp-zapier' ); ?></p>
 					<p><?php _e( "This will create a new user if the user's email does not exist.", "wp-zapier" ); ?></p>
 				</td>
 			</tr>
@@ -80,6 +80,16 @@
 				<td>
 					<p><strong><?php _e( 'Accepts', 'wp-zapier'); ?>: email*, username</strong></p>
 					<p><?php _e( 'Delete an existing user from WordPress which will delete all their usermeta.', 'wp-zapier' ); ?></p>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<p><?php _e( 'custom', 'wp-zapier'); ?></p>
+				</th>
+				<td>
+					<p><strong><?php _e( 'Used for custom integrations', 'wp-zapier'); ?></strong></p>
+					<p><?php _e( sprintf( 'This is used for developers to integrate custom functions. %s', "<a href='" . esc_url( 'https://yoohooplugins.com/documentation/using-wp-zapier-custom-webhook' ) . "' target='_blank'>See this guide.</a>" ), 'wp-zapier' ); ?></p>
 				</td>
 			</tr>
 
