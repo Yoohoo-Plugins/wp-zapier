@@ -65,7 +65,7 @@ function wpzp_create_user(){
 	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : '';
 	$first_name = isset( $_REQUEST['first_name'] ) ? sanitize_text_field( $_REQUEST['first_name'] ) : '';
 	$last_name = isset( $_REQUEST['last_name'] ) ? sanitize_text_field( $_REQUEST['last_name'] ) : '';
-	$role = isset( $_REQUEST['role'] ) ? sanitize_text_field( $_REQUEST['role'] ) : 'subscriber';
+	$role = isset( $_REQUEST['role'] ) ? strtolower( sanitize_text_field( $_REQUEST['role'] ) ) : 'subscriber';
 	$user_pass = isset( $_REQUEST['user_pass'] ) ? $_REQUEST['user_pass'] : wp_generate_password( 20, true, false );
 	$user_url = isset( $_REQUEST['user_url'] ) ? esc_url( $_REQUEST['user_url'] ) : '';
 

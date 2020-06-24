@@ -28,6 +28,7 @@ class WooCommerceEvents{
 
 	public function filter_object_data($formatted, $data, $hook){
 		if(is_a($data, 'WC_Order')){
+		
 			$orderData = $data->get_data();
 			$formatted['order_id'] = $orderData['id'];
 			$formatted['order_key'] = $orderData['order_key'];
@@ -46,11 +47,31 @@ class WooCommerceEvents{
 			$formatted['shipping'] = $orderData['shipping'];
 			$formatted['payment_method'] = $orderData['payment_method'];
 			$formatted['status'] = $orderData['status'];
+
+
+			if ( function_exists( 'dokan_get_sellers_by' ) ) {	
+				$vendors = dokan_get_sellers_by($data);
+				if(count($vendors) > 0){
+					$formatted['vendors'] = array();
+					foreach ($vendors as $sellerID => $itemData) {
+						$singleVendor = get_user_by('ID', $sellerID);
+
+						$formatted['vendors'][] = array(
+							'id' => $sellerID,
+							'store_name' => $singleVendor->user_nicename,
+							'email' => $singleVendor->user_email,
+							'url' => $singleVendor->user_url,
+							'display_name' => $singleVendor->display_name
+						);
+					}
+				}
+			}
 		} 
 
 		return $formatted;
 	}
-}
+
+} // End of Class
 
 add_action('wp_zapier_integrations_loaded', function(){
 	if ( class_exists('WooCommerce') ) {
