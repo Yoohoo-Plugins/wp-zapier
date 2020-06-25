@@ -132,7 +132,7 @@ class WPZapier{
 	}
 
 	public function wpzp_menu_holder(){
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), 'dashicons-migrate', 99);
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), plugin_dir_url( __DIR__ ) . 'wp-zapier-dashicon.png', 99);
 		$this->wpzp_submenu_page();
 	}
 
