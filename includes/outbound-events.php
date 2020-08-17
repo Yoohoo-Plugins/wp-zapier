@@ -486,7 +486,7 @@ class OutboundEvents{
 	*/
 	private function hydrate($data, $hook){
 		switch ($hook) {
-			case 'user_registered':
+			case 'user_register':
 				if(!empty($data[0])){
 					//Let's assume this is the user ID
 					$user = get_user_by('id', $data[0]);
