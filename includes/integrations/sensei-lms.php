@@ -84,7 +84,7 @@ class SenseiLMS {
 }
 
 add_action( 'wp_zapier_integrations_loaded', function(){
-    if ( class_exists( 'Sensei_Main' ) ) {
+    if ( class_exists( 'Sensei_Main' ) || class_exists( 'Sensei_Compat_Admin' ) ) {
         $sensei_lms = new SenseiLMS();
     }
 });
