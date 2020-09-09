@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) or exit;
 if ( ! defined( 'YOOHOO_STORE' ) ) {
 	define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 }
+
 define( 'YH_PLUGIN_ID', 453 );
 define( 'WPZP_VERSION', '2.0' );
 

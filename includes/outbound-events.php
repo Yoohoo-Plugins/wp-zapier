@@ -491,6 +491,7 @@ class OutboundEvents{
 					//Let's assume this is the user ID
 					$user = get_user_by('id', $data[0]);
 					$data[] = $user;
+					do_action( 'wp_zapier_user_register_data', $data );
 				}
 				break;
 		}
