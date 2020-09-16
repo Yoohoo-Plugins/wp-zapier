@@ -5,7 +5,7 @@
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 2.0
+ * Version: 2.1
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier
@@ -23,7 +23,7 @@ if ( ! defined( 'YOOHOO_STORE' ) ) {
 
 define( 'WPZAP_URL', plugin_dir_url( __FILE__ ) );
 define( 'WPZAP_PLUGIN_ID', 453 );
-define( 'WPZAP_VERSION', '2.0' );
+define( 'WPZAP_VERSION', '2.1' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
