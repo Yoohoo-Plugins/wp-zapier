@@ -49,7 +49,7 @@
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
-			'item_id'    => YH_PLUGIN_ID, // The ID of the item in EDD
+			'item_id'    => WPZAP_PLUGIN_ID, // The ID of the item in EDD
 			'url'        => home_url()
 		);
 
@@ -88,7 +88,7 @@
 	$api_params = array(
 		'edd_action' => 'deactivate_license',
 		'license' => $license,
-		'item_id' => YH_PLUGIN_ID, // the name of our product in EDD
+		'item_id' => WPZAP_PLUGIN_ID, // the name of our product in EDD
 		'url' => home_url()
 	);
 

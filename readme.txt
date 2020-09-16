@@ -3,12 +3,12 @@ Contributors: andrewza, yoohooplugins
 Tags: automation,zapier,wp-zapier
 Donate link: https://yoohooplugins.com
 Requires at least: 4.5
-Tested up to: 5.4.1
+Tested up to: 5.5
 Requires PHP: 5.6
 Stable tag: trunk
-License: GPL 2.0
+License: GPL 2.1
 
-Sync your WordPress website with Zapier.
+Automate your WordPress website with thousands of applications.
 
 == Description ==
 Sync your WordPress user base with Zapier and connect with over 1000+ applications.
@@ -23,6 +23,14 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
 == Changelog ==
+= 2.1 =
+* BUG FIX: Fixed issue with user registration outbound event not sending correct data.
+* BUG FIX: Fixed issue where bundled (pro) Sensei LMS system was not being recognized by WP Zapier.
+* BUG FIX: Fixed constants that were the same across other Yoohoo Plugins products.
+* ENHANCEMENT: Integration with Ultimate Member, see Yoohooplugins.com for more
+* ENHANCEMENT: Improved dashicon and update image icons.
+* ENHANCEMENT: Added a toggle switch to enable/disable outbound events from the 'all posts view'.
+
 = 1.4 =
 Enhancement: Now support 'user_pass' for receiving data from Zapier.
 Enhancement: Ability to generate a new API key from the settings page.
