@@ -18,6 +18,27 @@ class UltimateMember {
         $new_hooks = array(
             'um_registration_complete' => array(
                 'name' => 'UM - User Registered'
+            ),
+            'um_delete_user' => array(
+                'name' => 'UM - User Deleted'
+            ),
+            'um_after_user_is_inactive' => array(
+                'name' => 'UM - User Deactivated'
+            ),
+            'um_after_user_is_approved' => array(
+                'name' => 'UM - User Approved'
+            ),
+            'um_when_status_is_set' => array(
+                'name' => 'UM - User Status Changed'
+            ),
+            'um_after_email_confirmation' => array(
+                'name' => 'UM - User Email Confirmed'
+            ),
+            'um_after_user_role_is_updated' => array(
+                'name' => 'UM - User Role Updated'
+            ),
+            'um_after_member_role_upgrade' => array(
+                'name' => 'UM - User Role Upgraded'
             )
         );
 
@@ -46,6 +67,36 @@ class UltimateMember {
 
             $tmp_data['registration_fields'] = $registration_fields;
 
+        }
+
+        if ( $hook == 'um_delete_user' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_after_user_is_inactive' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_after_user_is_approved' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_when_status_is_set' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_after_email_confirmation' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_after_user_role_is_updated' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+        }
+
+        if ( $hook == 'um_after_member_role_upgrade' ) {
+            $tmp_data['user'] = get_user_by( 'ID', $data[2] );
+            $tmp_data['old_roles'] = $data[1];
+            $tmp_data['new_roles'] = $data[0];
         }
 
         if ( is_array( $tmp_data ) && ! empty( $tmp_data ) ) {
