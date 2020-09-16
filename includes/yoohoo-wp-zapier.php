@@ -18,9 +18,11 @@ class WPZapier{
       	
       	add_action( 'admin_init', array( $this, 'wpzp_generate_api_key' ) );
       	add_action( 'admin_notices', array( $this, 'wpzp_admin_notices' ) );
-      	
+      	add_action( 'admin_enqueue_scripts', array( $this, 'wpzp_admin_scripts' ) );
       	add_action( 'init', array( $this, 'init' ) );
 		
+		add_action( 'wp_ajax_wpzp_admin_switch_ajax', array($this, 'wpzp_admin_switch_ajax' ) );
+
 		// -- Deprecated and replaced by the improved CPT based system --
 		//add_action( 'admin_menu', array( $this, 'wpzp_submenu_page' ) );
 		//add_action( 'wp_login', array( $this, 'wpzp_zapier_login' ), 10, 2 );
@@ -132,7 +134,7 @@ class WPZapier{
 	}
 
 	public function wpzp_menu_holder(){
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), plugin_dir_url( __DIR__ ) . 'wp-zapier-dashicon.png', 99);
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.png', 99);
 		$this->wpzp_submenu_page();
 	}
 
@@ -217,7 +219,41 @@ class WPZapier{
 	    <?php
 	    }
     }
+	
+	/**
+	 * Enqueue scripts and stylesheets for admins here.
+	 */
+	public function wpzp_admin_scripts() {
+		if ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event') {
+			wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
+			wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array('jquery'), WPZAP_VERSION );
+		}
+	}
+
+	/** AJAX to update post meta on button click */
+	public function wpzp_admin_switch_ajax() {
+
+		// verify nonce first
+		if ( !wp_verify_nonce( $_REQUEST['nonce'], "wpzap_switch_nonce")) {
+			exit( "Not today! Nonce not verified." );
+		 }  
 		
+		$id = intval( $_REQUEST['id'] );
+
+		// Bail if ID is empty
+		if ( empty( $id ) ) {
+			return;
+		}
+
+		$value = get_post_meta( $id, '_zapier_status', true );
+		if ( $value == 'enabled' ) {
+			delete_post_meta( $id, '_zapier_status' );
+		} else {
+			update_post_meta( $id, '_zapier_status', 'enabled' );
+		}
+
+		exit;
+	}
 
     /**
      * Deprecated: Migrated automatically to custom post type system
@@ -379,7 +415,7 @@ class WPZapier{
 			  return $transient;
 			}
 		 
-			$transient->response[$basename]->icons = [ 'default' => plugins_url( 'wp-zapier-thumbnail.png', __FILE__ ) ];
+			$transient->response[$basename]->icons = [ 'default' => plugins_url( 'assets/img/wp-zapier-thumbnail.png', __FILE__ ) ];
 		}
 		 
 		  return $transient;

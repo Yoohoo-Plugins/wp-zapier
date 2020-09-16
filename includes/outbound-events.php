@@ -93,10 +93,12 @@ class OutboundEvents{
 			}
 		} else if($column === 'status')	{
 			$status = get_post_meta($post_id, '_zapier_status', true);
+
 			if(!empty($status) && $status === 'disabled'){
 				echo "<strong>" . __('Disabled', 'wp-zapier') . "</strong>";
 			} else {
-				_e('Enabled', 'wp-zapier');
+				$nonce = wp_create_nonce("wpzap_switch_nonce");
+				echo '<label class="wpzap-switch"><input data-nonce="' . esc_attr( $nonce ) . '" data-id="' . esc_attr( $post_id ) . '" type="checkbox" value="enabled" ' . checked('enabled', get_post_meta( $post_id, '_zapier_status', true ), false ) . ' /><div class="wpzap-slider wpzap-round"></div></label>';
 			}
 		}
 	}
@@ -175,7 +177,7 @@ class OutboundEvents{
 					<td>
 						<select name="zapier_status" style="width: 100%">
 							<option value='enabled' <?php echo ($zapier_status === 'enabled' ? 'selected' : ''); ?>>Enabled</option>
-							<option value='disabled' <?php echo ($zapier_status === 'disabled' ? 'selected' : ''); ?> >Disabled</option>
+							<option value='disabled' <?php echo ($zapier_status !== 'enabled' ? 'selected' : ''); ?> >Disabled</option>
 						</select>
 					</td>
 				</tr>
@@ -491,6 +493,18 @@ class OutboundEvents{
 					//Let's assume this is the user ID
 					$user = get_user_by('id', $data[0]);
 					$data[] = $user;
+					if ( is_array( $_POST ) ) {
+						$register_data = array();
+						foreach( $_POST as $key => $posted_value ) {
+							if ( strpos( $key, 'password' ) != true ) {
+								$register_data[$key] = sanitize_text_field( $posted_value );
+							}
+						}
+
+						unset( $register_data['_wpnonce'] );
+						unset( $register_data['_wp_http_referer'] );
+						$data['registration_fields'] = $register_data;
+					}
 					do_action( 'wp_zapier_user_register_data', $data );
 				}
 				break;

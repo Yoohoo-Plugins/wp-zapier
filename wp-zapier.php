@@ -21,8 +21,9 @@ if ( ! defined( 'YOOHOO_STORE' ) ) {
 	define( 'YOOHOO_STORE', 'https://yoohooplugins.com/edd-sl-api/' );
 }
 
-define( 'YH_PLUGIN_ID', 453 );
-define( 'WPZP_VERSION', '2.0' );
+define( 'WPZAP_URL', plugin_dir_url( __FILE__ ) );
+define( 'WPZAP_PLUGIN_ID', 453 );
+define( 'WPZAP_VERSION', '2.0' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
@@ -40,9 +41,9 @@ $license_key = trim( get_option( 'yoohoo_zapier_license_key' ) );
 
 // setup the updater
 $edd_updater = new Yoohoo_Zapier_Update_Checker( YOOHOO_STORE, __FILE__, array( 
-		'version' => WPZP_VERSION,
+		'version' => WPZAP_VERSION,
 		'license' => $license_key,
-		'item_id' => YH_PLUGIN_ID,
+		'item_id' => WPZAP_PLUGIN_ID,
 		'author' => 'Yoohoo Plugins',
 		'url' => home_url()
 	)
