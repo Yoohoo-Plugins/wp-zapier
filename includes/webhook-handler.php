@@ -262,7 +262,7 @@ function wpzp_update_user_meta( $user_id ) {
 		return;
 	}
 
-	$fields_array = isset( $_REQUEST['usermeta'] ) ? explode( ';', $_REQUEST['usermeta'] ) : '';
+	$fields_array = isset( $_REQUEST['usermeta'] ) ? explode( apply_filters( 'wp_zapier_meta_separator', ';' ), $_REQUEST['usermeta'] ) : '';
 
 	if ( ! empty( $fields_array ) && is_array( $fields_array ) ) {
 		
