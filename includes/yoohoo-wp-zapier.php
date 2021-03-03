@@ -444,4 +444,4 @@ class WPZapier{
       }
       return $links;
     }
-} 
+} // End of Class

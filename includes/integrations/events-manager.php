@@ -13,7 +13,7 @@ class EventsManager{
 
         $new_hooks = array(
             'save_post_event' => array(
-                'name' => 'Events Manager - Event Created/Updated'
+                'name' => __( 'Events Manager - Event Created/Updated' )
             )
         );
 
@@ -44,7 +44,10 @@ class EventsManager{
             if ( is_array( $event_meta_array ) && ! empty( $event_meta_array ) ) {
                 $tmp_data['event_details'] = $event_meta_array;
             }
+
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
+
 
         $data = $tmp_data;
 

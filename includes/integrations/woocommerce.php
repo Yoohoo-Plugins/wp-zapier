@@ -11,13 +11,13 @@ class WooCommerceEvents{
 	public function add_hooks($hooks){
 			$wooHooks = array(
 				'woocommerce_new_order' => array(
-					'name' => 'WooCommerce - New Order'
+					'name' => __( 'WooCommerce - New Order', 'wp-zapier' )
 				),
 				'woocommerce_order_status_changed' => array(
-					'name' => 'WooCommerce - Order Status Changed'
+					'name' => __( 'WooCommerce - Order Status Changed', 'wp-zapier' )
 				),
 				'save_post_product' => array(
-					'name' => 'WooCommerce - Save Product'
+					'name' => __( 'WooCommerce - Save Product', 'wp-zapier' )
 				)
 			);
 			
@@ -66,7 +66,9 @@ class WooCommerceEvents{
 					}
 				}
 			}
-		} 
+		}
+
+		$tmp_data = apply_filters( "wp_zapier_{$hook}", $formatted, $orderData );
 
 		return $formatted;
 	}
