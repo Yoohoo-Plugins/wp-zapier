@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Integration for Sensei LMS Outbound Events.
+ * Download Reference: https://wordpress.org/plugins/sensei-lms/ 
+ */
+
 namespace Yoohoo\WPZapier;
 
 class SenseiLMS {
@@ -13,19 +18,19 @@ class SenseiLMS {
         
         $new_hooks = array(
             'sensei_user_course_start' => array(
-                'name' => 'Sensei LMS - User Starts a Course'
+                'name' => __( 'Sensei LMS - User Starts a Course', 'wp-zapier' )
             ),
             'sensei_user_course_end' => array(
-                'name' => 'Sensei LMS - User Completed a Course'
+                'name' => __( 'Sensei LMS - User Completed a Course', 'wp-zapier' )
             ),
             'sensei_user_lesson_start' => array(
-                'name' => 'Sensei LMS - User Starts a New Lesson'
+                'name' => __( 'Sensei LMS - User Starts a New Lesson', 'wp-zapier' )
             ),
             'sensei_user_lesson_end' => array(
-                'name' => 'Sensei LMS - User Completed a Lesson'
+                'name' => __( 'Sensei LMS - User Completed a Lesson', 'wp-zapier' )
             ),
             'sensei_user_quiz_submitted' => array(
-                'name' => 'Sensei LMS - User Completed a Quiz'
+                'name' => __( 'Sensei LMS - User Completed a Quiz', 'wp-zapier' )
             )
         );
 
@@ -42,12 +47,16 @@ class SenseiLMS {
             $tmp_data['user'] = get_user_by( 'ID', $data[0] );
             $tmp_data['course_id'] = $data[1];
             $tmp_data['course_title'] = get_the_title( $tmp_data['course_id'] );
+            $tmp_data['date'] = date_i18n( 'd-m-Y H:i:s' );
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
     
         if ( $hook == 'sensei_user_course_end' ) {
             $tmp_data['user'] = get_user_by( 'ID', $data[0] );
             $tmp_data['course_id'] = $data[1];
             $tmp_data['course_title'] = get_the_title( $tmp_data['course_id'] );
+            $tmp_data['date'] = date_i18n( 'd-m-Y H:i:s' );
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
         if ( $hook == 'sensei_user_lesson_start' ) {
@@ -56,6 +65,8 @@ class SenseiLMS {
             $tmp_data['lesson_title'] = get_the_title( $data[1] );
             $tmp_data['course_id'] = Sensei()->lesson->get_course_id( $data[1] );
             $tmp_data['course_title'] = get_the_title( $tmp_data['course_id'] );
+            $tmp_data['date'] = date_i18n( 'd-m-Y H:i:s' );
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
         if ( $hook == 'sensei_user_lesson_end' ) {
@@ -64,6 +75,8 @@ class SenseiLMS {
             $tmp_data['lesson_title'] = get_the_title( $data[1] );
             $tmp_data['course_id'] = Sensei()->lesson->get_course_id( $data[1] );
             $tmp_data['course_title'] = get_the_title( $tmp_data['course_id'] );
+            $tmp_data['date'] = date_i18n( 'd-m-Y H:i:s' );
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
         if ( $hook == 'sensei_user_quiz_submitted' ) {
@@ -72,6 +85,8 @@ class SenseiLMS {
             $tmp_data['grade'] = $data[2];
             $tmp_data['quiz_pass_percentage'] = $data[3];
             $tmp_data['quiz_grade_type'] = $data[4];
+            $tmp_data['date'] = date_i18n( 'd-m-Y H:i:s' );
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }    
     
         if ( is_array( $tmp_data ) && ! empty( $tmp_data ) ) {
