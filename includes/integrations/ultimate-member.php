@@ -7,7 +7,6 @@ class UltimateMember {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1);
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
-        // add_filter( 'wp_zapier_base_object_extender', array( $this, 'filter_object_data' ), 10, 3 );
     }
 
     /**
@@ -93,6 +92,9 @@ class UltimateMember {
 
         if ( $hook == 'um_after_email_confirmation' ) {
             $tmp_data['user'] = get_user_by( 'ID', $data[0] );
+            $submitted = get_user_meta( $data[0], 'submitted', true );
+            unset( $submitted['_wpnonce'] );
+            $tmp_data['submitted'] = $submitted;
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
