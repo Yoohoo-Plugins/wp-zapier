@@ -65,8 +65,6 @@ class EasyDigitalDownloads {
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
-
-
         $data = $tmp_data;
         return $data;
     }
