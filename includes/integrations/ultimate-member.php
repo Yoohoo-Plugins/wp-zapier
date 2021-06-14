@@ -122,7 +122,7 @@ class UltimateMember {
 
 } //end of class.
 
-// Only instatiate the class if PMPro is active.
+// Only instatiate the class if UM is active.
 add_action( 'wp_zapier_integrations_loaded', function(){
     if ( defined( 'um_plugin' ) ) {
         $ultimate_member = new UltimateMember();
