@@ -1,0 +1,477 @@
+# Copyright (C) 2021 Yoohoo Plugins
+# This file is distributed under the GPL2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Zapier 2.1\n"
+"Report-Msgid-Bugs-To: support@yoohooplugins.com\n"
+"Last-Translator: Yoohoo Plugins <support@yoohooplugins.com>\n"
+"Language-Team: Yoohoo Plugins <support@yoohooplugins.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-09-23T06:24:12+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: wp-zapier\n"
+
+#. Plugin Name of the plugin
+#: includes/privacy.php:38
+#: includes/yoohoo-wp-zapier.php:137
+msgid "WP Zapier"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://yoohooplugins.com"
+msgstr ""
+
+#. Description of the plugin
+msgid "Automate your WordPress users with over 1000+ apps on Zapier.com"
+msgstr ""
+
+#. Author of the plugin
+msgid "Yoohoo Plugins"
+msgstr ""
+
+#: includes/integrations/easy-digital-downloads.php:16
+msgid "Easy Digital Downloads - Customer Created"
+msgstr ""
+
+#: includes/integrations/easy-digital-downloads.php:19
+msgid "Easy Digital Downloads - Customer Updated"
+msgstr ""
+
+#: includes/integrations/easy-digital-downloads.php:22
+msgid "Easy Digital Downloads - Download Created"
+msgstr ""
+
+#: includes/integrations/easy-digital-downloads.php:25
+msgid "Easy Digital Downloads - User Completed a Payment"
+msgstr ""
+
+#: includes/integrations/memberpress.php:19
+msgid "MemberPress - Member Added"
+msgstr ""
+
+#: includes/integrations/memberpress.php:22
+msgid "MemberPress - Initial Signup (First Time Member)"
+msgstr ""
+
+#: includes/integrations/memberpress.php:25
+msgid "MemberPress - Subscription Created"
+msgstr ""
+
+#: includes/integrations/memberpress.php:28
+msgid "MemberPress - Transaction Completed"
+msgstr ""
+
+#: includes/integrations/paid-memberships-pro.php:20
+msgid "PMPro - After Change Level"
+msgstr ""
+
+#: includes/integrations/paid-memberships-pro.php:23
+msgid "PMPro - Order Added"
+msgstr ""
+
+#: includes/integrations/paid-memberships-pro.php:26
+msgid "PMPro - Updated Order"
+msgstr ""
+
+#: includes/integrations/sensei-lms.php:21
+msgid "Sensei LMS - User Starts a Course"
+msgstr ""
+
+#: includes/integrations/sensei-lms.php:24
+msgid "Sensei LMS - User Completed a Course"
+msgstr ""
+
+#: includes/integrations/sensei-lms.php:27
+msgid "Sensei LMS - User Starts a New Lesson"
+msgstr ""
+
+#: includes/integrations/sensei-lms.php:30
+msgid "Sensei LMS - User Completed a Lesson"
+msgstr ""
+
+#: includes/integrations/sensei-lms.php:33
+msgid "Sensei LMS - User Completed a Quiz"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:19
+msgid "UM - User Registered"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:22
+msgid "UM - User Deleted"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:25
+msgid "UM - User Deactivated"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:28
+msgid "UM - User Approved"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:31
+msgid "UM - User Status Changed"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:34
+msgid "UM - User Email Confirmed"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:37
+msgid "UM - User Role Updated"
+msgstr ""
+
+#: includes/integrations/ultimate-member.php:40
+msgid "UM - User Role Upgraded"
+msgstr ""
+
+#: includes/integrations/woocommerce.php:14
+msgid "WooCommerce - New Order"
+msgstr ""
+
+#: includes/integrations/woocommerce.php:17
+msgid "WooCommerce - Order Status Changed"
+msgstr ""
+
+#: includes/integrations/woocommerce.php:20
+msgid "WooCommerce - Save Product"
+msgstr ""
+
+#: includes/outbound-events.php:26
+#: includes/outbound-events.php:28
+#: includes/outbound-events.php:35
+msgid "Outbound Events"
+msgstr ""
+
+#: includes/outbound-events.php:27
+#: includes/outbound-events.php:29
+msgid "Outbound Event"
+msgstr ""
+
+#: includes/outbound-events.php:30
+msgid "Add New"
+msgstr ""
+
+#: includes/outbound-events.php:31
+msgid "Add New Event"
+msgstr ""
+
+#: includes/outbound-events.php:32
+msgid "New Event"
+msgstr ""
+
+#: includes/outbound-events.php:33
+msgid "Edit Event"
+msgstr ""
+
+#: includes/outbound-events.php:34
+msgid "View Event"
+msgstr ""
+
+#: includes/outbound-events.php:36
+msgid "Search Events"
+msgstr ""
+
+#: includes/outbound-events.php:37
+msgid "No events found."
+msgstr ""
+
+#: includes/outbound-events.php:38
+msgid "No events found in Trash."
+msgstr ""
+
+#: includes/outbound-events.php:68
+msgid "Trigger"
+msgstr ""
+
+#: includes/outbound-events.php:69
+msgid "Status"
+msgstr ""
+
+#: includes/outbound-events.php:92
+msgid "Unknown"
+msgstr ""
+
+#: includes/outbound-events.php:98
+msgid "Disabled"
+msgstr ""
+
+#: includes/outbound-events.php:147
+msgid "Trigger:"
+msgstr ""
+
+#: includes/outbound-events.php:151
+msgid "Select a trigger"
+msgstr ""
+
+#: includes/outbound-events.php:166
+msgid "Webhook URL:"
+msgstr ""
+
+#: includes/outbound-events.php:175
+msgid "Webhook Status:"
+msgstr ""
+
+#: includes/outbound-events.php:187
+msgid "Note: You can add fixed fields using the 'Custom Fields' section."
+msgstr ""
+
+#: includes/outbound-events.php:235
+msgid "Success:"
+msgstr ""
+
+#: includes/outbound-events.php:244
+msgid "Failed:"
+msgstr ""
+
+#: includes/outbound-events.php:262
+msgid "Last Response:"
+msgstr ""
+
+#: includes/privacy.php:16
+msgid "What data do you store"
+msgstr ""
+
+#: includes/privacy.php:18
+msgid "No personal data is stored. (You may skip this section in your privacy policy)."
+msgstr ""
+
+#: includes/privacy.php:20
+msgid "Where do we send your data."
+msgstr ""
+
+#: includes/privacy.php:22
+msgid "Please adjust this text below accordingly, this is a rough guideline. Change the text to suit your needs. This is up to site owners to comply with GDPR / their countries privacy laws."
+msgstr ""
+
+#: includes/settings-header.php:7
+msgid "WP Zapier - Settings"
+msgstr ""
+
+#: includes/settings-header.php:10
+msgid "Documentation"
+msgstr ""
+
+#: includes/settings-receive-data.php:20
+msgid "Settings for Receiving Data"
+msgstr ""
+
+#: includes/settings-receive-data.php:26
+msgid "Webhook URL"
+msgstr ""
+
+#: includes/settings-receive-data.php:30
+msgid "Please copy entire URL when adding this to Zapier."
+msgstr ""
+
+#: includes/settings-receive-data.php:37
+msgid "API Key"
+msgstr ""
+
+#: includes/settings-receive-data.php:41
+msgid "Generate new API key"
+msgstr ""
+
+#: includes/settings-receive-data.php:42
+msgid "Generating a new API key will require you to update any existing ZAPS."
+msgstr ""
+
+#: includes/settings-receive-data.php:48
+msgid "Available Actions"
+msgstr ""
+
+#: includes/settings-receive-data.php:49
+msgid "Below is a list of available actions when sending data from Zapier to WordPress."
+msgstr ""
+
+#: includes/settings-receive-data.php:56
+msgid "create_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:59
+#: includes/settings-receive-data.php:70
+#: includes/settings-receive-data.php:81
+msgid "Accepts"
+msgstr ""
+
+#: includes/settings-receive-data.php:60
+msgid "Create a new user and send an email notification to both the user and site administrator."
+msgstr ""
+
+#: includes/settings-receive-data.php:61
+msgid "This will not create the user if the user's email exists inside WordPress and will be skipped."
+msgstr ""
+
+#: includes/settings-receive-data.php:67
+msgid "update_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:71
+msgid "Update existing user data via email."
+msgstr ""
+
+#: includes/settings-receive-data.php:72
+msgid "This will create a new user if the user's email does not exist."
+msgstr ""
+
+#: includes/settings-receive-data.php:78
+msgid "delete_user"
+msgstr ""
+
+#: includes/settings-receive-data.php:82
+msgid "Delete an existing user from WordPress which will delete all their usermeta."
+msgstr ""
+
+#: includes/settings-receive-data.php:88
+msgid "custom"
+msgstr ""
+
+#: includes/settings-receive-data.php:91
+msgid "Used for custom integrations"
+msgstr ""
+
+#: includes/settings-receive-data.php:100
+msgid "Required fields."
+msgstr ""
+
+#: includes/settings-send-data.php:18
+msgid "Send Data To Zapier"
+msgstr ""
+
+#: includes/settings-send-data.php:25
+msgid "Notify on Register"
+msgstr ""
+
+#: includes/settings-send-data.php:34
+msgid "Register Webhook URL"
+msgstr ""
+
+#: includes/settings-send-data.php:43
+msgid "Notify on Login"
+msgstr ""
+
+#: includes/settings-send-data.php:52
+msgid "Login Webhook URL"
+msgstr ""
+
+#: includes/settings-send-data.php:61
+msgid "Notify on Profile Update"
+msgstr ""
+
+#: includes/settings-send-data.php:70
+msgid "Profile Update Webhook URL"
+msgstr ""
+
+#: includes/webhook-handler.php:17
+msgid "API Key not valid or missing."
+msgstr ""
+
+#: includes/webhook-handler.php:45
+msgid "Please choose an action."
+msgstr ""
+
+#: includes/webhook-handler.php:73
+msgid " An email is required to create a user."
+msgstr ""
+
+#: includes/webhook-handler.php:114
+msgid "user created successfully"
+msgstr ""
+
+#: includes/webhook-handler.php:140
+msgid "User does not exist."
+msgstr ""
+
+#: includes/webhook-handler.php:149
+msgid "Update denied: You are not allowed to update administrators accounts."
+msgstr ""
+
+#: includes/webhook-handler.php:204
+msgid "user updated successfully"
+msgstr ""
+
+#: includes/webhook-handler.php:207
+msgid "Error updating user."
+msgstr ""
+
+#: includes/webhook-handler.php:246
+msgid "User successfully deleted."
+msgstr ""
+
+#: includes/webhook-handler.php:249
+msgid "Error deleting user."
+msgstr ""
+
+#: includes/webhook-handler.php:261
+msgid "Unable to update user meta, user ID is missing."
+msgstr ""
+
+#: includes/webhook-handler.php:285
+msgid "User meta fields not passed through to WordPress. User meta not updated. "
+msgstr ""
+
+#: includes/webhook-handler.php:368
+msgid "Unable to get user, please pass in email, user_id or username."
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:137
+msgid "WP Zapier Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:142
+msgid "Receive Data"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:144
+msgid "License Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:175
+msgid "Settings saved successfully."
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:210
+msgid "Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license."
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:210
+msgid "More Info"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:217
+msgid "Your license for WP Zapier has expired."
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:217
+msgid "Renew Now"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:426
+#: includes/yoohoo-wp-zapier.php:437
+msgid "View Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:426
+#: includes/yoohoo-wp-zapier.php:437
+msgid "Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:438
+msgid "View Documentation"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:438
+msgid "Docs"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:439
+msgid "Visit Customer Support Forum"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:439
+msgid "Premium Support"
+msgstr ""
