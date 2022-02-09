@@ -638,7 +638,7 @@ class OutboundEvents{
 		} else {
     		$fail_calls = get_post_meta($event_id, '_zapier_fail_calls', true);
     		$fail_calls = !empty($fail_calls) ? intval($fail_calls) : 0;
-			update_post_meta($event_id, '_zapier_fail_calls', $success_calls + 1);
+			update_post_meta($event_id, '_zapier_fail_calls', $fail_calls + 1);
 		}
 
 		if(!empty($this->lastResponse)){
