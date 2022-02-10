@@ -18,7 +18,11 @@ public function add_hooks( $hooks ) {
     $cf7_hooks = array();
 
     $cf7_hooks['wpcf7_before_send_mail'] = array(
-        'name' => __( 'Contact Form 7 - ALL Forms - Before Send Mail', 'wp-zapier' )
+        'name' => __( 'Contact Form 7 - ALL Forms - Before Mail Sent', 'wp-zapier' )
+    );
+
+    $cf7_hooks['wpcf7_mail_sent'] = array(
+        'name' => __( 'Contact Form 7 - ALL Forms - After Mail Sent', 'wp-zapier' )
     );
 
     $hooks = array_merge( $hooks, $cf7_hooks );
@@ -34,10 +38,8 @@ public function hydrate_extender( $data, $hook ) {
 
     $tmp_data = array();
 
-    if( strpos( $hook, 'wpcf7_before_send_mail' ) !== false ) {
+    if( $hook == 'wpcf7_before_send_mail' ) {
 
-        $tmp_data = array();
-        
         $tmp_data['form_id'] = ( isset( $_POST['_wpcf7'] ) ) ? $_POST['_wpcf7'] : 0;
 
         if( !empty( $_POST ) ) { 
@@ -51,6 +53,24 @@ public function hydrate_extender( $data, $hook ) {
         }
 
         $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
+
+    }
+
+    if( $hook == 'wpcf7_mail_sent' ){
+
+        $tmp_data['form_id'] = ( isset( $_POST['_wpcf7'] ) ) ? $_POST['_wpcf7'] : 0;
+
+        if( !empty( $_POST ) ) { 
+            foreach( $_POST as $key => $val ) {
+                if( strpos( $key, '_wpcf7' ) !== FALSE ) {
+                    //don't record this
+                } else {
+                    $tmp_data[$key] = $val;
+                }
+            }
+        }
+
+        error_log( print_r( $tmp_data, true ) );
 
     }
 
