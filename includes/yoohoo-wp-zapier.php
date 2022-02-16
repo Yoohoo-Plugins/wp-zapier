@@ -29,6 +29,8 @@ class WPZapier{
 		//add_action( 'user_register', array( $this, 'wpzp_zapier_register' ), 10, 1 );
 		//add_action( 'profile_update', array( $this, 'wpzp_zapier_profile_update' ), 10, 2 );
 
+		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_stats' ) );
+
       	// Webhook handler check.
       	include( dirname( __FILE__ ) . '/privacy.php' );
 
@@ -224,7 +226,9 @@ class WPZapier{
 	 * Enqueue scripts and stylesheets for admins here.
 	 */
 	public function wpzp_admin_scripts() {
-		if ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event') {
+		$screen = get_current_screen();
+	
+		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' ) {
 			wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
 			wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array('jquery'), WPZAP_VERSION );
 		}
@@ -444,4 +448,90 @@ class WPZapier{
       }
       return $links;
     }
+
+    public function dashboard_stats() { 	
+	    wp_add_dashboard_widget( 'wp_zapier_dashboard', __('WP Zapier Dashboard', 'wp-zapier'), array( $this, 'dashboard_status_content' ) );
+
+    }
+
+    public function dashboard_status_content(){
+
+    	?>
+
+    	<div class='wpz_dashboard_container'>
+    		<div class='wpz_dashboard_item wpz_1 wpz_events'>
+    			<h2><?php _e( 'Get Started', 'wp-zapier' ); ?></h2>
+    			<div>
+	    			<a href='<?php echo admin_url( 'edit.php?post_type=outbound_event' ); ?>'><?php _e('View Outbound Events', 'wp-zapier' ); ?></a>
+	    			<a href='<?php echo admin_url( 'post-new.php?post_type=outbound_event' ); ?>'><?php _e('New Outbound Event', 'wp-zapier' ); ?></a>
+	    			<a href='<?php echo admin_url( 'admin.php?page=wp-zapier-settings' ); ?>'><?php _e('Receive Inbound Events', 'wp-zapier' ); ?></a>
+	    		</div>
+    		</div>
+    		<div class='wpz_dashboard_item wpz_2'>
+    			<h2><?php _e( 'Time Saved', 'wp-zapier' ); ?></h2>
+    			<span><?php echo $this->calculate_time_saved().' '.__('Hours', 'wp-zapier'); ?></span>
+    		</div>
+    		<div class='wpz_dashboard_item wpz_2'>
+    			<h2><?php _e( 'License Status', 'wp-zapier' ); ?></h2>
+    			<?php 
+    				$status = get_option( 'yoohoo_zapier_license_status' );
+					if( $status !== 'valid' || empty( $status ) ) { 
+						echo '<span style="color: red;">'.__('Invalid', 'wp-zapier').'</span>';
+					} else {
+						echo '<span style="color: green;">'.__('Valid', 'wp-zapier').'</span>';
+					}
+				?>
+    		</div>
+    		<div class='wpz_dashboard_item wpz_1'>
+    			<h2><?php _e( 'Recent Blog Posts from YooHoo Plugins', 'wp-zapier' ); ?></h2>
+    			<ul><?php echo $this->get_news( 'https://yoohooplugins.com/wp-json/wp/v2/posts' ); ?></ul>
+    		</div>    		
+		</div>
+    	<?php
+
+    }
+
+    function get_news( $url ) { 
+    		
+    	$data = get_transient( 'wpzapier_news' );
+
+    	if( $data == FALSE ) { 
+    		$data = wp_remote_get( $url );
+    		$data = wp_remote_retrieve_body( $data );
+    		set_transient( 'wpzapier_news', $data, 7 * DAY_IN_SECONDS  );
+    	}
+    	
+    	if( !empty( $data ) ) { 
+    		$data = json_decode( $data );
+    		foreach( $data as $d ) {     			
+    			if( !empty( $d->title->rendered ) ) { 
+    				echo "<li><a href='".$d->link."?utm_source=plugin&utm_medium=wp-zapier&utm_campaign=widget' target='_BLANK'>".$d->title->rendered."</a></a>";
+    			}
+    		}
+    	}
+
+    }
+
+    function calculate_time_saved() { 
+		//_zapier_success_calls
+    	$args = array(
+    		'post_type' => 'outbound_event',
+    		'posts_per_page' => -1,
+    	);
+
+    	$the_query = new \WP_Query( $args );
+    	$total_calls = 0;
+    	if( $the_query->have_posts() ){
+    		while( $the_query->have_posts() ){
+    			$the_query->the_post();
+    			$success_calls = (int)get_post_meta( get_the_ID(), '_zapier_fail_calls', true );	
+    			$total_calls = $total_calls + $success_calls;		
+    		}
+    	}
+
+    	$total_seconds = $total_calls * 30; //Assuming each task takes 30 seconds
+
+    	return round( $total_seconds / 3600, 2 ); //Convert to Hours    
+
+	}
 } // End of Class
