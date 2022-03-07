@@ -2,9 +2,9 @@
 Contributors: andrewza, yoohooplugins
 Tags: automation,zapier,wp-zapier
 Donate link: https://yoohooplugins.com
-Requires at least: 4.5
-Tested up to: 5.5
-Requires PHP: 5.6
+Requires at least: 5.0
+Tested up to: 5.9
+Requires PHP: 7.2
 Stable tag: trunk
 License: GPL 2.1
 
@@ -23,6 +23,11 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
 == Changelog ==
+= 2.2 =
+* ENHANCEMENT: Added support for Contact Form 7, Ninja Forms, Gravity Forms, LearnDash, LifterLMS and Tutor LMS.
+* ENHANCEMENT: Added dashboard widget for plugin - shows information about outbound events, new articles and license key status.
+* BUG FIX: Fixed small issue where save post outbound event would throw a warning when failing.
+
 = 2.1 =
 * BUG FIX: Fixed issue with user registration outbound event not sending correct data.
 * BUG FIX: Fixed issue where bundled (pro) Sensei LMS system was not being recognized by WP Zapier.
@@ -35,8 +40,10 @@ Yes this will work for any service such as automate.io, if they support posting 
 Enhancement: Now support 'user_pass' for receiving data from Zapier.
 Enhancement: Ability to generate a new API key from the settings page.
 
-
 == Upgrade Notice ==
+= 2.2 =
+Please upgrade for new features and integrations.
+
 = 1.4 = 
 Please upgrade for new features and bug fixes.
 = 1.3 =
