@@ -61,3 +61,42 @@
     border-radius: 50%;
   }
   
+.wpz_dashboard_item h2 {
+    text-transform: uppercase;
+    text-align: center;
+    color: #d5d5d5;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    margin: 16px !important;
+}
+
+.wpz_dashboard_container .wpz_1{
+    text-align: center;
+}
+.wpz_dashboard_container .wpz_2 {
+    width: 46%;
+    display: inline-block;
+    text-align: center;
+    padding: 30px 4px;
+}
+
+.wpz_dashboard_container .wpz_1 ul{
+    text-align:  left;
+    padding:  15px 30px;
+}
+
+.wpz_events a {
+    background-color: #ff4a00;
+    color: #FFF;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    display:  inline-block;
+    margin-bottom:  4px;
+}
+
+.wpz_dashboard_container .wpz_2 span {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
