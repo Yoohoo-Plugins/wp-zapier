@@ -184,7 +184,7 @@ class OutboundEvents{
 			</tbody>
 		</table>
 
-		<small><em>Note: You can add fixed fields using the 'Custom Fields' section.</em></small>
+		<small><em><?php esc_html_e( "Note: You can add fixed fields using the 'Custom Fields' section.", 'wp-zapier' ); ?></em></small>
 		<?php
 	}
 
@@ -577,12 +577,22 @@ class OutboundEvents{
 	 * @return void
 	*/
 	private function trigger($url, $data, $event){
+		global $current_user;
 		$customFields = get_post_meta($event->ID);
 		if(!empty($customFields)){
 			foreach ($customFields as $key => $value) {
 				if(mb_substr($key, 0, 1) !== '_'){
 					$data[$key] = is_array($value) ? $value[0] : $value;
 				}
+
+				// Custom user meta. Use {{um_metakey}} to get the value.
+				if ( strpos( $key, '{{um_' ) !== false ) {
+					$user_id_value = is_array( $value ) ? intval( $value[0] ) : intval( $value );
+					$user_id = ! empty( $user_id_value ) ? intval( $user_id_value) : $current_user->ID;
+					unset( $data[$key] );
+					$key = str_replace( array('{{um_', '}}'), array('', '' ), $key ); //formatted key
+					$data[$key] = get_user_meta( $user_id, $key, true );
+				}	
 			}
 		}
 
@@ -628,7 +638,7 @@ class OutboundEvents{
 		} else {
     		$fail_calls = get_post_meta($event_id, '_zapier_fail_calls', true);
     		$fail_calls = !empty($fail_calls) ? intval($fail_calls) : 0;
-			update_post_meta($event_id, '_zapier_fail_calls', $success_calls + 1);
+			update_post_meta($event_id, '_zapier_fail_calls', $fail_calls + 1);
 		}
 
 		if(!empty($this->lastResponse)){

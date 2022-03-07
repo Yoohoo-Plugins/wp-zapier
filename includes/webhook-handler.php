@@ -190,7 +190,7 @@ function wpzp_update_user() {
 
 	if( ! is_wp_error( $user_id ) ) {
 
-		$send_update_email = apply_filters( 'wp_zapier_send_update_email', true );
+		$send_update_email = apply_filters( 'wp_zapier_send_update_email', false );
 
 	 	if( $send_update_email ) {
 
@@ -234,7 +234,7 @@ function wpzp_delete_user() {
 
 	 	do_action( 'wp_zapier_after_delete_user' );
 
-	 	$send_delete_email = apply_filters( 'wp_zapier_send_delete_email', true );
+	 	$send_delete_email = apply_filters( 'wp_zapier_send_delete_email', false );
 
 	 	if( $send_delete_email ) {
 
@@ -262,7 +262,7 @@ function wpzp_update_user_meta( $user_id ) {
 		return;
 	}
 
-	$fields_array = isset( $_REQUEST['usermeta'] ) ? explode( ';', $_REQUEST['usermeta'] ) : '';
+	$fields_array = isset( $_REQUEST['usermeta'] ) ? explode( apply_filters( 'wp_zapier_meta_separator', ';' ), $_REQUEST['usermeta'] ) : '';
 
 	if ( ! empty( $fields_array ) && is_array( $fields_array ) ) {
 		

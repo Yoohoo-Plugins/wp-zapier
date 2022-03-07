@@ -13,16 +13,16 @@ class EasyDigitalDownloads {
 
         $new_hooks = array(
             'edd_customer_post_create' => array(
-                'name' => 'Easy Digital Downloads - Customer Created'
+                'name' => __( 'Easy Digital Downloads - Customer Created', 'wp-zapier' )
             ),
             'edd_customer_post_update' => array(
-                'name' => 'Easy Digital Downloads - Customer Updated'
+                'name' => __( 'Easy Digital Downloads - Customer Updated', 'wp-zapier' )
             ),
             'edd_download_post_create' => array(
-                'name' => 'Easy Digital Downloads - Download Created'
+                'name' => __( 'Easy Digital Downloads - Download Created', 'wp-zapier' )
             ),
             'edd_complete_purchase' => array(
-                'name' => 'Easy Digital Downloads - User Completed a Payment'
+                'name' => __( 'Easy Digital Downloads - User Completed a Payment', 'wp-zapier' )
             )
 
         );
@@ -37,17 +37,20 @@ class EasyDigitalDownloads {
 
         if ( $hook == 'edd_customer_post_create' ) {
             $tmp_data['customer_id'] = $data[0];
-            $tmp_data['customer_data'] = $data[1]; 
+            $tmp_data['customer_data'] = $data[1];
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data ); 
         }
 
         if ( $hook == 'edd_customer_post_update' ) {
             $tmp_data['customer_id'] = $data[1];
             $tmp_data['customer_data'] = $data[2];
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
         if ( $hook == 'edd_download_post_create' ) {
             $tmp_data['download_id'] = $data[0];
             $tmp_data['download_data'] = $data[1];
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
         if ( $hook == 'edd_complete_purchase' ) {
@@ -59,9 +62,8 @@ class EasyDigitalDownloads {
             unset( $payment_data['email'] );
             
             $tmp_data['payment_data'] = $payment_data;
+            $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
-
-
 
         $data = $tmp_data;
         return $data;

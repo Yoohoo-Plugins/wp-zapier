@@ -17,13 +17,13 @@ public function add_hooks( $hooks ) {
 
     $pmpro_hooks = array(
         'pmpro_after_change_membership_level' => array(
-            'name' => 'PMPro - After Change Level'
+            'name' => __( 'PMPro - After Change Level', 'wp-zapier' )
         ),
         'pmpro_added_order' => array(
-            'name' => 'PMPro - Order Added'
+            'name' => __( 'PMPro - Order Added', 'wp-zapier' )
         ),
         'pmpro_updated_order' => array(
-            'name' => 'PMPro - Updated Order'
+            'name' => __( 'PMPro - Updated Order', 'wp-zapier' )
         )
     );
 
@@ -44,6 +44,7 @@ public function hydrate_extender( $data, $hook ) {
         $tmp_data = array();
         $tmp_data['user'] = get_user_by( 'ID', $data[1] );
         $tmp_data['membership_level_id'] = $data[0];
+        $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
     }
 
     if ( is_array( $tmp_data ) && ! empty( $tmp_data ) ) {
