@@ -33,5 +33,5 @@ There are various **ways to the help development** of WP Zapier Integration:
 Here are some ways for **non-developers to contribute** to WP Zapier Integration:
 
 1. Translate WP Zapier Integration into your own language - submit a PR with the language folders.
-2. [Purchase WP Zapier Integration](https://yoohooplugins.com/plugins/zapier-integration/s) to help fund ongoing development and bug fixes.
+2. [Purchase WP Zapier Integration](https://yoohooplugins.com/plugins/zapier-integration/) to help fund ongoing development and bug fixes.
 3. Leave an honest review for [WP Zapier Integration](https://yoohooplugins.com/plugins/zapier-integration/#edd-reviews).
