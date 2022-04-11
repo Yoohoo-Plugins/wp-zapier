@@ -14,7 +14,7 @@ class WPZapier {
 
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'wpzp_show_thumbnail_on_update' ), 10, 1 );
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
-		add_action( 'after_plugin_row_wp-zapier-2.2/wp-zapier.php', array( $this, 'wpzp_after_plugin_row' ), 10, 3 );
+		add_action( 'after_plugin_row_wp-zapier/wp-zapier.php', array( $this, 'wpzp_after_plugin_row' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
 
 		add_action( 'admin_init', array( $this, 'wpzp_generate_api_key' ) );
