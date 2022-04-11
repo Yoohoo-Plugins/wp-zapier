@@ -14,6 +14,7 @@ class WPZapier {
 
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'wpzp_show_thumbnail_on_update' ), 10, 1 );
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
+		add_action( 'after_plugin_row_wp-zapier-2.2/wp-zapier.php', array( $this, 'wpzp_after_plugin_row' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
 
 		add_action( 'admin_init', array( $this, 'wpzp_generate_api_key' ) );
@@ -446,6 +447,49 @@ class WPZapier {
 			$links     = array_merge( $links, $new_links );
 		}
 		return $links;
+	}
+
+	/**
+	 * Show an upgrade notification if someone has an empty key. TODO: Make it smarter to detect if license is valid or not.
+	 *
+	 * @since 2.3
+	 * @return string The HTML notification bar.
+	 */
+	public function wpzp_after_plugin_row( $plugin_file, $plugin_data, $status ) {
+		$license_key = trim( get_option( 'yoohoo_zapier_license_key' ) );
+		$license_valid = false;
+
+		if ( ! empty( $license_key ) ) {
+			// License could be valid, let's try check the status.
+			$license_status = get_option( 'yoohoo_zapier_license_status', true );
+
+			if ( $license_status !== 'valid' ) {
+				$license_valid = false;
+			} else {
+				$license_valid = true;
+			}
+
+		} else {
+			$license_valid = false;
+		}
+
+		// If the license isn't valid.
+		if ( ! $license_valid ) {
+		?>
+			<tr class="plugin-update-tr active" id="wp-zapier-update" style="border-top:none">
+				<td class="plugin-update colspanchange" colspan="4">
+					<div class="update-message notice inline notice-warning notice-alt">
+						<p><?php 
+						echo sprintf( __( '%s your copy of WP Zapier Integration to receive access to automatic upgrades and support. Need a license key? %s', 'wp-zapier' ), '<a href="' . admin_url( 'admin.php?page=wp-zapier-license' ) . '"> ' . __( 'Register', 'wp-zapier' ) . '</a>', '<a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="nofollow">' . __( 'Purchase one now.', 'wp-zapier' ) . '</a>' ); 
+						?></p>
+					</div>
+				</td>
+			</tr>
+		<script type='text/javascript'> 
+			jQuery('#wp-zapier-update').prev('tr').addClass('update'); 
+		</script>
+		<?php
+		}
 	}
 
 	public function dashboard_stats() {
