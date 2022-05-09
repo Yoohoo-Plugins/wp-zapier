@@ -124,7 +124,7 @@ function yoohoo_activate_license( $license_key ) {
  * @return void
  */
 function yoohoo_deactivate_license() {
-	if ( isset( $_REQUEST['submit'] ) ) { 
+	if ( isset( $_REQUEST['submit'] ) && check_admin_referer( 'wp_zapier_save_license' ) ) { 
 		if ( empty( $_REQUEST['yoohoo_zapier_license_key'] ) ) {
 			// Get stored license to deactivate.
 			$license_key = get_option( 'yoohoo_zapier_license_key' );
