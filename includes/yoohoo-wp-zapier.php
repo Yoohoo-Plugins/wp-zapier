@@ -474,7 +474,7 @@ class WPZapier {
 		}
 
 		// If the license isn't valid.
-		if ( ! $license_valid ) {
+		if ( ! $license_valid && current_user_can( 'update_plugins' ) ) {
 		?>
 			<tr class="plugin-update-tr active" id="wp-zapier-update" style="border-top:none">
 				<td class="plugin-update colspanchange" colspan="4">

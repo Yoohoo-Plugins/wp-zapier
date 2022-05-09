@@ -63,8 +63,6 @@ public function hydrate_extender( $data, $hook ) {
             }
         }
 
-        error_log(print_r( $tmp_data, true ) );
-
         $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
 
     }
