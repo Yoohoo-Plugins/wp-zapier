@@ -3,15 +3,14 @@
 
 	require_once( 'settings-header.php' );
 
-	yoohoo_activate_or_deactivate_license( $_REQUEST['yoohoo_zapier_license_key'] );
+	if ( ! empty( $_REQUEST['wpz-license-submit'] ) ) {
+		$license_key = isset( $_REQUEST['yoohoo_zapier_license_key'] ) ? sanitize_text_field( $_REQUEST['yoohoo_zapier_license_key'] ) : '';
+		yoohoo_activate_or_deactivate_license( $license_key );
+	}
 
 	$license = get_option( 'yoohoo_zapier_license_key' );
 	$status  = get_option( 'yoohoo_zapier_license_status' );
 	$expires = get_option( 'yoohoo_zapier_license_expires' );
-
-	if ( empty( $license ) ) {
-		yoohoo_admin_notice( 'If you are running Zapier Integration on a live site, we recommend an annual support license. <a href="https://yoohooplugins.com/plugins/zapier-integration/" target="_blank" rel="noopener">More Info</a>', 'warning' );
-	}
 
 	// get the date and show a notice.
 	if ( ! empty( $expires ) ) {
@@ -23,9 +22,15 @@
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e('Plugin License Options'); ?></h2>
+		<h2><?php esc_html_e( 'Support License Options', 'wp-zapier' ); ?></h2>
+		<?php if ( $status == 'valid' ) {
+			echo '<div class="wpz_success"><strong>' . esc_html( 'Thanks!', 'wp-zapier' ) . '</strong> ' . esc_html( 'A valid license key has been used to activate this site for automatic updates and support' ) . '</div>';
+		} else {
+			echo '<div class="wpz_error"><strong>' . esc_html( 'Enter a valid license key.') . '</strong> ' . esc_html( 'Your license key can be found in your membership email receipt or in your account page.', 'wp-zapier' ) .  '</div>';
+		}
+		?>
 		<form method="post" action="">
-
+			<?php wp_nonce_field( 'wp_zapier_save_license' ); // Default Nonce. ?>
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
@@ -33,8 +38,8 @@
 							<?php _e('License Key'); ?>
 						</th>
 						<td>
-							<input id="yoohoo_zapier_license_key" name="yoohoo_zapier_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
-							<label class="description" for="yoohoo_zapier_license_key"><?php _e('Enter your license key.'); ?></label><br/>
+							<input id="yoohoo_zapier_license_key" name="yoohoo_zapier_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" placeholder="Enter license key here" /><?php submit_button( __( 'Validate Key', 'paid-memberships-pro' ), 'primary', 'wpz-license-submit', false ); ?>
+
 						</td>
 					</tr>
 					<?php 
@@ -45,7 +50,7 @@
 							<?php _e( 'License Status' ); ?>
 						</th>
 						<td>
-						<?php	
+						<?php
 							if ( ! $expired ) { ?>
 									<span style="color:green"><strong><?php esc_html_e( 'Active.', 'wp-zapier' ); ?></strong></span>
 								<?php } else { ?>
@@ -57,12 +62,16 @@
 					</tr>
 				</tbody>
 			</table>
-			<?php
-			wp_nonce_field( 'wp_zapier_save_license' ); // Default Nonce.
-			submit_button( __( 'Validate Key', 'wp-zapier' ) ); 
-			?>
 		</form>
-
+		<p>
+			<?php if ( $status == 'valid' ) { ?>
+			<a href="https://yoohooplugins.com/account" target="_blank" class="button button-primary button-hero" rel="noopener noreferrer"><?php esc_html_e( 'Manage My Account', 'wp-zapier' ); ?></a>
+			<a href="https://yoohooplugins.com/support" target="_blank" class="button button-hero" rel="noopener noreferrer"><?php esc_html_e( 'Open Support Ticket', 'wp-zapier' ); ?></a>
+			<?php } else { ?>
+				<a href="https://yoohooplugins.com/account" target="_blank" class="button button-primary button-hero" rel="noopener noreferrer"><?php esc_html_e( 'Manage My Account', 'wp-zapier' ); ?></a>
+				<a href="https://yoohooplugins.com/plugins/zapier-integration/" target="_blank" class="button  button-hero" rel="noopener noreferrer"><?php esc_html_e( 'View Pricing Options', 'wp-zapier' ); ?></a>
+			<?php } ?>
+		</p>
 <?php
 
 /**
@@ -83,7 +92,7 @@ function yoohoo_activate_or_deactivate_license( $license_key ) {
  */
 function yoohoo_activate_license( $license_key ) {
 
-	if ( isset( $_REQUEST['submit'] ) && check_admin_referer( 'wp_zapier_save_license' ) ) {
+	if ( isset( $_REQUEST['wpz-license-submit'] ) && check_admin_referer( 'wp_zapier_save_license' ) ) {
 		if ( ! empty( $license_key ) ) {
 			$license_key = sanitize_text_field( $license_key );
 			update_option( 'yoohoo_zapier_license_key', $license_key );
@@ -111,7 +120,7 @@ function yoohoo_activate_license( $license_key ) {
 			}
 
 		}
-	} elseif ( isset( $_REQUEST['submit'] ) && ! check_admin_referer( 'wp_zapier_save_license' ) ) {
+	} elseif ( isset( $_REQUEST['wpz-license-submit'] ) && ! check_admin_referer( 'wp_zapier_save_license' ) ) {
 		yoohoo_admin_notice( 'There was an error activating your license.', 'error is-dismissible' );
 	}
 
@@ -124,7 +133,7 @@ function yoohoo_activate_license( $license_key ) {
  * @return void
  */
 function yoohoo_deactivate_license() {
-	if ( isset( $_REQUEST['submit'] ) && check_admin_referer( 'wp_zapier_save_license' ) ) { 
+	if ( isset( $_REQUEST['wpz-license-submit'] ) && check_admin_referer( 'wp_zapier_save_license' ) ) { 
 		if ( empty( $_REQUEST['yoohoo_zapier_license_key'] ) ) {
 			// Get stored license to deactivate.
 			$license_key = get_option( 'yoohoo_zapier_license_key' );

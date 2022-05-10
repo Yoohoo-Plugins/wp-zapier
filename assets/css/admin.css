@@ -1,102 +1,135 @@
 /** Toggle Switch **/
 .wpzap-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .wpzap-switch input {display:none;}
-  
-  /* The slider */
-  .wpzap-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .wpzap-slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .wpzap-slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .wpzap-slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .wpzap-slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  input.wpzap-number-input {
-      width: 50px;
-  }
-  
-  /* Rounded wpzap-sliders */
-  .wpzap-slider.wpzap-round {
-    border-radius: 34px;
-  }
-  
-  .wpzap-slider.wpzap-round:before {
-    border-radius: 50%;
-  }
-  
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.wpzap-switch input {
+  display: none;
+}
+
+/* The slider */
+.wpzap-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.wpzap-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.wpzap-slider {
+  background-color: #2196F3;
+}
+
+input:focus+.wpzap-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.wpzap-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+input.wpzap-number-input {
+  width: 50px;
+}
+
+/* Rounded wpzap-sliders */
+.wpzap-slider.wpzap-round {
+  border-radius: 34px;
+}
+
+.wpzap-slider.wpzap-round:before {
+  border-radius: 50%;
+}
+
 .wpz_dashboard_item h2 {
-    text-transform: uppercase;
-    text-align: center;
-    color: #d5d5d5;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    margin: 16px !important;
+  text-transform: uppercase;
+  text-align: center;
+  color: #969696;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  margin: 16px !important;
 }
 
-.wpz_dashboard_container .wpz_1{
-    text-align: center;
+.wpz_dashboard_container .wpz_1 {
+  text-align: center;
 }
+
 .wpz_dashboard_container .wpz_2 {
-    width: 46%;
-    display: inline-block;
-    text-align: center;
-    padding: 30px 4px;
+  width: 46%;
+  display: inline-block;
+  text-align: center;
+  padding: 30px 4px;
 }
 
-.wpz_dashboard_container .wpz_1 ul{
-    text-align:  left;
-    padding:  15px 30px;
+.wpz_dashboard_container .wpz_1 ul {
+  text-align: left;
+  padding: 15px 30px;
 }
 
 .wpz_events a {
-    background-color: #ff4a00;
-    color: #FFF;
-    padding: 5px 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    display:  inline-block;
-    margin-bottom:  4px;
+  background-color: #ff4a00;
+  color: #FFF;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 4px;
 }
 
 .wpz_dashboard_container .wpz_2 span {
-    font-size: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/** Admin success messages **/
+
+.wp-admin .wpz_success {
+  background-color: #d4edda;
+  border-left-color: #c3e6cb;
+  color: #3c763d;
+  padding: 1rem;
+  font-size: 16px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.wp-admin .wpz_success a {
+  color: #0F441C;
+}
+
+.wp-admin .wpz_error {
+  padding: 1rem;
+  font-size: 16px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: #F7D7D9;
+  border-left-color: #731C23;
+  color: #731C23;
+}
+
+.wp-admin .wpz_error a {
+  color: #360e11;
 }
