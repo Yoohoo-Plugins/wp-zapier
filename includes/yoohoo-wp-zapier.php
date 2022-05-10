@@ -456,6 +456,12 @@ class WPZapier {
 	 * @return string The HTML notification bar.
 	 */
 	public function wpzp_after_plugin_row( $plugin_file, $plugin_data, $status ) {
+		
+		// If there's already an update just bail, don't show the bump.
+		if ( $plugin_data['new_version'] ) {
+			return;
+		}
+
 		$license_key = trim( get_option( 'yoohoo_zapier_license_key' ) );
 		$license_valid = false;
 
