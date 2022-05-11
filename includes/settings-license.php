@@ -5,7 +5,7 @@
 
 	if ( ! empty( $_REQUEST['wpz-license-submit'] ) ) {
 		$license_key = isset( $_REQUEST['yoohoo_zapier_license_key'] ) ? sanitize_text_field( $_REQUEST['yoohoo_zapier_license_key'] ) : '';
-		yoohoo_activate_or_deactivate_license( $license_key );
+		yoohoo_activate_or_deactivate_license( trim( $license_key ) );
 	}
 
 	$license = get_option( 'yoohoo_zapier_license_key' );
@@ -108,7 +108,7 @@ function yoohoo_activate_license( $license_key ) {
 			// Call the custom API.
 			$response = wp_remote_post( YOOHOO_STORE, array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
 
-			// make sure the response came back okay
+			// make sure the response came back okay.
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				$message =  ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
 				yoohoo_admin_notice( $message, 'error is-dismissible' );
