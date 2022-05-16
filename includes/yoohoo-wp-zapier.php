@@ -511,9 +511,8 @@ class WPZapier {
 			<div class='wpz_dashboard_item wpz_1 wpz_events'>
 				<h2><?php esc_html_e( 'Get Started', 'wp-zapier' ); ?></h2>
 				<div>
-					<a href='<?php echo admin_url( 'edit.php?post_type=outbound_event' ); ?>'><?php _e( 'View Outbound Events', 'wp-zapier' ); ?></a>
-					<a href='<?php echo admin_url( 'post-new.php?post_type=outbound_event' ); ?>'><?php _e( 'New Outbound Event', 'wp-zapier' ); ?></a>
-					<a href='<?php echo admin_url( 'admin.php?page=wp-zapier-settings' ); ?>'><?php _e( 'Receive Inbound Events', 'wp-zapier' ); ?></a>
+					<a href='<?php echo admin_url( 'edit.php?post_type=outbound_event' ); ?>' class="button button-primary"><?php _e( 'View/Create Outbound Events', 'wp-zapier' ); ?></a>
+					<a href='<?php echo admin_url( 'admin.php?page=wp-zapier-settings' ); ?>' class="button"><?php _e( 'Receive Inbound Events', 'wp-zapier' ); ?></a>
 				</div>
 			</div>
 			<div class='wpz_dashboard_item wpz_2'>
