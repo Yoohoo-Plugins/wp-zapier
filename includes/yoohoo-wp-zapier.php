@@ -228,7 +228,7 @@ class WPZapier {
 	public function wpzp_admin_scripts() {
 		$screen = get_current_screen();
 
-		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' || ( ! empty( $_REQUEST['page'] && $_REQUEST['page'] == 'wp-zapier-license' ) ) ) {
+		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' || ( ! empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'wp-zapier-license' ) ) {
 			wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
 			wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array( 'jquery' ), WPZAP_VERSION );
 		}
