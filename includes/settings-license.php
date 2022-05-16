@@ -38,7 +38,7 @@
 							<?php _e('License Key'); ?>
 						</th>
 						<td>
-							<input id="yoohoo_zapier_license_key" name="yoohoo_zapier_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" placeholder="Enter license key here" /><?php submit_button( __( 'Validate Key', 'paid-memberships-pro' ), 'primary', 'wpz-license-submit', false ); ?>
+							<input id="yoohoo_zapier_license_key" name="yoohoo_zapier_license_key" type="password" class="regular-text" value="<?php esc_attr_e( $license ); ?>" placeholder="Enter license key here" /><?php submit_button( __( 'Validate Key', 'paid-memberships-pro' ), 'primary', 'wpz-license-submit', false ); ?>
 
 						</td>
 					</tr>
