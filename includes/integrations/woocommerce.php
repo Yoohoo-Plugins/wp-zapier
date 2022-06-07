@@ -6,6 +6,8 @@ class WooCommerceEvents{
 	public function __construct(){
 		add_filter('wp_zapier_event_hook_filter', array($this, 'add_hooks'), 10, 1);
 		add_filter('wp_zapier_base_object_extender', array($this, 'filter_object_data'), 10, 3);
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
 	}
 
 	public function add_hooks($hooks){
@@ -66,12 +68,39 @@ class WooCommerceEvents{
 					}
 				}
 			}
-		}
 
-		$tmp_data = apply_filters( "wp_zapier_{$hook}", $formatted, $orderData );
+			$tmp_data = apply_filters( "wp_zapier_{$hook}", $formatted, $orderData );
+		}
 
 		return $formatted;
 	}
+
+	public function register_flow_logic_arguments($arguments){
+        $order = array(
+			'order_id' => "Order ID",
+			'order_key' => "Order Key",
+			'customer_id' => "Customer ID",
+			'currency' => "Currency",
+			'discount_total' => "Discount Total",
+			'discount_tax' => "Discount Tax",
+			'shipping_total' => "Shipping Total",
+			'shipping_tax' => "Shipping Tax",
+			'cart_tax' => "Cart Tax",
+			'total' => "Total",
+			'total_tax' => "Tax",
+			'billing' => "Billing",
+			'shipping' => "Shipping",
+			'payment_method' => "Payment Method",
+			'status' => "Status",
+		);
+
+        $arguments['woocommerce_new_order'] = $order;
+        $arguments['woocommerce_order_status_changed'] = $order;
+
+        $arguments['save_post_product'] = $arguments['wp_zapier_save_post'];
+
+        return $arguments;
+    }
 
 } // End of Class
 

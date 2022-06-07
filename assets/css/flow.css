@@ -1,0 +1,52 @@
+.wp-zapier-conditional-flow {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.wp-zapier-conditional-flow > *{
+    margin-right: 5px;
+}
+
+.wp-zapier-conditional-flow code{
+    min-width: 25px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+button.wp-zapier-conditional-flow-drop {
+    background: #d63638;
+    border: none;
+    color: #fff;
+    font-size: 25px;
+    height: 22px;
+    width: 22px;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+    border-radius: 30px;
+    opacity: 0.6;
+}
+
+button.wp-zapier-conditional-flow-drop:after{
+    position: absolute;
+    content: "";
+    width: 8px;
+    height: 2px;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+button.wp-zapier-conditional-flow-drop:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+button.wp-zapier-conditional-flow-drop[disabled] {
+    background: #000;
+    opacity: 0.2;
+    cursor: not-allowed;
+}

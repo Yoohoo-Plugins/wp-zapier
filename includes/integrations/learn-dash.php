@@ -12,6 +12,9 @@ class LearnDash {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
+
     }
 
     function add_hooks( $hooks ) {
@@ -102,6 +105,43 @@ class LearnDash {
         }
         
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+
+        $course = array(
+            'course_id' => 'Course ID',
+            'course_title' => 'Course Title',
+        );
+
+        $arguments['learndash_quiz_completed'] = array();
+        $arguments['learndash_topic_completed'] = array();
+        $arguments['learndash_lesson_completed'] = array();
+        $arguments['learndash_course_completed'] = array();
+        $arguments['learndash_user_course_access_expired'] = $course;
+        $arguments['learndash_update_user_activity'] = array();
+        $arguments['learndash_mark_incomplete_process'] = $course;
+
+        $arguments['learndash_mark_incomplete_process']['lesson_id'] = "Lesson ID";
+        $arguments['learndash_mark_incomplete_process']['lesson_title'] = "Lesson Title";
+
+        $userCopy = $arguments['profile_update'];
+        if(!empty($userCopy)){
+            foreach($userCopy as $key => $label){
+                $arguments['learndash_user_course_access_expired']["user.{$key}"] = "{$label}";
+                $arguments['learndash_mark_incomplete_process']["user.{$key}"] = "{$label}";
+            }
+        }
+
+        $arguments['learndash_quiz_completed']['date'] = "Date/Time";
+        $arguments['learndash_topic_completed']['date'] = "Date/Time";
+        $arguments['learndash_lesson_completed']['date'] = "Date/Time";
+        $arguments['learndash_course_completed']['date'] = "Date/Time";
+        $arguments['learndash_user_course_access_expired']['date'] = "Date/Time";
+        $arguments['learndash_update_user_activity']['date'] = "Date/Time";
+        $arguments['learndash_mark_incomplete_process']['date'] = "Date/Time";
+
+        return $arguments;
     }
 
 }

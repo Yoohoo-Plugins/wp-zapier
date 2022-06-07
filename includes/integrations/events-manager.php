@@ -7,6 +7,9 @@ class EventsManager{
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
+
     }
 
     function add_hooks( $hooks ) {
@@ -48,10 +51,24 @@ class EventsManager{
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
-
-        $data = $tmp_data;
+        if(!empty($tmp_data)){
+            $data = $tmp_data;
+        }
 
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+        $arguments['save_post_event'] = array();
+    
+        $postCopy = $arguments['wp_zapier_save_post'];
+        if(!empty($postCopy)){
+            foreach($postCopy as $key => $label){
+                $arguments['save_post_event']["event.{$key}"] = "{$label}";
+            }
+        }
+        
+        return $arguments;
     }
 
 }

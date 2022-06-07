@@ -45,26 +45,39 @@ public function hydrate_extender( $data, $hook ) {
     if( strpos( $hook, 'gform_after_submission' ) !== false ) {
 
         $tmp_data = array();
-        
-        foreach ( $data[1]['fields'] as $field ) {
-            $inputs = $field->get_entry_inputs();
-            if ( is_array( $inputs ) ) {
-                foreach ( $inputs as $input ) {
-                    $value = rgar( $data[0], (string) $input['id'] );
-                    if( !empty( $value ) ){
-                        $tmp_data[$input['label']] = $value;
+
+        $tmp_counters = array();
+
+        if(!empty($data)){
+            foreach ( $data[1]['fields'] as $field ) {
+                $inputs = $field->get_entry_inputs();
+                if ( is_array( $inputs ) ) {
+                    foreach ( $inputs as $input ) {
+                        $value = rgar( $data[0], (string) $input['id'] );
+                        if( !empty( $value ) ){
+                            $tmp_data[$input['label']] = $value;
+                        }
                     }
-                }
-            } else {
-                $value = rgar( $data[0], (string) $field->id );
-                if( !empty( $value ) ){
-                    $tmp_data[$field->label] = $value;
+                } else {
+                    $value = rgar( $data[0], (string) $field->id );
+                    if( !empty( $value ) ){
+                        $proxyLabel = $field->label;
+                        if(!empty($tmp_data[$field->label])){
+                            // Mimics multiform style, but not as an array, but a suffixed name
+                            if(!isset($tmp_counters[$field->label])){
+                                $tmp_counters[$field->label] = 0;
+                            }
+                            $tmp_counters[$field->label] += 1;
+
+                            $proxyLabel .= "_" . $tmp_counters[$field->label];
+                        }
+                        $tmp_data[$proxyLabel] = $value;
+                    }
                 }
             }
         }
 
         $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
-
     }
 
     if ( is_array( $tmp_data ) && ! empty( $tmp_data ) ) {

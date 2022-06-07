@@ -35,6 +35,7 @@ class WPZapier {
 		// Webhook handler check.
 		include dirname( __FILE__ ) . '/privacy.php';
 
+		$this->loadFlowLogic();
 		$this->loadIntegrations();
 
 		$this->outboundEvents = new WPZapier\OutboundEvents();
@@ -53,6 +54,22 @@ class WPZapier {
 			exit;
 		}
 
+	}
+
+	public function loadFlowLogic(){
+		require_once __DIR__ . '/flow-logic/condition.php';
+
+		$integrations = scandir( __DIR__ . '/flow-logic' );
+		foreach ( $integrations as $module ) {
+			if ( strpos( $module, '.php' ) !== FALSE && strpos($module, 'condition-') !== FALSE) {
+				require_once __DIR__ . '/flow-logic/' . $module;
+			}
+		}
+
+		require_once __DIR__ . '/flow-logic/flow.php';
+		require_once __DIR__ . '/flow-logic/flow-field-builder.php';
+
+		do_action( 'wp_zapier_flow_logic_loaded' );
 	}
 
 	/**
@@ -228,7 +245,7 @@ class WPZapier {
 	public function wpzp_admin_scripts() {
 		$screen = get_current_screen();
 
-		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' || ( ! empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'wp-zapier-license' ) ) {
+		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' || ( ! empty( $_REQUEST['page']) && $_REQUEST['page'] == 'wp-zapier-license' ) ) {
 			wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
 			wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array( 'jquery' ), WPZAP_VERSION );
 		}
@@ -458,7 +475,7 @@ class WPZapier {
 	public function wpzp_after_plugin_row( $plugin_file, $plugin_data, $status ) {
 		
 		// If there's already an update just bail, don't show the bump.
-		if ( $plugin_data['new_version'] ) {
+		if (!empty($plugin_data) && !empty($plugin_data['new_version']) && $plugin_data['new_version'] ) {
 			return;
 		}
 

@@ -12,6 +12,9 @@ class SenseiLMS {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
+
     }
 
     function add_hooks( $hooks ) {
@@ -94,6 +97,49 @@ class SenseiLMS {
         }
     
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+        $course = array(
+            'course_id' => "Course ID",
+            'course_title' => "Course Title",
+        );
+
+        $arguments['sensei_user_course_start'] = $course;
+        $arguments['sensei_user_course_end'] = $course;
+        $arguments['sensei_user_lesson_start'] = $course;
+        $arguments['sensei_user_lesson_end'] = $course;
+
+        $arguments['sensei_user_lesson_start']['lesson_id'] = "Lesson ID";
+        $arguments['sensei_user_lesson_start']['lesson_title'] = "Lesson Title";
+        $arguments['sensei_user_lesson_end']['lesson_id'] = "Lesson ID";
+        $arguments['sensei_user_lesson_end']['lesson_title'] = "Lesson Title";
+
+        $arguments['sensei_user_quiz_submitted'] = array(
+            'quiz_id' => "Quiz ID",
+            'grade' => "Grade",
+            'quiz_pass_percentage' => "Quiz Pass Percentage",
+            'quiz_grade_type' => "Quiz Grade Type",
+        );
+
+        $userCopy = $arguments['profile_update'];
+        if(!empty($userCopy)){
+            foreach($userCopy as $key => $label){
+                $arguments['sensei_user_course_start']["user.{$key}"] = "{$label}";
+                $arguments['sensei_user_course_end']["user.{$key}"] = "{$label}";
+                $arguments['sensei_user_lesson_start']["user.{$key}"] = "{$label}";
+                $arguments['sensei_user_lesson_end']["user.{$key}"] = "{$label}";
+                $arguments['sensei_user_quiz_submitted']["user.{$key}"] = "{$label}";
+            }
+        }
+
+        $arguments['sensei_user_course_start']['date'] = "Date/Time";
+        $arguments['sensei_user_course_end']['date'] = "Date/Time";
+        $arguments['sensei_user_lesson_start']['date'] = "Date/Time";
+        $arguments['sensei_user_lesson_end']['date'] = "Date/Time";
+        $arguments['sensei_user_quiz_submitted']['date'] = "Date/Time";
+
+        return $arguments;
     }
 
 }

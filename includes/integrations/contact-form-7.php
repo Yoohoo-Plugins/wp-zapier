@@ -8,6 +8,8 @@ class ContactForm7 {
 		add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
 		add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
 		add_filter( 'wp_zapier_base_object_extender', array( $this, 'filter_object_data' ), 10, 3 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
 	}
 
 	/**
@@ -90,6 +92,16 @@ class ContactForm7 {
 		return apply_filters( 'wp_zapier_gravity_forms_formatted_object_data', $formatted, $data, $hook );
 
 	}
+
+	public function register_flow_logic_arguments($arguments){
+		$form = array(
+			'form_id' => 'Form ID'
+		);
+
+		$arguments['wpcf7_before_send_mail'] = $form;
+		$arguments['wpcf7_mail_sent'] = $form;
+        return $arguments;
+    }
 
 }
 

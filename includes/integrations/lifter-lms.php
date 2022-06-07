@@ -12,6 +12,8 @@ class LifterLMS {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
     }
 
     function add_hooks( $hooks ) {
@@ -84,6 +86,44 @@ class LifterLMS {
         }
         
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+        $course = array(
+            'course_id' => "Course ID",
+            'course_title' => "Course Title",
+        );
+
+
+        $arguments['llms_user_enrolled_in_course'] = $course;
+        $arguments['llms_user_added_to_membership_level'] = $course;
+        $arguments['llms_user_removed_from_course'] = $course;
+        $arguments['llms_user_removed_from_membership_level'] = $course;
+
+        $arguments['lifterlms_lesson_completed'] = array(
+            'lesson_id' => "Lesson ID",
+            'lesson_title' => "Lesson Title"
+        );
+
+
+        $userCopy = $arguments['profile_update'];
+        if(!empty($userCopy)){
+            foreach($userCopy as $key => $label){
+                $arguments['llms_user_enrolled_in_course']["user.{$key}"] = "{$label}";
+                $arguments['llms_user_added_to_membership_level']["user.{$key}"] = "{$label}";
+                $arguments['llms_user_removed_from_course']["user.{$key}"] = "{$label}";
+                $arguments['llms_user_removed_from_membership_level']["user.{$key}"] = "{$label}";
+                $arguments['lifterlms_lesson_completed']["user.{$key}"] = "{$label}";
+            }
+        }
+
+        $arguments['llms_user_enrolled_in_course']['date'] = "Date/Time";
+        $arguments['llms_user_added_to_membership_level']['date'] = "Date/Time";
+        $arguments['llms_user_removed_from_course']['date'] = "Date/Time";
+        $arguments['llms_user_removed_from_membership_level']['date'] = "Date/Time";
+        $arguments['lifterlms_lesson_completed']['date'] = "Date/Time";
+
+        return $arguments;
     }
 
 }

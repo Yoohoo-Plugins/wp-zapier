@@ -7,6 +7,8 @@ class UltimateMember {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1);
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
     }
 
     /**
@@ -118,6 +120,37 @@ class UltimateMember {
         }
 
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+
+        $arguments['um_registration_complete'] = array(
+            'user_id' => "User ID"
+        );
+
+        $arguments['um_delete_user'] = array();
+        $arguments['um_after_user_is_inactive'] = array();
+        $arguments['um_after_user_is_approved'] = array();
+        $arguments['um_when_status_is_set'] = array();
+        $arguments['um_after_email_confirmation'] = array();
+        $arguments['um_after_user_role_is_updated'] = array();
+        $arguments['um_after_member_role_upgrade'] = array();
+
+
+        $userCopy = $arguments['profile_update'];
+        if(!empty($userCopy)){
+            foreach($userCopy as $key => $label){
+                $arguments['um_delete_user']["user.{$key}"] = "{$label}";
+                $arguments['um_after_user_is_inactive']["user.{$key}"] = "{$label}";
+                $arguments['um_after_user_is_approved']["user.{$key}"] = "{$label}";
+                $arguments['um_when_status_is_set']["user.{$key}"] = "{$label}";
+                $arguments['um_after_email_confirmation']["user.{$key}"] = "{$label}";
+                $arguments['um_after_user_role_is_updated']["user.{$key}"] = "{$label}";
+                $arguments['um_after_member_role_upgrade']["user.{$key}"] = "{$label}";
+            }
+        }
+
+        return $arguments;
     }
 
 } //end of class.

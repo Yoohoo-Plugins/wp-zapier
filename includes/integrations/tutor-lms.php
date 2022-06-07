@@ -12,6 +12,9 @@ class TutorLMS {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
+
     }
 
     function add_hooks( $hooks ) {
@@ -100,6 +103,40 @@ class TutorLMS {
         }
         
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+        $date = array(
+            'date' => "Date/Time"
+        );
+
+        $arguments['tutor_after_rating_placed'] = $date;
+        $arguments['tutor_after_add_question'] = $date;
+        $arguments['tutor_after_answer_to_question'] = $date;
+        $arguments['tutor_course_complete_after'] = $date;
+        $arguments['tutor_lesson_completed_after'] = $date;
+        $arguments['tutor_after_approved_instructor'] = $date;
+        $arguments['tutor_after_blocked_instructor'] = $date;
+        $arguments['tutor_after_enroll'] = $date;
+
+        $userCopy = $arguments['profile_update'];
+        if(!empty($userCopy)){
+            foreach($userCopy as $key => $label){
+                $arguments['tutor_after_approved_instructor']["data.{$key}"] = "User {$label}";
+                $arguments['tutor_after_blocked_instructor']["data.{$key}"] = "User {$label}";
+            }
+        }
+
+        $postCopy = $arguments['wp_zapier_save_post'];
+        if(!empty($postCopy)){
+            foreach($postCopy as $key => $label){
+                $arguments['tutor_after_add_question']["course.{$key}"] = "{$label}";
+                $arguments['tutor_course_complete_after']["data.{$key}"] = "{$label}";
+                $arguments['tutor_lesson_completed_after']["data.{$key}"] = "{$label}";
+            }
+        }
+
+        return $arguments;
     }
 
 }

@@ -7,6 +7,8 @@ class EasyDigitalDownloads {
     public function __construct() {
         add_filter( 'wp_zapier_event_hook_filter', array( $this, 'add_hooks' ), 10, 1 );
         add_filter( 'wp_zapier_hydrate_extender', array( $this, 'hydrate_extender' ), 10, 2 );
+
+        add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'register_flow_logic_arguments'));
     }
 
     function add_hooks( $hooks ) {
@@ -65,8 +67,30 @@ class EasyDigitalDownloads {
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
 
-        $data = $tmp_data;
+        if(!empty($tmp_data)){
+            $data = $tmp_data;
+        }
         return $data;
+    }
+
+    public function register_flow_logic_arguments($arguments){
+        $arguments['edd_customer_post_create'] = array(
+            'customer_id' => "Customer ID"
+        );
+        
+        $arguments['edd_customer_post_update'] = array(
+            'customer_id' => 'Customer ID'
+        );
+
+        $arguments['edd_download_post_create'] = array(
+            'download_id' => "Download ID"
+        );
+
+        $arguments['edd_complete_purchase'] = array(
+            'payment_id' => 'Payment ID'
+        );
+    
+        return $arguments;
     }
 
 }

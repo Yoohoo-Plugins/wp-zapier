@@ -13,6 +13,9 @@ class OutboundEvents{
 		add_filter('manage_outbound_event_posts_columns' , array($this,'addColumns'));
 		add_action('manage_outbound_event_posts_custom_column' , array($this,'addColumnData'), 10, 2);
 
+		/* Conditional Flow */
+		add_filter('wp_zapier_flow_logic_argument_filter', array($this, 'registerFlowLogicArguments'), 1);
+
 		$this->registerHooks();
 	}
 
@@ -116,6 +119,14 @@ class OutboundEvents{
             'outbound_event',
             'normal'
         );
+
+		add_meta_box(
+			'wp_zapie_out_box_condition',
+			'Conditional Dispatch',
+			array($this, 'renderConditionMetaBox'),
+			'outbound_event',
+			'normal'
+		);
 
         add_meta_box(
             'wp_zapier_out_box_stats',
@@ -275,6 +286,74 @@ class OutboundEvents{
 	}
 
 	/**
+	 * Render the condition meta box
+	 *
+	 * @return void
+	*/
+	public function renderConditionMetaBox($post){
+		wp_enqueue_style( 'wpzp-admin-flow', WPZAP_URL . 'assets/css/flow.css', false, WPZAP_VERSION);
+		wp_enqueue_script( 'wpzp-admin-flow', WPZAP_URL . 'assets/js/flow-control.js', array( 'jquery' ), WPZAP_VERSION );
+		
+		$fieldBuilder = new FlowLogic\FlowFieldBuilder();
+		
+    	
+		$storedConditions = get_post_meta($post->ID, '_zapier_flow_data', true);
+		$hasPlacedIf = false;
+		if(!empty($storedConditions)){
+			foreach($storedConditions as $flowData){
+				$argumentA = array(
+					'value' => $flowData['argument_a'],
+					'static_value' => (!empty($flowData['static_a']) ? $flowData['static_a'] : ''),
+				);
+
+				$argumentB = array(
+					'value' => $flowData['argument_b'],
+					'static_value' => (!empty($flowData['static_b']) ? $flowData['static_b'] : ''),
+				);
+
+				$condition = array(
+					'value' => $flowData['condition'],
+				);
+				?>
+					<div class="wp-zapier-conditional-flow">
+						<button class="wp-zapier-conditional-flow-drop" title="Remove Conditon"></button>
+						<code><?php echo (!$hasPlacedIf ? 'IF' : 'AND'); ?></code>
+						<?php 
+							echo $fieldBuilder->argumentSelect($argumentA); 
+							echo $fieldBuilder->conditionSelect($condition); 
+							echo $fieldBuilder->argumentSelect($argumentB, "b"); 
+						?>
+					</div>
+				<?php
+
+				$hasPlacedIf = true;
+			}
+		}
+		
+		?>
+			<div class="wp-zapier-conditional-flow">
+				<button class="wp-zapier-conditional-flow-drop" disabled></button>
+				<code><?php echo (!$hasPlacedIf ? 'IF' : 'AND'); ?></code>
+				<?php 
+					echo $fieldBuilder->argumentSelect(); 
+					echo $fieldBuilder->conditionSelect(); 
+					echo $fieldBuilder->argumentSelect(false, "b"); 
+				?>
+			</div>
+			<br>
+			<hr>
+			<strong>Hints</strong>
+			<ul>
+				<li>- <code>Save this event</code> to add additional conditions</li>
+				<li>- For static values, use the <code>Enter Value</code> option, and enter a custom value</li>
+				<li>- To access custom request data, like specific form fields, use <code>Enter Key</code> option with a custom value (ex: <code>form_data.field_one</code>)</li>
+				<li>- Use the <code>User Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>user_id</code>, <code>user</code> or <code>id</code> index to function</li>
+				<li>- Use the <code>Post Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>post_id</code>, <code>post</code> or <code>id</code> index to function</li>
+			</ul> 
+		<?php
+	}
+
+	/**
 	 * Save date from the primary meta box
 	 *
 	 * @param int $post_id
@@ -309,6 +388,42 @@ class OutboundEvents{
 	    		update_post_meta($post_id, '_zapier_url', $zapier_url);
 	    		update_post_meta($post_id, '_zapier_status', $zapier_status);
 		    }
+
+			if(!empty($_POST['flow_argument_a'])){
+				// We have at least one input argument, so it's safe to assume the rest of the data is available
+				$flowData = array();
+				foreach($_POST['flow_argument_a'] as $flowKey => $argumentA){
+					$argumentB = !empty($_POST['flow_argument_b'][$flowKey]) ? $_POST['flow_argument_b'][$flowKey] : false;
+					$condition = !empty($_POST['flow_condition'][$flowKey]) ? $_POST['flow_condition'][$flowKey] : false;
+
+					if(!empty($argumentA) && !empty($argumentB) && !empty($condition)){
+						$argumentA = sanitize_text_field($argumentA);
+						$argumentB = sanitize_text_field($argumentB);
+						$condition = sanitize_text_field($condition);
+
+						$flow = array(
+							'argument_a' => $argumentA,
+							'argument_b' => $argumentB,
+							'condition' => $condition,
+						);
+
+						if(($argumentA === 'static_value' || $argumentA === 'static_key' || $argumentA === 'user_meta' || $argumentA === 'post_meta') && !empty($_POST['flow_argument_static_a'][$flowKey])){
+							$flow['static_a'] = sanitize_text_field($_POST['flow_argument_static_a'][$flowKey]);
+						}
+
+						if(($argumentB === 'static_value' || $argumentB === 'static_key' || $argumentB === 'user_meta' || $argumentB === 'post_meta') && !empty($_POST['flow_argument_static_b'][$flowKey])){
+							$flow['static_b'] = sanitize_text_field($_POST['flow_argument_static_b'][$flowKey]);
+						}
+
+						$flowData[] = $flow;
+					}
+				}
+
+				update_post_meta($post_id, '_zapier_flow_data', $flowData);
+			} else {
+				/* No conditional, clear it */
+				update_post_meta($post_id, '_zapier_flow_data', array());
+			}
 
     	} else {
 	        if(!empty($_POST['post_type'])){
@@ -560,7 +675,20 @@ class OutboundEvents{
     					//This one is disabled, skip
     					continue;
     				}
-    				$this->trigger($url, $data, $event);
+
+					$conditions = get_post_meta($event->ID, '_zapier_flow_data', true);
+					$canRun = true;
+					if(!empty($conditions)){
+						/* This event has flow conditions, let's initialize and evaluate the conditions */
+						$flow = new FlowLogic\Flow($conditions, $data);
+						if(!$flow->execute()){
+							$canRun = false;
+						}
+					}
+
+					if($canRun){
+    					$this->trigger($url, $data, $event);
+					}
     			}
 			}
 		}
@@ -659,5 +787,46 @@ class OutboundEvents{
 			return (json_last_error() === JSON_ERROR_NONE);
 		}
 		return false;
+	}
+
+	/**
+	 * Hook into the condtional flow logic filter and register the relevant fields for each trigger type
+	 * 
+	 * @param array $arguments
+	 * 
+	 * @return array
+	 */
+	public function registerFlowLogicArguments($arguments){
+		$user = array(
+			'user_id' => "ID",
+			'user_email' => "Email",
+			'user_registered' => "Registered Date/Time",
+			'user_url' => "URL",
+			'display_name' => "Display Name",
+			'first_name' => "First Name",
+			'last_name' => "Last Name",
+			'nickname' => "Nickname",
+			'user_description' => "Description"
+		);
+
+		$arguments['wp_login'] = $user;
+		$arguments['user_register'] = $user;
+		$arguments['profile_update'] = $user;
+
+		$post = array(
+			'post_id' => "ID",
+			'post_title' => "Title",
+			'post_content' => "Content",
+			'post_modified' => "Modified Date/Time",
+			'author_id' => "Author ID",
+			'author_name' => "Author Name",
+			'permalink' => "Permalink",
+			'post_type' => "Post Type"
+		);
+
+		$arguments['wp_zapier_save_post'] = $post;
+		$arguments['wp_zapier_save_page'] = $post;
+		
+		return $arguments;
 	}
 }
