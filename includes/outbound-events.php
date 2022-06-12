@@ -331,8 +331,8 @@ class OutboundEvents{
 		}
 		
 		?>
-			<div class="wp-zapier-conditional-flow">
-				<button class="wp-zapier-conditional-flow-drop" disabled></button>
+			<div class="wp-zapier-conditional-flow template">
+				<button class="wp-zapier-conditional-flow-drop"></button>
 				<code><?php echo (!$hasPlacedIf ? 'IF' : 'AND'); ?></code>
 				<?php 
 					echo $fieldBuilder->argumentSelect(); 
@@ -340,11 +340,15 @@ class OutboundEvents{
 					echo $fieldBuilder->argumentSelect(false, "b"); 
 				?>
 			</div>
-			<br>
+			
+			<div class="wp-zapier-conditional-flow add-delegate">
+				<button class="wp-zapier-conditional-flow-add"></button>
+				<span>Add Condition</span>
+			</div>
+
 			<hr>
 			<strong>Hints</strong>
 			<ul>
-				<li>- <code>Save this event</code> to add additional conditions</li>
 				<li>- For static values, use the <code>Enter Value</code> option, and enter a custom value</li>
 				<li>- To access custom request data, like specific form fields, use <code>Enter Key</code> option with a custom value (ex: <code>form_data.field_one</code>)</li>
 				<li>- Use the <code>User Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>user_id</code>, <code>user</code> or <code>id</code> index to function</li>

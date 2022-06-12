@@ -45,8 +45,50 @@ button.wp-zapier-conditional-flow-drop:hover {
     cursor: pointer;
 }
 
-button.wp-zapier-conditional-flow-drop[disabled] {
-    background: #000;
-    opacity: 0.2;
-    cursor: not-allowed;
+button.wp-zapier-conditional-flow-add {
+    background: #a9a9a9;
+    border: none;
+    color: #fff;
+    font-size: 25px;
+    height: 22px;
+    width: 22px;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+    border-radius: 30px;
+    opacity: 0.6;
+}
+
+button.wp-zapier-conditional-flow-add:before,
+button.wp-zapier-conditional-flow-add:after{
+    position: absolute;
+    content: "";
+    width: 8px;
+    height: 2px;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+button.wp-zapier-conditional-flow-add:after{
+    height: 8px;
+    width: 2px;
+}
+
+.wp-zapier-conditional-flow.add-delegate:hover button.wp-zapier-conditional-flow-add,
+button.wp-zapier-conditional-flow-add:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+button.wp-zapier-conditional-flow-add ~ span {
+    opacity: 0.7;
+}
+
+.wp-zapier-conditional-flow.add-delegate:hover span,
+button.wp-zapier-conditional-flow-add:hover ~ span {
+    cursor: pointer;
+    opacity: 1.0;
 }

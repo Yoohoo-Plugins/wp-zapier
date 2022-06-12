@@ -1,5 +1,8 @@
 jQuery(document).ready(function($) {
 
+    let template = $(document.body).find('.wp-zapier-conditional-flow.template').clone();
+    $(document.body).find('.wp-zapier-conditional-flow.template').remove();
+
     $(document.body).on('wpzapier-flow-control-trigger-change', function(){
         const trigger = $('select[name="zapier_action"]').val();
         if(trigger){
@@ -39,26 +42,7 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $('select[name="zapier_action"]').on('change', function(){
-        $(document.body).trigger('wpzapier-flow-control-trigger-change');
-    });
-
-    $('select.field-builder-argument-select').on('change', function(){
-        const arg = $(this).val();
-        if(arg === 'static_value' || arg === 'static_key' || arg === 'user_meta' || arg === 'post_meta'){
-            $(this).next('.field-builder-argument-static-input').show();
-        } else {
-            $(this).next('.field-builder-argument-static-input').hide();
-        }
-    });
-
-    $(document.body).trigger('wpzapier-flow-control-trigger-change');
-
-    $(document.body).on('click', '.wp-zapier-conditional-flow-drop:not([disabled])', function(event){
-        event.preventDefault();
-
-        $(this).closest('.wp-zapier-conditional-flow').remove();
-
+    $(document.body).on('wpzapier-flow-control-build-relationships', function(){
         let flagged = false;
         $('.wp-zapier-conditional-flow').each(function(index, elem){
             const code = $(elem).find('code');
@@ -69,6 +53,43 @@ jQuery(document).ready(function($) {
                 code.text('AND');
             }
         });
+    });
+
+    $(document.body).on('change', 'select[name="zapier_action"]', function(){
+        $(document.body).trigger('wpzapier-flow-control-trigger-change');
+    });
+
+    $(document.body).on('change', 'select.field-builder-argument-select', function(){
+        const arg = $(this).val();
+        if(arg === 'static_value' || arg === 'static_key' || arg === 'user_meta' || arg === 'post_meta'){
+            $(this).next('.field-builder-argument-static-input').show();
+        } else {
+            $(this).next('.field-builder-argument-static-input').hide();
+        }
+    });
+
+    $('.wp-zapier-conditional-flow.add-delegate').on('click', function(){
+        const tempRow = template.clone();
+        tempRow.insertBefore($(this));
+
+        $(document.body).trigger('wpzapier-flow-control-trigger-change');
+        $(document.body).trigger('wpzapier-flow-control-build-relationships');
+    });
+
+    if($('.wp-zapier-conditional-flow:not(.add-delegate').length <= 0){
+        $('.wp-zapier-conditional-flow.add-delegate').trigger('click');
+    }
+
+    $(document.body).trigger('wpzapier-flow-control-trigger-change');
+
+    $(document.body).on('click', '.wp-zapier-conditional-flow-drop:not([disabled])', function(event){
+        event.preventDefault();
+
+        $(this).closest('.wp-zapier-conditional-flow').remove();
+
+        $(document.body).trigger('wpzapier-flow-control-build-relationships');
+
+        
 
     });
 });
