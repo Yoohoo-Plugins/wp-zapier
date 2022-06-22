@@ -23,6 +23,10 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
 == Changelog ==
+= 2.3 =
+* ENHANCEMENT: Added conditional sending functionality.
+* ENHANCEMENT: Improved license settings page.
+
 = 2.2 =
 * ENHANCEMENT: Added support for Contact Form 7, Ninja Forms, Gravity Forms, LearnDash, LifterLMS and Tutor LMS.
 * ENHANCEMENT: Added dashboard widget for plugin - shows information about outbound events, new articles and license key status.

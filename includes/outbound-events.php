@@ -343,16 +343,16 @@ class OutboundEvents{
 			
 			<div class="wp-zapier-conditional-flow add-delegate">
 				<button class="wp-zapier-conditional-flow-add"></button>
-				<span>Add Condition</span>
+				<span><?php esc_html_e( 'Add Condition', 'wp-zapier' ); ?></span>
 			</div>
 
 			<hr>
-			<strong>Hints</strong>
+			<strong><?php esc_html_e( 'Hints', 'wp-zapier' ); ?></strong>
 			<ul>
-				<li>- For static values, use the <code>Enter Value</code> option, and enter a custom value</li>
-				<li>- To access custom request data, like specific form fields, use <code>Enter Key</code> option with a custom value (ex: <code>form_data.field_one</code>)</li>
-				<li>- Use the <code>User Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>user_id</code>, <code>user</code> or <code>id</code> index to function</li>
-				<li>- Use the <code>Post Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>post_id</code>, <code>post</code> or <code>id</code> index to function</li>
+				<li>- <?php _e( 'For static values, use the <code>Enter Value</code> option, and enter a custom value.', 'wp-zapier' ); ?></li>
+				<li>- <?php _e( 'To access custom request data, like specific form fields, use <code>Enter Key</code> option with a custom value (ex: <code>form_data.field_one</code>).', 'wp-zapier' ); ?></li>
+				<li>- <?php _e( 'Use the <code>User Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>user_id</code>, <code>user</code> or <code>id</code> index to function.', 'wp-zapier' ); ?></li>
+				<li>- <?php _e( 'Use the <code>Post Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>post_id</code>, <code>post</code> or <code>id</code> index to function.', 'wp-zapier' ); ?></li>
 			</ul> 
 		<?php
 	}

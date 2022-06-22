@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: WP Zapier
- * Description: Automate your WordPress users with over 1000+ apps on Zapier.com
+ * Plugin Name: WP Zapier Integration
+ * Description: Automate your WordPress site with thousands of applications via Zapier and other services.
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
- * Version: 2.2
+ * Version: 2.3
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wp-zapier
@@ -23,7 +23,7 @@ if ( ! defined( 'YOOHOO_STORE' ) ) {
 
 define( 'WPZAP_URL', plugin_dir_url( __FILE__ ) );
 define( 'WPZAP_PLUGIN_ID', 453 );
-define( 'WPZAP_VERSION', '2.2' );
+define( 'WPZAP_VERSION', '2.3' );
 
 if ( ! class_exists( 'Yoohoo_Zapier_Update_Checker' ) ) {
 	include( dirname( __FILE__ ) . '/includes/updates/zapier-update-checker.php' );
