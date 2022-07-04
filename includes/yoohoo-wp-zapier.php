@@ -152,7 +152,7 @@ class WPZapier {
 	}
 
 	public function wpzp_menu_holder() {
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.png', 99 );
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.svg', 99 );
 		$this->wpzp_submenu_page();
 	}
 
