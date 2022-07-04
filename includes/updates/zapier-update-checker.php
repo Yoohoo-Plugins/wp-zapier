@@ -537,7 +537,7 @@ class Yoohoo_Zapier_Update_Checker{
 		// We need to turn the icons into an array, thanks to WP Core forcing these into an object at some point.
 		$cache['value'] = json_decode( $cache['value'] );
 		if ( ! empty( $cache['value']->icons ) ) {
-			$cache['value']->icons = (array) $cache['value']->icons;
+			$cache['value']->icons = array( 'default' => WPZAP_URL . 'assets/img/wp-zapier-thumbnail.png' );
 		}
 
 		return $cache['value'];
