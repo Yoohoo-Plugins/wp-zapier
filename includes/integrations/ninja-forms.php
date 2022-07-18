@@ -16,7 +16,13 @@ public function __construct() {
  * Add Paid Memberships Pro hooks to our Outbound Events.
  */
 public function add_hooks( $hooks ) {
-
+    // This is to ensure we're only on the backend, otherwise it interferes with frontend Ninja Forms login.
+    $page = isset( $_REQUEST['post_type'] ) ? sanitize_text_field( $_REQUEST['post_type'] ) : false;
+    
+    if ( $page !== 'outbound_event' ) {
+        return $hooks;
+    }
+    
     $nf_hooks = array();
 
     $nf_hooks['ninja_forms_submit_data'] = array(
