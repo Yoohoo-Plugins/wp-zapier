@@ -620,10 +620,16 @@ class OutboundEvents{
 							}
 						}
 
+						unset( $register_data['user_pass'] );
 						unset( $register_data['_wpnonce'] );
 						unset( $register_data['_wp_http_referer'] );
 						$data['registration_fields'] = $register_data;
+
+						if ( isset( $data[1]['user_pass'] ) ) {
+							unset( $data[1]['user_pass'] );
+						}
 					}
+					
 					do_action( 'wp_zapier_user_register_data', $data );
 				}
 				break;
