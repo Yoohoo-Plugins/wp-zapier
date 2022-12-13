@@ -85,7 +85,9 @@ class UltimateMember {
         if ( $hook == 'um_after_user_is_approved' ) {
             $tmp_data['user'] = get_user_by( 'ID', $data[0] );
             $submitted = get_user_meta( $data[0], 'submitted', true );
-            unset( $submitted['_wpnonce'] );
+            if ( isset( $submitted['_wpnonce'] ) ) {
+                unset( $submitted['_wpnonce'] );
+            }
             $tmp_data['submitted'] = $submitted;
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
