@@ -34,7 +34,7 @@ class MailPoet {
         $tmp_data = array();
        
         if ( $hook == 'mailpoet_subscription_before_subscribe' ) { 
-            $tmp_data['email'] = $data[0];
+            $tmp_data['email'] = sanitize_email( $data[0] );
             $tmp_data = apply_filters( "wp_zapier_{$hook}", $tmp_data, $data );
         }
         
