@@ -107,6 +107,32 @@ class MailPoet {
             'wp_user_id' => 'WP User ID',
             'is_woocommerce_user' => 'Is WooCommerce User'
          );
+         $arguments['mailpoet_subscriber_updated'] = array( 
+            'email' => 'Email',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'subscriber_status' => 'Subscriber Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'confirmed_at' => 'Confirmed At',
+            'source' => 'Source',
+            'last_subscribed_at' => 'Last Subscribed At',
+            'wp_user_id' => 'WP User ID',
+            'is_woocommerce_user' => 'Is WooCommerce User'
+         );
+         $arguments['mailpoet_subscriber_deleted'] = array( 
+            'email' => 'Email',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'subscriber_status' => 'Subscriber Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'confirmed_at' => 'Confirmed At',
+            'source' => 'Source',
+            'last_subscribed_at' => 'Last Subscribed At',
+            'wp_user_id' => 'WP User ID',
+            'is_woocommerce_user' => 'Is WooCommerce User'
+         );
         return $arguments;
     }
 
