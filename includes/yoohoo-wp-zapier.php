@@ -223,7 +223,7 @@ class WPZapier {
 		if ( ! $license_key || $status != 'valid' ) {
 			?>
 		  <div class="notice wpzp-notice-error">
-			<p><?php _e( 'Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'Purchase one now.', 'wp-zapier' ); ?></a></p>
+			<p><?php _e( 'Warning! License key for WP Zapier is missing or inactive. Please activate your license key. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'Purchase one now.', 'wp-zapier' ); ?></a></p>
 		  </div>
 			<?php
 		} elseif ( $expired ) {
