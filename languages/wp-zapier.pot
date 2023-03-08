@@ -1,17 +1,17 @@
-# Copyright (C) 2022 Yoohoo Plugins
+# Copyright (C) 2023 Yoohoo Plugins
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Zapier Integration 2.3\n"
+"Project-Id-Version: WP Zapier Integration 2.4\n"
 "Report-Msgid-Bugs-To: support@yoohooplugins.com\n"
 "Last-Translator: Yoohoo Plugins <support@yoohooplugins.com>\n"
 "Language-Team: Yoohoo Plugins <support@yoohooplugins.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-22T18:37:57+00:00\n"
+"POT-Creation-Date: 2023-03-08T19:48:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-zapier\n"
 
 #. Plugin Name of the plugin
@@ -111,6 +111,22 @@ msgstr ""
 msgid "Lifter LMS - User Completed a Lesson"
 msgstr ""
 
+#: includes/integrations/mailpoet.php:22
+msgid "MailPoet - Subscriber created"
+msgstr ""
+
+#: includes/integrations/mailpoet.php:25
+msgid "MailPoet - Subscriber updated"
+msgstr ""
+
+#: includes/integrations/mailpoet.php:28
+msgid "MailPoet - Subscriber deleted"
+msgstr ""
+
+#: includes/integrations/mailpoet.php:31
+msgid "MailPoet - Frontend form submission"
+msgstr ""
+
 #: includes/integrations/memberpress.php:19
 msgid "MemberPress - Member Added"
 msgstr ""
@@ -127,7 +143,7 @@ msgstr ""
 msgid "MemberPress - Transaction Completed"
 msgstr ""
 
-#: includes/integrations/ninja-forms.php:23
+#: includes/integrations/ninja-forms.php:29
 msgid "Ninja Forms - After Submission"
 msgstr ""
 
@@ -372,7 +388,7 @@ msgstr ""
 
 #: includes/privacy.php:38
 #: includes/yoohoo-wp-zapier.php:156
-#: includes/yoohoo-wp-zapier.php:519
+#: includes/yoohoo-wp-zapier.php:512
 msgid "WP Zapier"
 msgstr ""
 
@@ -595,96 +611,93 @@ msgstr ""
 msgid "Settings saved successfully."
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:229
-msgid "Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license."
+#: includes/yoohoo-wp-zapier.php:226
+msgid "Warning! License key for WP Zapier is missing or inactive. Please activate your license key. We recommend an annual support license."
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:229
-msgid "More Info"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:236
-msgid "Your license for WP Zapier has expired."
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:236
-msgid "Renew Now"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:447
-#: includes/yoohoo-wp-zapier.php:458
-msgid "View Settings"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:447
-#: includes/yoohoo-wp-zapier.php:458
-msgid "Settings"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:459
-msgid "View Documentation"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:459
-msgid "Docs"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:460
-msgid "Visit Customer Support Forum"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:460
-msgid "Premium Support"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:506
-msgid "%s your copy of WP Zapier Integration to receive access to automatic upgrades and support. Need a license key? %s"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:506
-msgid "Register"
-msgstr ""
-
-#: includes/yoohoo-wp-zapier.php:506
+#: includes/yoohoo-wp-zapier.php:226
+#: includes/yoohoo-wp-zapier.php:499
 msgid "Purchase one now."
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:529
+#: includes/yoohoo-wp-zapier.php:233
+msgid "Your license for WP Zapier has expired."
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:233
+msgid "Renew Now"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:440
+#: includes/yoohoo-wp-zapier.php:451
+msgid "View Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:440
+#: includes/yoohoo-wp-zapier.php:451
+msgid "Settings"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:452
+msgid "View Documentation"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:452
+msgid "Docs"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:453
+msgid "Visit Customer Support Forum"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:453
+msgid "Premium Support"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:499
+msgid "%s your copy of WP Zapier Integration to receive access to automatic upgrades and support. Need a license key? %s"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:499
+msgid "Register"
+msgstr ""
+
+#: includes/yoohoo-wp-zapier.php:522
 msgid "Get Started"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:531
+#: includes/yoohoo-wp-zapier.php:524
 msgid "View/Create Outbound Events"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:532
+#: includes/yoohoo-wp-zapier.php:525
 msgid "Receive Inbound Events"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:536
+#: includes/yoohoo-wp-zapier.php:529
 msgid "Time Saved"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:537
+#: includes/yoohoo-wp-zapier.php:530
 msgid "Hour(s)"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:540
+#: includes/yoohoo-wp-zapier.php:533
 msgid "License Status"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:547
+#: includes/yoohoo-wp-zapier.php:540
 msgid "Invalid"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:549
+#: includes/yoohoo-wp-zapier.php:542
 msgid "Valid"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:555
+#: includes/yoohoo-wp-zapier.php:548
 msgid "Recent Blog Posts from Yoohoo Plugins"
 msgstr ""
 
-#: includes/yoohoo-wp-zapier.php:558
+#: includes/yoohoo-wp-zapier.php:551
 msgid "View all articles"
 msgstr ""
