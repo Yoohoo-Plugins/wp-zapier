@@ -153,7 +153,7 @@ class WPZapier {
 	}
 
 	public function wpzp_menu_holder() {
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.png', 99 );
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.svg', 99 );
 		$this->wpzp_submenu_page();
 	}
 
@@ -235,12 +235,8 @@ class WPZapier {
 	 * Enqueue scripts and stylesheets for admins here.
 	 */
 	public function wpzp_admin_scripts() {
-		$screen = get_current_screen();
-
-		if ( ( isset( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == 'outbound_event' ) || $screen->id == 'dashboard' || ( ! empty( $_REQUEST['page']) && $_REQUEST['page'] == 'wp-zapier-license' ) ) {
-			wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
-			wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array( 'jquery' ), WPZAP_VERSION );
-		}
+		wp_enqueue_style( 'wpzp-admin', WPZAP_URL . 'assets/css/admin.css', array(), WPZAP_VERSION );
+		wp_enqueue_script( 'wpzp-admin', WPZAP_URL . 'assets/js/admin.js', array( 'jquery' ), WPZAP_VERSION );
 	}
 
 	/** AJAX to update post meta on button click */
