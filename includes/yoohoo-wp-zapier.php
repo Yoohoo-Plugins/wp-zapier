@@ -12,6 +12,7 @@ class WPZapier {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'wpzp_menu_holder' ) );
 
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'wpzp_show_thumbnail_on_update' ), 10, 1 );
 		add_filter( 'plugin_row_meta', array( $this, 'wpzp_plugin_row_meta' ), 10, 2 );
 		add_action( 'after_plugin_row_wp-zapier/wp-zapier.php', array( $this, 'wpzp_after_plugin_row' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'wpzp_plugin_action_links' ), 10, 2 );
@@ -152,7 +153,7 @@ class WPZapier {
 	}
 
 	public function wpzp_menu_holder() {
-		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.svg', 99 );
+		add_menu_page( __( 'WP Zapier Settings', 'wp-zapier' ), __( 'WP Zapier', 'wp-zapier' ), 'manage_options', 'wp-zapier', array( $this, 'wpzp_receive_data' ), WPZAP_URL . 'assets/img/wp-zapier-dashicon.png', 99 );
 		$this->wpzp_submenu_page();
 	}
 
@@ -204,14 +205,6 @@ class WPZapier {
 			return;
 		}
 
-		if ( ! isset( $_REQUEST['page'] ) ) {
-			return;
-		}
-
-		if ( $_REQUEST['page'] != 'wp-zapier-settings' ) {
-			return;
-		}
-
 		$license_key = get_option( 'yoohoo_zapier_license_key' );
 		$status      = get_option( 'yoohoo_zapier_license_status' );
 		$expires     = get_option( 'yoohoo_zapier_license_expires' );
@@ -224,14 +217,14 @@ class WPZapier {
 
 		if ( ! $license_key || $status != 'valid' ) {
 			?>
-		  <div class="notice notice-warning">
-			<p><?php _e( 'Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'More Info', 'wp-zapier' ); ?></a></p>
+		  <div class="notice wpzp-notice-error">
+			<p><?php _e( 'Warning! License key for WP Zapier is missing or not active. Please activate your license key. We recommend an annual support license.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/plugins/zapier-integration" target="_blank" rel="noopener nofollow"><?php _e( 'Purchase one now.', 'wp-zapier' ); ?></a></p>
 		  </div>
 			<?php
 		} elseif ( $expired ) {
 			// show if expired.
 			?>
-			<div class="notice notice-error">
+			<div class="notice wpzp-notice-error">
 			<p><?php _e( 'Your license for WP Zapier has expired.', 'wp-zapier' ); ?> <a href="https://yoohooplugins.com/checkout/purchase-history/" target="_blank" rel="noopener nofollow"><?php _e( 'Renew Now', 'wp-zapier' ); ?></a></p>
 		  </div>
 			<?php
@@ -422,6 +415,23 @@ class WPZapier {
 				}
 			}
 		}
+	}
+
+	public function wpzp_show_thumbnail_on_update( $transient ) {
+
+		if ( is_object( $transient ) &&
+			isset( $transient->response ) &&
+			is_array( $transient->response ) ) {
+			$basename = plugin_basename( __FILE__ );
+
+			if ( ! isset( $transient->response[ $basename ] ) ) {
+				return $transient;
+			}
+
+			$transient->response[ $basename ]->icons = array( 'default' => plugins_url( 'assets/img/wp-zapier-thumbnail.png', __FILE__ ) );
+		}
+
+		  return $transient;
 	}
 
 	public function wpzp_plugin_action_links( $links ) {

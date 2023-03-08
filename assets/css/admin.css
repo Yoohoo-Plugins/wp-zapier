@@ -133,3 +133,14 @@ input.wpzap-number-input {
 .wp-admin .wpz_error a {
   color: #360e11;
 }
+
+.wpzp-notice-error {
+  background: #F8D7D9;
+  border: 1px solid #DF3B2F;
+  border-left-width: 4px;
+  padding: 10px;
+}
+
+.wpzp-notice-error p {
+  font-size: 14px;
+}
