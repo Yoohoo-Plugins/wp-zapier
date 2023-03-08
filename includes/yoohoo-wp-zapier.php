@@ -205,6 +205,11 @@ class WPZapier {
 			return;
 		}
 
+		// Hide on the license page.
+		if ( ! empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'wp-zapier-license' ) {
+			return;
+		}
+
 		$license_key = get_option( 'yoohoo_zapier_license_key' );
 		$status      = get_option( 'yoohoo_zapier_license_status' );
 		$expires     = get_option( 'yoohoo_zapier_license_expires' );
