@@ -23,6 +23,13 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
 == Changelog ==
+= 2.4 - TBD =
+* ENHANCEMENT: Added support for MailPoet (Outbound Events)
+* ENHANCEMENT: Removed user's password from Outbound Events.
+* ENHANCEMENT: Improved dashboard icon and update thumbnail icon.
+* BUG FIX: Fixed an issue where the Outbound Event logic would load in the admin dashboard for Ninja Forms.
+* BUG FIX: Fixed an issue where the nonce would be passed through for Ultimate Member Outbound Events.
+
 = 2.3 =
 * ENHANCEMENT: Added conditional sending functionality.
 * ENHANCEMENT: Improved license settings page.

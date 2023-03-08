@@ -90,7 +90,7 @@ class MailPoet {
      * 
      * @return array
      * 
-     * @since TBD
+     * @since 2.4
      */
     public function register_flow_logic_arguments( $arguments ) {
         $arguments['mailpoet_subscription_before_subscribe'] = array( 'email' => 'Email' );
@@ -142,7 +142,7 @@ class MailPoet {
      * 
      * @return array
      * 
-     * @since TBD
+     * @since 2.4
      */
     public function get_subscriber( $sub_id ) {
         if ( class_exists(\MailPoet\API\API::class)) {
