@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: WP Zapier Integration
- * Description: Automate your WordPress site with thousands of applications via Zapier and other services.
+ * Plugin Name: WP Zapier & Webhooks Integration
+ * Description: Automate your WordPress site with thousands of applications via Zapier and other services using webhooks.
  * Plugin URI: https://yoohooplugins.com
  * Author: Yoohoo Plugins
  * Author URI: https://yoohooplugins.com
