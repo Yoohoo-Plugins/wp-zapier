@@ -1,7 +1,7 @@
 <?php 
-
 namespace Yoohoo\WPZapier\FlowLogic;
 
+#[\AllowDynamicProperties]
 abstract class Condition{
     abstract public function execute($a, $b);
     abstract static public function getLabel();
