@@ -5,7 +5,7 @@ Donate link: https://yoohooplugins.com
 Requires at least: 5.0
 Tested up to: 5.9
 Requires PHP: 7.2
-Stable tag: trunk
+Stable tag: 2.4.1
 License: GPL 2.1
 
 Automate your WordPress website with thousands of applications.
@@ -23,6 +23,10 @@ Sync your WordPress user base with Zapier and connect with over 1000+ applicatio
 Yes this will work for any service such as automate.io, if they support posting data to webhooks.
 
 == Changelog ==
+
+= 2.4.1 - Security Fix =
+* SECURITY FIX: Patched a vulnerability where the user's plain-text password could be sent to the webhook during the user_register event.
+
 = 2.4 - TBD =
 * ENHANCEMENT: Added support for MailPoet (Outbound Events)
 * ENHANCEMENT: Removed user's password from Outbound Events.
