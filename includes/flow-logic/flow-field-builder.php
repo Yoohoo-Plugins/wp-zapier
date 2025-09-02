@@ -1,7 +1,7 @@
 <?php 
-
 namespace Yoohoo\WPZapier\FlowLogic;
 
+#[\AllowDynamicProperties]
 /* Simple helper for building flow related input fields, this allows for a small amount of caching and more modular code overall. Consider this a helper*/
 class FlowFieldBuilder{
     public function __construct(){

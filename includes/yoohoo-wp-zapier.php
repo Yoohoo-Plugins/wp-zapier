@@ -6,7 +6,7 @@
  * Moved since: 2020-05-06
  */
 namespace Yoohoo;
-
+#[\AllowDynamicProperties]
 class WPZapier {
 
 	public function __construct() {

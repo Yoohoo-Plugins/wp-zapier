@@ -1,8 +1,10 @@
 <?php 
-
 namespace Yoohoo\WPZapier;
 
+#[\AllowDynamicProperties]
+
 class OutboundEvents{
+	
 	public function __construct(){		
 		add_action('init', array($this, 'registerPostType'));
 
@@ -615,19 +617,43 @@ class OutboundEvents{
 					if ( is_array( $_POST ) ) {
 						$register_data = array();
 						foreach( $_POST as $key => $posted_value ) {
-							if ( strpos( $key, 'password' ) != true ) {
-								$register_data[$key] = sanitize_text_field( $posted_value );
+							if ( strpos( $key, 'password' ) !== false || strpos( $key, 'nonce' ) !== false ) {
+								continue;
+							}
+
+							$register_data[$key] = sanitize_text_field( $posted_value );
+						}
+
+						// Clean up the $register_data and $data[1] if we ever make it here.
+						$remove_keys = array(
+							'user_pass',
+							'pass1',
+							'pass2',
+							'password',
+							'_wpnonce',
+							'_wp_http_referer',
+							'_wpnonce_create-user'
+						);
+
+						// Unset fields we don't want to pass.
+						foreach( $remove_keys as $rkey ) {
+
+							if ( isset( $data[0][$rkey] ) ) {
+								unset( $data[0][$rkey] );
+							}
+
+							if ( isset( $register_data[ $rkey ] ) ) {
+								unset( $register_data[ $rkey ] );
+							}
+
+							// If this is set on the 'prettified' data we want to pass through.
+							if ( isset( $data[1][$rkey] ) ) {
+								unset( $data[1][$rkey] );
 							}
 						}
 
-						unset( $register_data['user_pass'] );
-						unset( $register_data['_wpnonce'] );
-						unset( $register_data['_wp_http_referer'] );
 						$data['registration_fields'] = $register_data;
 
-						if ( isset( $data[1]['user_pass'] ) ) {
-							unset( $data[1]['user_pass'] );
-						}
 					}
 					
 					do_action( 'wp_zapier_user_register_data', $data );

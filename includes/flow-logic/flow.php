@@ -1,6 +1,7 @@
 <?php 
 
 namespace Yoohoo\WPZapier\FlowLogic;
+#[\AllowDynamicProperties]
 
 class Flow {
     public function __construct($conditions, $data){
