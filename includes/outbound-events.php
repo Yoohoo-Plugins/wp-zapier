@@ -617,18 +617,22 @@ class OutboundEvents{
 					if ( is_array( $_POST ) ) {
 						$register_data = array();
 						foreach( $_POST as $key => $posted_value ) {
-							if ( strpos( $key, 'password' ) != true ) {
+							if ( strpos( $key, 'password' ) === false ) {
 								$register_data[$key] = sanitize_text_field( $posted_value );
 							}
 						}
 
+						// Unset fields we don't want to pass.
 						unset( $register_data['user_pass'] );
+						unset( $register_data['password'] );
 						unset( $register_data['_wpnonce'] );
 						unset( $register_data['_wp_http_referer'] );
 						$data['registration_fields'] = $register_data;
 
-						if ( isset( $data[1]['user_pass'] ) ) {
+						// Unset the user_pass or password fields if found.
+						if ( isset( $data[1]['user_pass'] ) || isset( $data[1]['password'] ) ) {
 							unset( $data[1]['user_pass'] );
+							unset( $data[1]['password'] );
 						}
 					}
 					
