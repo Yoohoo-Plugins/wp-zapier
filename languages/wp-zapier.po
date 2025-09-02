@@ -1,17 +1,17 @@
-# Copyright (C) 2023 Yoohoo Plugins
+# Copyright (C) 2025 Yoohoo Plugins
 # This file is distributed under the GPL2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Zapier Integration 2.4\n"
+"Project-Id-Version: WP Zapier & Webhooks Integration 2.4.1\n"
 "Report-Msgid-Bugs-To: support@yoohooplugins.com\n"
 "Last-Translator: Yoohoo Plugins <support@yoohooplugins.com>\n"
 "Language-Team: Yoohoo Plugins <support@yoohooplugins.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-08T19:48:42+00:00\n"
+"POT-Creation-Date: 2025-09-02T19:43:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-zapier\n"
 
 #. Plugin Name of the plugin
@@ -25,6 +25,7 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
+#: wp-zapier.php
 msgid "https://yoohooplugins.com"
 msgstr ""
 
@@ -33,6 +34,7 @@ msgid "Automate your WordPress users with over 1000+ apps on Zapier.com"
 msgstr ""
 
 #. Author of the plugin
+#: wp-zapier.php
 msgid "Yoohoo Plugins"
 msgstr ""
 
@@ -173,6 +175,8 @@ msgstr ""
 #: includes/outbound-events.php:29
 #: includes/outbound-events.php:31
 #: includes/outbound-events.php:38
+#: includes/outbound-events.php:33
+#: includes/outbound-events.php:40
 msgid "Outbound Events"
 msgstr ""
 
@@ -180,106 +184,127 @@ msgstr ""
 #: includes/outbound-events.php:29
 #: includes/outbound-events.php:30
 #: includes/outbound-events.php:32
+#: includes/outbound-events.php:34
 msgid "Outbound Event"
 msgstr ""
 
 #: includes/outbound-events.php:30
 #: includes/outbound-events.php:33
+#: includes/outbound-events.php:35
 msgid "Add New"
 msgstr ""
 
 #: includes/outbound-events.php:31
 #: includes/outbound-events.php:34
+#: includes/outbound-events.php:36
 msgid "Add New Event"
 msgstr ""
 
 #: includes/outbound-events.php:32
 #: includes/outbound-events.php:35
+#: includes/outbound-events.php:37
 msgid "New Event"
 msgstr ""
 
 #: includes/outbound-events.php:33
 #: includes/outbound-events.php:36
+#: includes/outbound-events.php:38
 msgid "Edit Event"
 msgstr ""
 
 #: includes/outbound-events.php:34
 #: includes/outbound-events.php:37
+#: includes/outbound-events.php:39
 msgid "View Event"
 msgstr ""
 
 #: includes/outbound-events.php:36
 #: includes/outbound-events.php:39
+#: includes/outbound-events.php:41
 msgid "Search Events"
 msgstr ""
 
 #: includes/outbound-events.php:37
 #: includes/outbound-events.php:40
+#: includes/outbound-events.php:42
 msgid "No events found."
 msgstr ""
 
 #: includes/outbound-events.php:38
 #: includes/outbound-events.php:41
+#: includes/outbound-events.php:43
 msgid "No events found in Trash."
 msgstr ""
 
 #: includes/outbound-events.php:68
 #: includes/outbound-events.php:71
+#: includes/outbound-events.php:73
 msgid "Trigger"
 msgstr ""
 
 #: includes/outbound-events.php:69
 #: includes/outbound-events.php:72
+#: includes/outbound-events.php:74
 msgid "Status"
 msgstr ""
 
 #: includes/outbound-events.php:92
 #: includes/outbound-events.php:95
+#: includes/outbound-events.php:97
 msgid "Unknown"
 msgstr ""
 
 #: includes/outbound-events.php:98
 #: includes/outbound-events.php:101
+#: includes/outbound-events.php:103
 msgid "Disabled"
 msgstr ""
 
 #: includes/outbound-events.php:147
 #: includes/outbound-events.php:158
+#: includes/outbound-events.php:160
 msgid "Trigger:"
 msgstr ""
 
 #: includes/outbound-events.php:151
 #: includes/outbound-events.php:162
+#: includes/outbound-events.php:164
 msgid "Select a trigger"
 msgstr ""
 
 #: includes/outbound-events.php:166
 #: includes/outbound-events.php:177
+#: includes/outbound-events.php:179
 msgid "Webhook URL:"
 msgstr ""
 
 #: includes/outbound-events.php:175
 #: includes/outbound-events.php:186
+#: includes/outbound-events.php:188
 msgid "Webhook Status:"
 msgstr ""
 
 #: includes/outbound-events.php:187
 #: includes/outbound-events.php:198
+#: includes/outbound-events.php:200
 msgid "Note: You can add fixed fields using the 'Custom Fields' section."
 msgstr ""
 
 #: includes/outbound-events.php:235
 #: includes/outbound-events.php:246
+#: includes/outbound-events.php:248
 msgid "Success:"
 msgstr ""
 
 #: includes/outbound-events.php:244
 #: includes/outbound-events.php:255
+#: includes/outbound-events.php:257
 msgid "Failed:"
 msgstr ""
 
 #: includes/outbound-events.php:262
 #: includes/outbound-events.php:273
+#: includes/outbound-events.php:275
 msgid "Last Response:"
 msgstr ""
 
@@ -574,6 +599,7 @@ msgid "Gravity Forms - ALL Forms - After Submission"
 msgstr ""
 
 #: includes/integrations/gravity-forms.php:28
+#, php-format
 msgid "Gravity Forms - %s - After Submission"
 msgstr ""
 
@@ -663,26 +689,32 @@ msgid "Tutor LMS - Enrolled"
 msgstr ""
 
 #: includes/outbound-events.php:346
+#: includes/outbound-events.php:348
 msgid "Add Condition"
 msgstr ""
 
 #: includes/outbound-events.php:350
+#: includes/outbound-events.php:352
 msgid "Hints"
 msgstr ""
 
 #: includes/outbound-events.php:352
+#: includes/outbound-events.php:354
 msgid "For static values, use the <code>Enter Value</code> option, and enter a custom value."
 msgstr ""
 
 #: includes/outbound-events.php:353
+#: includes/outbound-events.php:355
 msgid "To access custom request data, like specific form fields, use <code>Enter Key</code> option with a custom value (ex: <code>form_data.field_one</code>)."
 msgstr ""
 
 #: includes/outbound-events.php:354
+#: includes/outbound-events.php:356
 msgid "Use the <code>User Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>user_id</code>, <code>user</code> or <code>id</code> index to function."
 msgstr ""
 
 #: includes/outbound-events.php:355
+#: includes/outbound-events.php:357
 msgid "Use the <code>Post Meta</code> option and enter the meta value to use it as a sample. Request must contain <code>post_id</code>, <code>post</code> or <code>id</code> index to function."
 msgstr ""
 
@@ -707,6 +739,7 @@ msgid "Expired."
 msgstr ""
 
 #: includes/settings-license.php:60
+#, php-format
 msgid "Expires on %s"
 msgstr ""
 
@@ -725,6 +758,7 @@ msgstr ""
 
 #: includes/yoohoo-wp-zapier.php:506
 #: includes/yoohoo-wp-zapier.php:499
+#, php-format
 msgid "%s your copy of WP Zapier Integration to receive access to automatic upgrades and support. Need a license key? %s"
 msgstr ""
 
@@ -807,4 +841,14 @@ msgstr ""
 
 #: includes/yoohoo-wp-zapier.php:226
 msgid "Warning! License key for WP Zapier is missing or inactive. Please activate your license key. We recommend an annual support license."
+msgstr ""
+
+#. Plugin Name of the plugin
+#: wp-zapier.php
+msgid "WP Zapier & Webhooks Integration"
+msgstr ""
+
+#. Description of the plugin
+#: wp-zapier.php
+msgid "Automate your WordPress site with thousands of applications via Zapier and other services using webhooks."
 msgstr ""
